@@ -1,4 +1,7 @@
 # Minecraft-Community-Edition
+
+![Project Logo](logo.webp)
+
 ## Cross Platform Support (Linux, macOS, etc) and Rewriting, Restructuring, and Redocumenting the LCEMP
 
 After spending time analyzing the game’s source code, I noticed that much of it is poorly structured, inconsistently maintained, and lacks proper documentation. Because of this, I have decided to rebuild the project from the ground up.
