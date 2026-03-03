@@ -43,3 +43,5 @@ This will give server owners flexibility and greater control over their servers.
 ### Rendering Technology
 
 The engine will initially use OpenGL for rendering. Once the project reaches a stable state, a transition to Vulkan may be considered to further enhance rendering performance and efficiency.
+
+[Read the code style guide](CODE_STYLE.md)
