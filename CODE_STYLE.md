@@ -128,7 +128,7 @@ int getImageSizeY();
 ### Prefer Structured Data Access
 
 ```cpp
-Image& imgInfo = img.getImageData();
+Image& imgInfo = img.getImageInfo();
 imgInfo.size.x;
 imgInfo.size.y;
 ```
