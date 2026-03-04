@@ -49,3 +49,7 @@ The engine will initially use OpenGL for rendering. Once the project reaches a s
 ## Code Style
 
 [Read the code style guide](CODE_STYLE.md)
+
+---
+## Check out the updates to see the planned features
+
