@@ -7,7 +7,7 @@ The goal is consistency, readability, maintainability, and performance.
 
 # 1. Core Principles
 
-- Prefer clarity over cleverness.
+- Prefer clarity to cleverness.
 - Prefer data-oriented design where appropriate.
 - Avoid unnecessary abstraction layers.
 - Reduce boilerplate, especially trivial getters/setters.
@@ -73,7 +73,7 @@ constexpr float DEFAULT_DEADZONE = 0.15f;
 
 ## 2.5 Member Variables
 
-* Use camalCase
+* Use camelCase
 
 ```cpp
 class Image {
@@ -272,7 +272,7 @@ Application::Application() {
 # 8. Inheritance Rules
 
 * Use inheritance only for true "is-a" relationships.
-* Prefer composition over inheritance.
+* Prefer composition to inheritance.
 * Always mark overridden functions with `override`.
 * Avoid deep or ambiguous inheritance hierarchies.
 

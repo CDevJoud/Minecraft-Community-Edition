@@ -1,19 +1,15 @@
-#include "Common/Assert.hpp"
-#include "Common/Entrypoint.hpp"
-#include "SFML/Window.hpp"
+#include "Common/Platform.hpp"
+#include "Minecraft.hpp"
 
-MCE_ENTRYPOINT
+#if defined(MCE_PLATFORM_WINDOWS) && defined(NDEBUG)
+#include <minwindef.h>
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+#else
+int main()
+#endif
 {
-    sf::Window wnd(sf::VideoMode({1280, 720}), "Minecraft: Community Edition");
+	MCE::Minecraft minecraft;
+	minecraft.run();
 
-    while (wnd.isOpen())
-    {
-        while (const auto event = wnd.pollEvent())
-        {
-            if (event->is<sf::Event::Closed>())
-                wnd.close();
-        }
-    }
-
-    return 0;
+	return 0;
 }

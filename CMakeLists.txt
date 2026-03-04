@@ -9,7 +9,7 @@ if (WIN32 AND ("${CMAKE_BUILD_TYPE}" MATCHES "Release"))
     set (MCE_EXEC_TYPE WIN32)
 endif ()
 
-file(GLOB_RECURSE MCE_SOURCES "${MCE_DIR}/*.cpp" "${MCE_DIR}/*.hpp")
+file(GLOB_RECURSE MCE_SOURCES "${MCE_DIR}/*.cpp" "${MCE_DIR}/*.hpp" "${MCE_DIR}/*.c" "${MCE_DIR}/*.h")
 add_executable(${PROJECT_NAME} ${MCE_EXEC_TYPE} ${MCE_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${MCE_DIR})
