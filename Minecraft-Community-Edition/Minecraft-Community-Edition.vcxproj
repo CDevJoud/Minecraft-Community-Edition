@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\Vendor\SFML-3.0.2\include;$(ProjectDir)\;$(ProjectDir)\Vendor\EASTL-3.27.01\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)\Vendor\SFML-3.0.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Vendor\SFML\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Vendor\SFML-3.0.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)\Vendor\SFML-3.0.2\include;$(ProjectDir)\;$(SolutionDir)\Vendor\EASTL-3.27.01\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Vendor\SFML-3.0.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Vendor\SFML-3.0.2\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL-3.27.01\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Vendor\SFML-3.0.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,18 +144,9 @@
     <ClInclude Include="Graphics\OpenGL\GLRenderer.hpp" />
     <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="Minecraft.hpp" />
+    <ClInclude Include="Core\QEventBus.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\allocator_eastl.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\assert.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\atomic.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\fixed_pool.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\hashtable.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\intrusive_list.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\numeric_limits.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\red_black_tree.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\string.cpp" />
-    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\thread_support.cpp" />
     <ClCompile Include="glad\gl.c" />
     <ClCompile Include="Graphics\GraphicsContext.cpp" />
     <ClCompile Include="Graphics\OpenGL\GLGraphicsContext.cpp" />
@@ -163,6 +154,17 @@
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minecraft.cpp" />
+    <ClCompile Include="Core\QEventBus.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\allocator_eastl.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\assert.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\atomic.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\fixed_pool.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\hashtable.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\intrusive_list.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\numeric_limits.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\red_black_tree.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\string.cpp" />
+    <ClCompile Include="Vendor\EASTL\source\thread_support.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
