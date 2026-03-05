@@ -1,5 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Logger.hpp"
 #include "LoggerSinks.hpp"
+
+
 
 #include <ctime>
 #include <chrono>
@@ -14,7 +18,7 @@ namespace MCE {
 		static const std::string RED = "\x1b[38;2;255;0;0m";
 		static const std::string LIGHT_GRAY = "\x1b[38;2;118;118;118m";
 		static const std::string DARK_GRAY = "\x1b[38;2;148;148;148m";
-		static constexpr std::string RESET = "\x1b[0m";
+		static const std::string RESET = "\x1b[0m";
 	}
 
 	Logger::Logger(const std::string_view name, const bool createStdoutSink)
