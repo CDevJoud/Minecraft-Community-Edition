@@ -3,7 +3,7 @@ project("Minecraft-Community-Edition")
 
 set(CMAKE_CXX_STANDARD 26)
 set(MCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Minecraft-Community-Edition")
-add_subdirectory(${MCE_DIR}/Vendor)
+add_subdirectory("${MCE_DIR}/Vendor")
 
 if (WIN32 AND ("${CMAKE_BUILD_TYPE}" MATCHES "Release"))
     set (MCE_EXEC_TYPE WIN32)
