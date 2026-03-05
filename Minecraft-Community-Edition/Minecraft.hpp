@@ -1,4 +1,5 @@
 #pragma once
+
 #include <EASTL/unique_ptr.h>
 #include "SFML/Window/Window.hpp"
 #include "Graphics/GraphicsContext.hpp"
@@ -11,6 +12,7 @@ namespace MCE {
 	class Minecraft {
 	public:
 		Minecraft();
+		~Minecraft();
 
 		void run();
 	private:
