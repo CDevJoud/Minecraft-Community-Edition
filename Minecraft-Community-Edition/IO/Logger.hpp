@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <string>
+#include <format>
 
 #include "EASTL/shared_ptr.h"
 #include "EASTL/vector.h"
@@ -39,7 +40,7 @@ namespace MCE {
 		void info(std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::INFO, std::format(format, std::forward<Args>(args)...));
 		}
-
+		
 		template <typename... Args>
 		void warn(std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::WARN, std::format(format, std::forward<Args>(args)...));
