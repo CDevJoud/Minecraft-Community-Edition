@@ -10,6 +10,6 @@ int main()
 {
 	MCE::Minecraft minecraft;
 	minecraft.run();
-
+	
 	return 0;
 }

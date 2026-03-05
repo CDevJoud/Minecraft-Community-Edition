@@ -100,7 +100,7 @@ namespace MCE {
 
 	void GLRenderer::logIfFailed(const uint32_t shader) {
 		int  success;
-		char infoLog[512];
+		char infoLog[512]{};
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
 		if (success)

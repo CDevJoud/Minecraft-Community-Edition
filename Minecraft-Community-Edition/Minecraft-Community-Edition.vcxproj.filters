@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="EASTL_src">
+      <UniqueIdentifier>{8a710763-d369-4afe-a795-1d8cb42d9e38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{0efd62b6-2cae-408d-860b-1b6c2ecf1d20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="glad">
+      <UniqueIdentifier>{e559ca14-ce35-449f-8d88-38878cb9c586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{6a219ae5-b0a3-4b1f-95e4-ce332da6c27c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL">
+      <UniqueIdentifier>{78e8ecfd-462a-424b-ae50-26e82a40ad88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{89bb873e-f646-4474-939d-e43af2e8b998}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\Assert.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Platform.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="glad\gl.h">
+      <Filter>glad</Filter>
+    </ClInclude>
+    <ClInclude Include="glad\khrplatform.h">
+      <Filter>glad</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GraphicsContext.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Renderer.hpp">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLRenderer.hpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\GLGraphicsContext.hpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Minecraft.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\thread_support.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\string.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\red_black_tree.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\numeric_limits.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\intrusive_list.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\hashtable.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\assert.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\atomic.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\fixed_pool.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Vendor\EASTL-3.27.01\source\allocator_eastl.cpp">
+      <Filter>EASTL_src</Filter>
+    </ClCompile>
+    <ClCompile Include="glad\gl.c">
+      <Filter>glad</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\GraphicsContext.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Renderer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\GLGraphicsContext.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Minecraft.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+</Project>

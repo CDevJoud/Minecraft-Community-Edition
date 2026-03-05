@@ -1,6 +1,5 @@
 #pragma once
-
-#include "EASTL/unique_ptr.h"
+#include <EASTL/unique_ptr.h>
 #include "SFML/Window/Window.hpp"
 #include "Graphics/GraphicsContext.hpp"
 #include "Graphics/Renderer.hpp"
