@@ -1,5 +1,35 @@
 #include "Common/Platform.hpp"
 #include "Minecraft.hpp"
+#include "IO/Logger.hpp"
+
+#include <filesystem>
+
+#include "IO/LoggerSinks.hpp"
+
+static std::string getLogFileName() {
+	const auto now = std::chrono::system_clock::now();
+
+	const std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+	const std::tm* pTime = std::localtime(&currentTime);
+
+	// strftime adds the null terminator, so initializing isn't strictly necessary
+	char filename[32];
+	std::strftime(filename, sizeof(filename), "logs/%Y-%m-%d %H-%M-%S.txt", pTime);
+
+	return filename;
+}
+
+static void setupLogging() {
+	namespace fs = std::filesystem;
+
+	if (!fs::is_directory("logs"))
+		fs::create_directory("logs");
+
+	eastl::shared_ptr<MCE::FileSink> fileSink = eastl::make_shared<MCE::FileSink>(getLogFileName());
+
+	MCE::Logger& logger = MCE::Logger::getGlobalLogger();
+	logger.addSink(fileSink);
+}
 
 #if defined(MCE_PLATFORM_WINDOWS) && defined(NDEBUG)
 #include <minwindef.h>
@@ -8,6 +38,8 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int n
 int main()
 #endif
 {
+	setupLogging();
+
 	MCE::Minecraft minecraft;
 	minecraft.run();
 	
