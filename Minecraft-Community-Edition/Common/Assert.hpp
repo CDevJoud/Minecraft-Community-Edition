@@ -1,6 +1,6 @@
 #pragma once
 
-#include <print>
+#include "IO/Logger.hpp"
 #include "Platform.hpp"
 
 #ifndef NDEBUG
@@ -11,7 +11,7 @@
 #define MCE_DEBUGBREAK() raise(SIGTRAP)
 #endif
 
-#define MCE_ASSERT(check, ...) { if (!(check)) { std::println(stderr, __VA_ARGS__); MCE_DEBUGBREAK(); } }
+#define MCE_ASSERT(check, ...) { if (!(check)) { MCE_ERROR(__VA_ARGS__); MCE_DEBUGBREAK(); } }
 #else
 #define MCE_DEBUGBREAK()
 #define MCE_ASSERT(...)
