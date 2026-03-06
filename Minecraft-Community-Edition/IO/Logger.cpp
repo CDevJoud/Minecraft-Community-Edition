@@ -21,53 +21,97 @@ namespace mce {
 		static const std::string RESET = "\x1b[0m";
 	}
 
-	Logger::Logger(const std::string_view name, const bool createStdoutSink)
+	Logger::Logger(QEventBus& qBus, const std::string_view name, const bool createStdoutSink)
 		:
-		name(name) {
+		name(name), qBus(qBus) {
 		if (createStdoutSink)
 			sinks.emplace_back(eastl::make_shared<StdoutSink>());
+
+		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
+			std::string severity;
+			std::string color;
+			using Severity = event::LoggerOutput::Severity;
+			switch (static_cast<event::LoggerOutput::Severity>(e.severity)) {
+			case Severity::INFO:
+			{
+				severity = "INFO";
+				color = Color::BLUE;
+			}
+			break;
+
+			case Severity::WARN:
+			{
+				severity = "WARN";
+				color = Color::GOLD;
+			}
+			break;
+
+			case Severity::DEBUG:
+			{
+				severity = "DEBUG";
+				color = Color::GREEN;
+			}
+			break;
+
+			case Severity::ERROR:
+			{
+				severity = "ERROR";
+				color = Color::RED;
+			}
+			break;
+			}
+
+			const std::string file = e.location.file_name();
+			const std::string function = e.location.function_name();
+			const uint32_t line = e.location.line();
+
+			const std::string colorized = std::format(
+				"{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}] {7}:{8} ({9}) => {10} {4}",
+				Color::LIGHT_GRAY,
+				Color::DARK_GRAY,
+				GetFormattedTime(),
+				this->name,
+				Color::RESET,
+				color,
+				severity,
+				file,
+				line,
+				function,
+				e.msg
+			);
+
+			const std::string plain = std::format(
+				"[{0}] [{1}] [{2}] {3}:{4} ({5}) => {6}",
+				GetFormattedTime(),
+				this->name,
+				severity,
+				file,
+				line,
+				function,
+				e.msg
+			);
+
+			for (const auto& sink : sinks) {
+				sink->log(colorized, plain);
+			}
+			});
 	}
 
 	void Logger::addSink(const eastl::shared_ptr<LoggerSink>& sink) {
 		sinks.emplace_back(sink);
 	}
-
-	void Logger::log(const LogLevel level, const std::string_view message) {
-		std::string severity;
-		std::string color;
-		switch (level) {
-		case LogLevel::INFO: {
-			severity = "INFO";
-			color = Color::BLUE;
+	void Logger::log(const LogLevel level, std::string_view message, const std::source_location& location) {
+		//Check the event queue size and make sure to not accedintly flood it
+		if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS) {
+			return; //Ignore the log 
 		}
-		break;
-
-		case LogLevel::WARN: {
-			severity = "WARN";
-			color = Color::GOLD;
+		else {
+			event::LoggerOutput lOut;
+			lOut.severity = static_cast<event::LoggerOutput::Severity>(level);
+			lOut.msg = message;
+			lOut.location = location;
+			qBus.post(lOut);
 		}
-		break;
-
-		case LogLevel::DEBUG: {
-			severity = "DEBUG";
-			color = Color::GREEN;
-		}
-		break;
-
-		case LogLevel::ERROR: {
-			severity = "ERROR";
-			color = Color::RED;
-		}
-		break;
-		}
-
-		const std::string colorized = std::format("{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}] => {7} {4}",
-			Color::LIGHT_GRAY, Color::DARK_GRAY, GetFormattedTime(), name, Color::RESET, color, severity, message);
-		const std::string plain = std::format("[{0}] [{1}] : [{2}] => {3}",
-			GetFormattedTime(), name, severity, message);
-
-		for (const auto& sink : sinks)
-			sink->log(colorized, plain);
 	}
 
 	std::string Logger::GetFormattedTime() {
@@ -83,8 +127,8 @@ namespace mce {
 		return time;
 	}
 
-	Logger& Logger::getGlobalLogger() {
-		static Logger globalLogger("MCE");
+	Logger& Logger::getGlobalLogger(QEventBus& qBus) {
+		static Logger globalLogger(qBus, "MCE");
 		return globalLogger;
 	}
 }
