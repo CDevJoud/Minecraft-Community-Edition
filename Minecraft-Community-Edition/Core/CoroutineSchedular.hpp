@@ -42,6 +42,8 @@ namespace mce {
 		 */
 		CoroutineSchedular() = default;
 
+		~CoroutineSchedular();
+
 		/**
 		 * @brief Represents a single scheduled task.
 		 *
