@@ -194,7 +194,7 @@ namespace mce {
 		/**
 		 * @brief Flag indicating whether the asynchronous processing thread should run.
 		 */
-		bool bIsRunning = false;
+		std::atomic_bool bIsRunning = false;
 
 		/**
 		 * @brief Background thread used for asynchronous processing when runAsync() is called.
@@ -234,7 +234,7 @@ namespace mce {
 	inline void QEventBus::subscribe(Handler<EventType> handler) {
 		std::lock_guard<std::mutex> lock(QEventBus::mutex);
 
-		// Simply store the handler — no token or RAII logic.
+		// Simply store the handler ï¿½ no token or RAII logic.
 		auto& handlers = QEventBus::handlers[typeid(EventType)];
 		handlers.emplace_back([handler](const IEvent& e) {
 			handler(static_cast<const EventType&>(e));

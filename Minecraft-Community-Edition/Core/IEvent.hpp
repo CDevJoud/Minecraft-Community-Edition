@@ -2,8 +2,8 @@
 
 namespace mce {
 	struct IEvent {
-		~IEvent() = default;
-		virtual const char* name() const = 0;
+		virtual ~IEvent() = default;
+		[[nodiscard]] virtual const char* name() const = 0;
 	};
 	namespace event {}
 }
