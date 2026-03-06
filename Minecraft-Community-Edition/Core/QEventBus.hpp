@@ -219,9 +219,8 @@ namespace mce {
 				auto mapIt = QEventBus::handlers.find(typeIdx);
 				if (mapIt != QEventBus::handlers.end()) {
 					auto& vec = mapIt->second;
-					if (!vec.empty()) {
-						vec.erase();
-					}
+					
+					vec.erase(it);
 
 					if (vec.empty()) {
 						QEventBus::handlers.erase(mapIt);
