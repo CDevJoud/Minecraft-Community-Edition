@@ -39,6 +39,10 @@ namespace mce {
 		if (QEventBus::thread.joinable()) QEventBus::thread.join();
 	}
 
+	size_t QEventBus::getQueueSize() const {
+		return QEventBus::queue.size();
+	}
+
 	QEventBus::~QEventBus() {
 		QEventBus::stop();
 	}

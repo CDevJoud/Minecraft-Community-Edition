@@ -123,6 +123,7 @@ namespace mce {
 		 */
 		void stop();
 
+		size_t getQueueSize() const;
 		/**
 		 * @brief Destructor.
 		 *
