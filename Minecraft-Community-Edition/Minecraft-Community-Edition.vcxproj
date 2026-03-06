@@ -137,21 +137,29 @@
   <ItemGroup>
     <ClInclude Include="Common\Assert.hpp" />
     <ClInclude Include="Common\Platform.hpp" />
+    <ClInclude Include="Core\FunctionContainer.hpp" />
+    <ClInclude Include="Core\IEvent.hpp" />
     <ClInclude Include="glad\gl.h" />
     <ClInclude Include="glad\khrplatform.h" />
     <ClInclude Include="Graphics\GraphicsContext.hpp" />
     <ClInclude Include="Graphics\OpenGL\GLGraphicsContext.hpp" />
     <ClInclude Include="Graphics\OpenGL\GLRenderer.hpp" />
     <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="IO\Logger.hpp" />
+    <ClInclude Include="IO\LoggerSinks.hpp" />
     <ClInclude Include="Minecraft.hpp" />
     <ClInclude Include="Core\QEventBus.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\eastl_allocator.cpp" />
+    <ClCompile Include="Core\FunctionContainer.cpp" />
     <ClCompile Include="glad\gl.c" />
     <ClCompile Include="Graphics\GraphicsContext.cpp" />
     <ClCompile Include="Graphics\OpenGL\GLGraphicsContext.cpp" />
     <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="IO\Logger.cpp" />
+    <ClCompile Include="IO\LoggerSinks.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minecraft.cpp" />
     <ClCompile Include="Core\QEventBus.cpp" />
