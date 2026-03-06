@@ -144,7 +144,7 @@ namespace mce {
 			return castedFunc(eastl::forward<Arguments>(args)...);
 		}
 		else {
-			MCE_ERROR("Function \"", name, "\" not found! File: ");
+			MCE_ERROR("Function \"{}\" not found! File:", name);
 		}
 	}
 
@@ -159,7 +159,7 @@ namespace mce {
 			return eastl::any_cast<eastl::function<Return(Arguments...)>>(FunctionContainer::functions[name]);
 		}
 		else {
-			MCE_ERROR("Function \"", name, "\" not found! File: ");
+			MCE_ERROR("Function \"{}\" not found! File:", name);
 			return nullptr;
 		}
 	}
@@ -175,7 +175,7 @@ namespace mce {
 			return eastl::any_cast<eastl::function<Return(Arguments...)>>(FunctionContainer::functions[name]);
 		}
 		else { 
-			MCE_ERROR("Function \"", name, "\" not found! File: ");
+			MCE_ERROR("Function \"{}\" not found! File:", name);
 			return nullptr;
 		}
 	}

@@ -42,6 +42,6 @@ int main()
 
 	mce::Minecraft minecraft;
 	minecraft.run();
-	
+
 	return 0;
 }
