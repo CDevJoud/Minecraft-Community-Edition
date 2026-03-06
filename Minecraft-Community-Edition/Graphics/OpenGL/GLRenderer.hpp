@@ -8,7 +8,7 @@ namespace sf {
 	class Window;
 }
 
-namespace MCE {
+namespace mce {
 	class GLRenderer final : public Renderer {
 	public:
 		GLRenderer(sf::Window& window);

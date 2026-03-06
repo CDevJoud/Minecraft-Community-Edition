@@ -4,7 +4,7 @@
 
 #include "SFML/Window/VideoMode.hpp"
 
-namespace MCE {
+namespace mce {
 	Minecraft::Minecraft() : window(sf::VideoMode({1280, 720}), "Minecraft: Community Edition") {
 		MCE_INFO("Starting MCE");
 		graphicsContext = GraphicsContext::create(GraphicsContext::API::OpenGL);

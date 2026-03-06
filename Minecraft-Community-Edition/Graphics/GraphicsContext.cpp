@@ -3,7 +3,7 @@
 #include "Common/Assert.hpp"
 #include "OpenGL/GLGraphicsContext.hpp"
 
-namespace MCE {
+namespace mce {
 	GraphicsContext::~GraphicsContext() {
 	}
 

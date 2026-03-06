@@ -8,10 +8,10 @@
 #include "EASTL/vector.h"
 
 #ifndef NDEBUG
-#define MCE_INFO(...) MCE::Logger::getGlobalLogger().info(__VA_ARGS__)
-#define MCE_WARN(...) MCE::Logger::getGlobalLogger().warn(__VA_ARGS__)
-#define MCE_ERROR(...) MCE::Logger::getGlobalLogger().error(__VA_ARGS__)
-#define MCE_DEBUG(...) MCE::Logger::getGlobalLogger().debug(__VA_ARGS__)
+#define MCE_INFO(...) mce::Logger::getGlobalLogger().info(__VA_ARGS__)
+#define MCE_WARN(...) mce::Logger::getGlobalLogger().warn(__VA_ARGS__)
+#define MCE_ERROR(...) mce::Logger::getGlobalLogger().error(__VA_ARGS__)
+#define MCE_DEBUG(...) mce::Logger::getGlobalLogger().debug(__VA_ARGS__)
 #else
 #define MCE_INFO(...)
 #define MCE_WARN(...)
@@ -19,7 +19,7 @@
 #define MCE_DEBUG(...)
 #endif
 
-namespace MCE {
+namespace mce {
 	class LoggerSink;
 
 	enum class LogLevel {

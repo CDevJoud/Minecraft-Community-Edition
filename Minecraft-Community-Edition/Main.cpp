@@ -25,9 +25,9 @@ static void setupLogging() {
 	if (!fs::is_directory("logs"))
 		fs::create_directory("logs");
 
-	eastl::shared_ptr<MCE::FileSink> fileSink = eastl::make_shared<MCE::FileSink>(getLogFileName());
+	eastl::shared_ptr<mce::FileSink> fileSink = eastl::make_shared<mce::FileSink>(getLogFileName());
 
-	MCE::Logger& logger = MCE::Logger::getGlobalLogger();
+	mce::Logger& logger = mce::Logger::getGlobalLogger();
 	logger.addSink(fileSink);
 }
 
@@ -40,7 +40,7 @@ int main()
 {
 	setupLogging();
 
-	MCE::Minecraft minecraft;
+	mce::Minecraft minecraft;
 	minecraft.run();
 	
 	return 0;

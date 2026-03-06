@@ -3,7 +3,7 @@
 #include <iostream>
 #include <print>
 
-namespace MCE {
+namespace mce {
 	void StdoutSink::log(std::string_view prettyMessage, std::string_view) {
 		std::println("{}", prettyMessage);
 

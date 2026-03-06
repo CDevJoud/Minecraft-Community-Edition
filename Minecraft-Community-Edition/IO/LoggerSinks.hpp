@@ -4,9 +4,13 @@
 #include <string>
 #include <string_view>
 
+#include <EABase/config/eacompilertraits.h>
+// Overriding literal operators is deprecated in C++17
+// EASTL still does this in some headers
+EA_DISABLE_GCC_WARNING(-Wdeprecated-literal-operator)
 #include <EASTL/string_view.h>
 
-namespace MCE {
+namespace mce {
 	enum class LogLevel;
 
 	class LoggerSink {

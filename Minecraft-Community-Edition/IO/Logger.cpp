@@ -10,7 +10,7 @@
 #include <iostream>
 #include <print>
 
-namespace MCE {
+namespace mce {
 	namespace Color {
 		static const std::string BLUE = "\x1b[38;2;0;120;220m";
 		static const std::string GOLD = "\x1b[38;2;255;213;0m";

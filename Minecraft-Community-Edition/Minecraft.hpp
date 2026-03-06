@@ -5,7 +5,7 @@
 #include "Graphics/GraphicsContext.hpp"
 #include "Graphics/Renderer.hpp"
 
-namespace MCE {
+namespace mce {
 	class GraphicsContext;
 	class Renderer;
 

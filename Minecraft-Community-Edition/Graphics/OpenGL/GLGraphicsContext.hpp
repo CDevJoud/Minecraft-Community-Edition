@@ -1,7 +1,7 @@
 #pragma once
 #include "Graphics/GraphicsContext.hpp"
 
-namespace MCE {
+namespace mce {
 	class GLGraphicsContext final : public GraphicsContext {
 	public:
 		GLGraphicsContext();
