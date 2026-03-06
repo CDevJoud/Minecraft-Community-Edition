@@ -17,13 +17,12 @@ namespace mce {
 	void QEventBus::runAsync() {
 		QEventBus::bIsRunning = true;
 		QEventBus::thread = std::thread([this] {
-			// std::memory_order_relaxed is okay here, because order is irrelevant
-			while (QEventBus::bIsRunning.load(std::memory_order_relaxed)) {
+			while (QEventBus::bIsRunning.load(std::memory_order_acquire)) {
 				eastl::unique_ptr<IEvent> event;
 				{
 					std::unique_lock<std::mutex> lock(QEventBus::queueMutex);
-					QEventBus::conditionalVariable.wait(lock, [&]() { return !QEventBus::queue.empty() || !QEventBus::bIsRunning.load(std::memory_order_relaxed); });
-					if (!QEventBus::bIsRunning.load(std::memory_order_relaxed)) break;
+					QEventBus::conditionalVariable.wait(lock, [&]() { return !QEventBus::queue.empty() || !QEventBus::bIsRunning.load(std::memory_order_acquire); });
+					if (!QEventBus::bIsRunning.load(std::memory_order_acquire)) break;
 					event = std::move(QEventBus::queue.front());
 					QEventBus::queue.pop();
 				}
@@ -33,7 +32,7 @@ namespace mce {
 	}
 
 	void QEventBus::stop() {
-		QEventBus::bIsRunning = false;
+		QEventBus::bIsRunning.store(false, std::memory_order_release);
 		QEventBus::conditionalVariable.notify_all();
 		if (QEventBus::thread.joinable()) QEventBus::thread.join();
 	}
