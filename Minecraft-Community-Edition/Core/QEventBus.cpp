@@ -17,12 +17,14 @@ namespace mce {
 	void QEventBus::runAsync() {
 		QEventBus::bIsRunning = true;
 		QEventBus::thread = std::thread([this] {
-			while (QEventBus::bIsRunning.load(std::memory_order_acquire)) {
+			// std::memory_order_relaxed is okay here, because order is irrelevant
+			while (QEventBus::bIsRunning.load(std::memory_order_relaxed)) {
 				eastl::unique_ptr<IEvent> event;
 				{
+					// Again, relaxed is okay, since the mutex ensures correct memory order.
 					std::unique_lock<std::mutex> lock(QEventBus::queueMutex);
-					QEventBus::conditionalVariable.wait(lock, [&]() { return !QEventBus::queue.empty() || !QEventBus::bIsRunning.load(std::memory_order_acquire); });
-					if (!QEventBus::bIsRunning.load(std::memory_order_acquire)) break;
+					QEventBus::conditionalVariable.wait(lock, [&]() { return !QEventBus::queue.empty() || !QEventBus::bIsRunning.load(std::memory_order_relaxed); });
+					if (!QEventBus::bIsRunning.load(std::memory_order_relaxed)) break;
 					event = std::move(QEventBus::queue.front());
 					QEventBus::queue.pop();
 				}
