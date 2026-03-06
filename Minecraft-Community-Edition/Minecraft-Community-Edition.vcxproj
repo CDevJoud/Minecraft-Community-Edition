@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)Vendor\SFML\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Vendor\SFML-3.0.2\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)Vendor\SFML-3.0.2\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL-3.27.01\include;$(IncludePath)</IncludePath>
