@@ -1,10 +1,14 @@
+#pragma warning(disable:4996)
 #include "Common/Platform.hpp"
 #include "Minecraft.hpp"
 #include "IO/Logger.hpp"
 
 #include <filesystem>
+#include <SFML/System/Sleep.hpp>
 
 #include "IO/LoggerSinks.hpp"
+
+static mce::QEventBus qBus;
 
 static std::string getLogFileName() {
 	const auto now = std::chrono::system_clock::now();
@@ -27,7 +31,7 @@ static void setupLogging() {
 
 	eastl::shared_ptr<mce::FileSink> fileSink = eastl::make_shared<mce::FileSink>(getLogFileName());
 
-	mce::Logger& logger = mce::Logger::getGlobalLogger();
+	mce::Logger& logger = mce::Logger::getGlobalLogger(qBus);
 	logger.addSink(fileSink);
 }
 
@@ -39,9 +43,8 @@ int main()
 #endif
 {
 	setupLogging();
-
+	
 	mce::Minecraft minecraft;
 	minecraft.run();
-
 	return 0;
 }
