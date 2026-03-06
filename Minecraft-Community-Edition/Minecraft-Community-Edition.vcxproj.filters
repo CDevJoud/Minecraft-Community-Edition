@@ -55,7 +55,7 @@
     <ClInclude Include="IO\Logger.hpp" />
     <ClInclude Include="IO\LoggerSinks.hpp" />
     <ClInclude Include="Core\QEventBus.hpp" />
-    <ClInclude Include="CoroutineSchedular.hpp" />
+    <ClInclude Include="Core\CoroutineSchedular.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\gl.c">
@@ -90,6 +90,6 @@
     <ClCompile Include="Vendor\EASTL\source\red_black_tree.cpp" />
     <ClCompile Include="Vendor\EASTL\source\string.cpp" />
     <ClCompile Include="Vendor\EASTL\source\thread_support.cpp" />
-    <ClCompile Include="CoroutineSchedular.cpp" />
+    <ClCompile Include="Core\CoroutineSchedular.cpp" />
   </ItemGroup>
 </Project>

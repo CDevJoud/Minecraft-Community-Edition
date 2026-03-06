@@ -139,7 +139,7 @@
     <ClInclude Include="Common\Platform.hpp" />
     <ClInclude Include="Core\FunctionContainer.hpp" />
     <ClInclude Include="Core\IEvent.hpp" />
-    <ClInclude Include="CoroutineSchedular.hpp" />
+    <ClInclude Include="Core\CoroutineSchedular.hpp" />
     <ClInclude Include="glad\gl.h" />
     <ClInclude Include="glad\khrplatform.h" />
     <ClInclude Include="Graphics\GraphicsContext.hpp" />
@@ -154,7 +154,7 @@
   <ItemGroup>
     <ClCompile Include="Core\eastl_allocator.cpp" />
     <ClCompile Include="Core\FunctionContainer.cpp" />
-    <ClCompile Include="CoroutineSchedular.cpp" />
+    <ClCompile Include="Core\CoroutineSchedular.cpp" />
     <ClCompile Include="glad\gl.c" />
     <ClCompile Include="Graphics\GraphicsContext.cpp" />
     <ClCompile Include="Graphics\OpenGL\GLGraphicsContext.cpp" />
