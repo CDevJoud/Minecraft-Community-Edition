@@ -1,3 +1,4 @@
+#pragma warning(disable:4996)
 #include "Common/Platform.hpp"
 #include "Minecraft.hpp"
 #include "IO/Logger.hpp"
