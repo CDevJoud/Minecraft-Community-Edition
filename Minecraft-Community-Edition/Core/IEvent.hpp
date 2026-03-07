@@ -1,6 +1,8 @@
 #pragma once
 #include <source_location>
 
+#include <EASTL/optional.h>
+
 namespace mce {
 	struct IEvent {
 		virtual ~IEvent() = default;
@@ -18,12 +20,12 @@ namespace mce {
 			};
 			Severity severity;
 			std::string msg;
-			std::source_location location;
+			eastl::optional<std::source_location> location;
 
-			LoggerOutput(Severity s = Severity::INFO, const std::string m = "", std::source_location loc = std::source_location::current())
+			explicit LoggerOutput(Severity s = Severity::INFO, const std::string m = "", eastl::optional<std::source_location> loc = eastl::nullopt)
 				: severity(s), msg(m), location(loc) {}
 
-			virtual const char* name() const override { return "mce.core.event.logger_output"; }
+			[[nodiscard]] const char* name() const override { return "mce.core.event.logger_output"; }
 		};
 	}
 }

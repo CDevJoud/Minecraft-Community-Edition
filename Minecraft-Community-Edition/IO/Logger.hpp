@@ -18,6 +18,10 @@
 #define MCE_WARN(...) mce::Logger::getGlobalLogger().warn(__VA_ARGS__)
 #define MCE_ERROR(...) mce::Logger::getGlobalLogger().error(__VA_ARGS__)
 #define MCE_DEBUG(...) mce::Logger::getGlobalLogger().debug(__VA_ARGS__)
+#define MCE_INFO_TRACE(...) mce::Logger::getGlobalLogger().info_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_WARN_TRACE(...) mce::Logger::getGlobalLogger().warn_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_ERROR_TRACE(...) mce::Logger::getGlobalLogger().error_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_DEBUG_TRACE(...) mce::Logger::getGlobalLogger().debug_trace(std::source_location::current(), __VA_ARGS__)
 #else
 #define MCE_INFO(...)
 #define MCE_WARN(...)
@@ -40,25 +44,45 @@ namespace mce {
 		explicit Logger(QEventBus& qBus, std::string_view name, bool createStdoutSink = true);
 
 		void addSink(const eastl::shared_ptr<LoggerSink>& sink);
-		void log(LogLevel level, std::string_view message, const std::source_location& location = std::source_location::current());
+		void log(LogLevel level, std::string_view message, eastl::optional<std::source_location> location = eastl::nullopt);
 
 		template <typename... Args>
-		void info(std::format_string<Args...> format, Args&&... args, const std::source_location& location = std::source_location::current()) {
+		void info(std::format_string<Args...> format, Args&&... args) {
+			log(LogLevel::INFO, std::format(format, std::forward<Args>(args)...));
+		}
+		
+		template <typename... Args>
+		void warn(std::format_string<Args...> format, Args&&... args) {
+			log(LogLevel::WARN, std::format(format, std::forward<Args>(args)...));
+		}
+
+		template <typename... Args>
+		void error(std::format_string<Args...> format, Args&&... args) {
+			log(LogLevel::ERROR, std::format(format, std::forward<Args>(args)...));
+		}
+
+		template <typename... Args>
+		void debug(std::format_string<Args...> format, Args&&... args) {
+			log(LogLevel::DEBUG, std::format(format, std::forward<Args>(args)...));
+		}
+		
+		template <typename... Args>
+		void info_trace(const std::source_location& location, std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::INFO, std::format(format, std::forward<Args>(args)...), location);
 		}
 		
 		template <typename... Args>
-		void warn(std::format_string<Args...> format, Args&&... args, const std::source_location& location = std::source_location::current()) {
+		void warn_trace(const std::source_location& location, std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::WARN, std::format(format, std::forward<Args>(args)...), location);
 		}
 
 		template <typename... Args>
-		void error(std::format_string<Args...> format, Args&&... args, const std::source_location& location = std::source_location::current()) {
+		void error_trace(const std::source_location& location, std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::ERROR, std::format(format, std::forward<Args>(args)...), location);
 		}
 
 		template <typename... Args>
-		void debug(std::format_string<Args...> format, Args&&... args, const std::source_location& location = std::source_location::current()) {
+		void debug_trace(const std::source_location& location, std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::DEBUG, std::format(format, std::forward<Args>(args)...), location);
 		}
 
@@ -71,6 +95,7 @@ namespace mce {
 		};
 
 		void logCallback(const event::LoggerOutput& e);
+		static std::string getFormattedSource(const std::source_location& location);
 
 		static std::string GetFormattedTime();
 		const size_t MAX_LOG_EVENTS = 10000;
