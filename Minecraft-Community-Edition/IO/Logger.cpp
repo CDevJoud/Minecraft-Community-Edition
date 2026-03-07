@@ -38,7 +38,7 @@ namespace mce {
 		sinks.emplace_back(sink);
 	}
 
-	void Logger::log(const LogLevel level, std::string_view message, const std::source_location& location) {
+	void Logger::log(const LogLevel level, std::string_view message, eastl::optional<std::source_location> location) {
 		//Check the event queue size and make sure to not accedintly flood it
 		if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS)
 			return; //Ignore the log
@@ -112,38 +112,40 @@ namespace mce {
 				break;
 		}
 
-		const std::string file = e.location.file_name();
-		const std::string function = e.location.function_name();
-		const uint32_t line = e.location.line();
-
-		const std::string colorized = std::format(
-			"{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}] {7}:{8} ({9}) => {10} {4}",
+		std::string colorized = std::format(
+			"{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}]",
 			Color::LIGHT_GRAY,
 			Color::DARK_GRAY,
 			GetFormattedTime(),
 			this->name,
 			Color::RESET,
 			color,
-			severity,
-			file,
-			line,
-			function,
-			e.msg
+			severity
 		);
 
-		const std::string plain = std::format(
-			"[{0}] [{1}] [{2}] {3}:{4} ({5}) => {6}",
+		std::string plain = std::format(
+			"[{}] [{}] [{}]",
 			GetFormattedTime(),
 			this->name,
 			severity,
-			file,
-			line,
-			function,
 			e.msg
 		);
+
+		if (e.location.has_value()) {
+			const std::string formattedSource = getFormattedSource(e.location.value());
+			colorized += formattedSource;
+			plain += formattedSource;
+		}
+
+		colorized += std::format(" => {}{}", e.msg, Color::RESET);
+		plain += std::format(" => {}", e.msg);
 
 		for (const auto& sink : sinks) {
 			sink->log(colorized, plain);
 		}
+	}
+
+	std::string Logger::getFormattedSource(const std::source_location &location) {
+		return std::format(" {}:{} ({}) ", location.file_name(), location.line(), location.function_name());
 	}
 }
