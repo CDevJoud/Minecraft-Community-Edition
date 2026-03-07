@@ -6,14 +6,14 @@
 
 namespace mce {
 	Minecraft::Minecraft() : window(sf::VideoMode({1280, 720}), "Minecraft: Community Edition") {
-		//MCE_INFO("Starting MCE");
+		MCE_INFO("Starting MCE");
 		graphicsContext = GraphicsContext::create(GraphicsContext::API::OpenGL);
 		renderer = graphicsContext->createRenderer(window);
-		//MCE_INFO("Done");
+		MCE_INFO("Done");
 	}
 
 	Minecraft::~Minecraft() {
-		//MCE_INFO("Shutting down");
+		MCE_INFO("Shutting down");
 	}
 
 	void Minecraft::run() {

@@ -4,11 +4,8 @@
 #include "IO/Logger.hpp"
 
 #include <filesystem>
-#include <SFML/System/Sleep.hpp>
 
 #include "IO/LoggerSinks.hpp"
-
-static mce::QEventBus qBus;
 
 static std::string getLogFileName() {
 	const auto now = std::chrono::system_clock::now();
@@ -31,7 +28,7 @@ static void setupLogging() {
 
 	eastl::shared_ptr<mce::FileSink> fileSink = eastl::make_shared<mce::FileSink>(getLogFileName());
 
-	mce::Logger& logger = mce::Logger::getGlobalLogger(qBus);
+	mce::Logger& logger = mce::Logger::getGlobalLogger();
 	logger.addSink(fileSink);
 }
 

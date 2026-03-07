@@ -14,18 +14,16 @@
 #define MCE_LOGGER_SET_QEVENTBUS 0
 
 #ifndef NDEBUG
-#define MCE_INFO(qBus, ...) mce::Logger::getGlobalLogger(qBus).info(__VA_ARGS__)
-#define MCE_WARN(qBus, ...) mce::Logger::getGlobalLogger(qBus).warn(__VA_ARGS__)
-#define MCE_ERROR(qBus, ...) mce::Logger::getGlobalLogger(qBus).error(__VA_ARGS__)
-#define MCE_DEBUG(qBus, ...) mce::Logger::getGlobalLogger(qBus).debug(__VA_ARGS__)
+#define MCE_INFO(...) mce::Logger::getGlobalLogger().info(__VA_ARGS__)
+#define MCE_WARN(...) mce::Logger::getGlobalLogger().warn(__VA_ARGS__)
+#define MCE_ERROR(...) mce::Logger::getGlobalLogger().error(__VA_ARGS__)
+#define MCE_DEBUG(...) mce::Logger::getGlobalLogger().debug(__VA_ARGS__)
 #else
 #define MCE_INFO(...)
 #define MCE_WARN(...)
 #define MCE_ERROR(...)
 #define MCE_DEBUG(...)
 #endif
-
-
 
 namespace mce {
 	class LoggerSink;
@@ -64,8 +62,11 @@ namespace mce {
 			log(LogLevel::DEBUG, std::format(format, std::forward<Args>(args)...), location);
 		}
 
-		static Logger& getGlobalLogger(QEventBus& qBus);
+		static QEventBus& getGlobalEventBus();
+		static Logger& getGlobalLogger();
 	private:
+		void logCallback(const event::LoggerOutput& e);
+
 		static std::string GetFormattedTime();
 		const size_t MAX_LOG_EVENTS = 10000;
 		std::string name;

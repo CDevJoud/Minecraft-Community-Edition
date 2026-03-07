@@ -3,8 +3,6 @@
 #include "Logger.hpp"
 #include "LoggerSinks.hpp"
 
-
-
 #include <ctime>
 #include <chrono>
 #include <iostream>
@@ -28,78 +26,8 @@ namespace mce {
 			sinks.emplace_back(eastl::make_shared<StdoutSink>());
 
 		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
-			std::string severity;
-			std::string color;
-			using Severity = event::LoggerOutput::Severity;
-			switch (static_cast<event::LoggerOutput::Severity>(e.severity)) {
-			case Severity::INFO:
-			{
-				severity = "INFO";
-				color = Color::BLUE;
-			}
-			break;
-
-			case Severity::WARN:
-			{
-				severity = "WARN";
-				color = Color::GOLD;
-			}
-			break;
-
-			case Severity::DEBUG:
-			{
-				severity = "DEBUG";
-				color = Color::GREEN;
-			}
-			break;
-
-			case Severity::ERROR:
-			{
-				severity = "ERROR";
-				color = Color::RED;
-			}
-			break;
-			case Severity::FATAL: {
-				severity = "FATAL";
-				color = Color::RED;
-			}
-			break;
-			}
-
-			const std::string file = e.location.file_name();
-			const std::string function = e.location.function_name();
-			const uint32_t line = e.location.line();
-
-			const std::string colorized = std::format(
-				"{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}] {7}:{8} ({9}) => {10} {4}",
-				Color::LIGHT_GRAY,
-				Color::DARK_GRAY,
-				GetFormattedTime(),
-				this->name,
-				Color::RESET,
-				color,
-				severity,
-				file,
-				line,
-				function,
-				e.msg
-			);
-
-			const std::string plain = std::format(
-				"[{0}] [{1}] [{2}] {3}:{4} ({5}) => {6}",
-				GetFormattedTime(),
-				this->name,
-				severity,
-				file,
-				line,
-				function,
-				e.msg
-			);
-
-			for (const auto& sink : sinks) {
-				sink->log(colorized, plain);
-			}
-			});
+			logCallback(e);
+		});
 	}
 
 	void Logger::addSink(const eastl::shared_ptr<LoggerSink>& sink) {
@@ -131,8 +59,87 @@ namespace mce {
 		return time;
 	}
 
-	Logger& Logger::getGlobalLogger(QEventBus& qBus) {
-		static Logger globalLogger(qBus, "MCE");
+	QEventBus & Logger::getGlobalEventBus() {
+		static QEventBus loggerEventBus;
+		return loggerEventBus;
+	}
+
+	Logger& Logger::getGlobalLogger() {
+		static Logger globalLogger(getGlobalEventBus(), "MCE");
 		return globalLogger;
+	}
+
+	void Logger::logCallback(const event::LoggerOutput &e) {
+		std::string severity;
+		std::string color;
+		using Severity = event::LoggerOutput::Severity;
+		switch (static_cast<event::LoggerOutput::Severity>(e.severity)) {
+			case Severity::INFO:
+			{
+				severity = "INFO";
+				color = Color::BLUE;
+			}
+				break;
+
+			case Severity::WARN:
+			{
+				severity = "WARN";
+				color = Color::GOLD;
+			}
+				break;
+
+			case Severity::DEBUG:
+			{
+				severity = "DEBUG";
+				color = Color::GREEN;
+			}
+				break;
+
+			case Severity::ERROR:
+			{
+				severity = "ERROR";
+				color = Color::RED;
+			}
+				break;
+			case Severity::FATAL: {
+				severity = "FATAL";
+				color = Color::RED;
+			}
+				break;
+		}
+
+		const std::string file = e.location.file_name();
+		const std::string function = e.location.function_name();
+		const uint32_t line = e.location.line();
+
+		const std::string colorized = std::format(
+			"{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}] {7}:{8} ({9}) => {10} {4}",
+			Color::LIGHT_GRAY,
+			Color::DARK_GRAY,
+			GetFormattedTime(),
+			this->name,
+			Color::RESET,
+			color,
+			severity,
+			file,
+			line,
+			function,
+			e.msg
+		);
+
+		const std::string plain = std::format(
+			"[{0}] [{1}] [{2}] {3}:{4} ({5}) => {6}",
+			GetFormattedTime(),
+			this->name,
+			severity,
+			file,
+			line,
+			function,
+			e.msg
+		);
+
+		for (const auto& sink : sinks) {
+			sink->log(colorized, plain);
+		}
 	}
 }
