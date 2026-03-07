@@ -3,13 +3,14 @@
 #include <sstream>
 #include <string>
 #include <format>
+#include <shared_mutex>
 #include <source_location>
 
 #include "EASTL/shared_ptr.h"
 #include "EASTL/vector.h"
 
-#include "..\Core\QEventBus.hpp"
-#include "..\Core\IEvent.hpp"
+#include "Core/QEventBus.hpp"
+#include "Core/IEvent.hpp"
 
 #define MCE_LOGGER_SET_QEVENTBUS 0
 
@@ -27,6 +28,10 @@
 #define MCE_WARN(...)
 #define MCE_ERROR(...)
 #define MCE_DEBUG(...)
+#define MCE_INFO_TRACE(...)
+#define MCE_WARN_TRACE(...)
+#define MCE_ERROR_TRACE(...)
+#define MCE_DEBUG_TRACE(...)
 #endif
 
 namespace mce {
@@ -100,7 +105,11 @@ namespace mce {
 		static std::string GetFormattedTime();
 		const size_t MAX_LOG_EVENTS = 10000;
 		std::string name;
+
+		std::shared_mutex sinkMutex;
 		eastl::vector<eastl::shared_ptr<LoggerSink>> sinks;
 		QEventBus& qBus;
+
+		SubscriptionToken busSubscription;
 	};
 }

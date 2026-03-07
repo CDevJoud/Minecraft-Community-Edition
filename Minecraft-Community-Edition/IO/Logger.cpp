@@ -25,16 +25,19 @@ namespace mce {
 
 	Logger::Logger(QEventBus& qBus, const std::string_view name, const bool createStdoutSink)
 		:
-		name(name), qBus(qBus) {
-		if (createStdoutSink)
-			sinks.emplace_back(eastl::make_shared<StdoutSink>());
-
-		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
+		name(name), qBus(qBus),
+		busSubscription(qBus.subscribeRAII<event::LoggerOutput>([this](const event::LoggerOutput& e) {
 			logCallback(e);
-		});
+		}))
+	{
+		if (createStdoutSink) {
+			std::unique_lock lock(sinkMutex);
+			sinks.emplace_back(eastl::make_shared<StdoutSink>());
+		}
 	}
 
 	void Logger::addSink(const eastl::shared_ptr<LoggerSink>& sink) {
+		std::unique_lock lock(sinkMutex);
 		sinks.emplace_back(sink);
 	}
 
@@ -140,6 +143,7 @@ namespace mce {
 		colorized += std::format(" => {}{}", e.msg, Color::RESET);
 		plain += std::format(" => {}", e.msg);
 
+		std::shared_lock lock(sinkMutex);
 		for (const auto& sink : sinks) {
 			sink->log(colorized, plain);
 		}
