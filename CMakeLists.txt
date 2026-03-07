@@ -16,6 +16,12 @@ list(FILTER MCE_SOURCES EXCLUDE REGEX "Main.cpp")
 add_library(${PROJECT_NAME}-lib STATIC ${MCE_SOURCES})
 add_executable(${PROJECT_NAME} ${MCE_EXEC_TYPE} "${MCE_DIR}/Main.cpp")
 
+check_cxx_compiler_flag(-Wdeprecated-literal-operator HAS_DEP_LITERAL_OP)
+if (HAS_DEP_LITERAL_OP)
+    target_compile_options(${PROJECT_NAME}-lib PRIVATE -Wno-deprecated-literal-operator)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wno-deprecated-literal-operator)
+endif ()
+
 target_include_directories(${PROJECT_NAME}-lib PUBLIC ${MCE_DIR})
 target_link_libraries(${PROJECT_NAME}-lib PUBLIC EASTL SFML::Graphics stdc++exp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}-lib)

@@ -23,7 +23,6 @@ namespace mce {
 		virtual size_t seek(size_t position) = 0;
 
 		/**
-		 *
 		 * @return The current position the stream is at
 		 */
 		virtual size_t tell() = 0;

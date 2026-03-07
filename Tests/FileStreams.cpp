@@ -4,7 +4,7 @@
 
 using namespace mce;
 
-TEST(InputStream, Reading) {
+TEST(FileStreams, Reading) {
 	FileInputStream testStream("TestFiles/test.txt");
 
 	EXPECT_TRUE(testStream.isOpen());
@@ -13,22 +13,16 @@ TEST(InputStream, Reading) {
 	std::vector<char> fileContent(testStream.getSize() + 1, 0);
 	size_t bytesRead = testStream.read(fileContent.data(), testStream.getSize());
 
-	std::ifstream stream("TestFiles/test.txt");
-
-	std::string content;
-	while (std::getline(stream, content)) {}
-
-	EXPECT_EQ(content, fileContent.data());
-	EXPECT_EQ(bytesRead, content.size());
-
-	stream.close();
+	EXPECT_STREQ("this is some data", fileContent.data());
+	EXPECT_EQ(bytesRead, 17);
 }
 
-TEST(InputStream, ReadMoreThanFileHas) {
+TEST(FileStreams, ReadMoreThanFileHas) {
 	FileInputStream testStream("TestFiles/test.txt");
 
 	std::vector<char> fileContent(testStream.getSize() + 1, 0);
-	size_t bytesRead = testStream.read(fileContent.data(), testStream.getSize() + 2);
+	const size_t bytesRead = testStream.read(fileContent.data(), testStream.getSize() + 2);
 
 	EXPECT_EQ(bytesRead, testStream.getSize());
 }
+
