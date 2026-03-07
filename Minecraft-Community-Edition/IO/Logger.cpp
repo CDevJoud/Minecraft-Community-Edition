@@ -105,18 +105,17 @@ namespace mce {
 	void Logger::addSink(const eastl::shared_ptr<LoggerSink>& sink) {
 		sinks.emplace_back(sink);
 	}
+
 	void Logger::log(const LogLevel level, std::string_view message, const std::source_location& location) {
 		//Check the event queue size and make sure to not accedintly flood it
-		if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS) {
+		if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS)
 			return; //Ignore the log
-		}
-		else {
-			event::LoggerOutput lOut;
-			lOut.severity = static_cast<event::LoggerOutput::Severity>(level);
-			lOut.msg = message;
-			lOut.location = location;
-			qBus.post(lOut);
-		}
+
+		event::LoggerOutput lOut;
+		lOut.severity = static_cast<event::LoggerOutput::Severity>(level);
+		lOut.msg = message;
+		lOut.location = location;
+		qBus.post(lOut);
 	}
 
 	std::string Logger::GetFormattedTime() {
