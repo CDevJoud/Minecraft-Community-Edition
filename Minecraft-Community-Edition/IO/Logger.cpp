@@ -59,6 +59,11 @@ namespace mce {
 				color = Color::RED;
 			}
 			break;
+			case Severity::FATAL: {
+				severity = "FATAL";
+				color = Color::RED;
+			}
+			break;
 			}
 
 			const std::string file = e.location.file_name();
@@ -103,7 +108,7 @@ namespace mce {
 	void Logger::log(const LogLevel level, std::string_view message, const std::source_location& location) {
 		//Check the event queue size and make sure to not accedintly flood it
 		if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS) {
-			return; //Ignore the log 
+			return; //Ignore the log
 		}
 		else {
 			event::LoggerOutput lOut;
