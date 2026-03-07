@@ -65,6 +65,11 @@ namespace mce {
 		static QEventBus& getGlobalEventBus();
 		static Logger& getGlobalLogger();
 	private:
+		class LoggerEventBus : public QEventBus {
+		public:
+			LoggerEventBus();
+		};
+
 		void logCallback(const event::LoggerOutput& e);
 
 		static std::string GetFormattedTime();

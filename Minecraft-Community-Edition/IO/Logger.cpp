@@ -19,6 +19,10 @@ namespace mce {
 		static const std::string RESET = "\x1b[0m";
 	}
 
+	Logger::LoggerEventBus::LoggerEventBus() {
+		runAsync();
+	}
+
 	Logger::Logger(QEventBus& qBus, const std::string_view name, const bool createStdoutSink)
 		:
 		name(name), qBus(qBus) {
@@ -59,8 +63,8 @@ namespace mce {
 		return time;
 	}
 
-	QEventBus & Logger::getGlobalEventBus() {
-		static QEventBus loggerEventBus;
+	QEventBus& Logger::getGlobalEventBus() {
+		static LoggerEventBus loggerEventBus;
 		return loggerEventBus;
 	}
 
