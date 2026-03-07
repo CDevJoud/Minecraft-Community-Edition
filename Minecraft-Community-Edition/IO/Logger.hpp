@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 #include <format>
-#include <shared_mutex>
 #include <source_location>
 
 #include "EASTL/shared_ptr.h"
@@ -106,7 +105,6 @@ namespace mce {
 		const size_t MAX_LOG_EVENTS = 10000;
 		std::string name;
 
-		std::shared_mutex sinkMutex;
 		eastl::vector<eastl::shared_ptr<LoggerSink>> sinks;
 		QEventBus& qBus;
 

@@ -30,14 +30,11 @@ namespace mce {
 			logCallback(e);
 		}))
 	{
-		if (createStdoutSink) {
-			std::unique_lock lock(sinkMutex);
+		if (createStdoutSink)
 			sinks.emplace_back(eastl::make_shared<StdoutSink>());
-		}
 	}
 
 	void Logger::addSink(const eastl::shared_ptr<LoggerSink>& sink) {
-		std::unique_lock lock(sinkMutex);
 		sinks.emplace_back(sink);
 	}
 
@@ -143,7 +140,6 @@ namespace mce {
 		colorized += std::format(" => {}{}", e.msg, Color::RESET);
 		plain += std::format(" => {}", e.msg);
 
-		std::shared_lock lock(sinkMutex);
 		for (const auto& sink : sinks) {
 			sink->log(colorized, plain);
 		}
