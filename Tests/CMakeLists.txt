@@ -9,5 +9,16 @@ function(DeclareTest name)
     gtest_discover_tests(${name})
 endfunction()
 
+function(CopyFilesFor target)
+    add_custom_command(TARGET ${target} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_LIST_DIR}/TestFiles
+            $<TARGET_FILE_DIR:${target}>/TestFiles
+    )
+endfunction()
+
 DeclareTest(InputStream)
 DeclareTest(Logging)
+
+CopyFilesFor(InputStream)
+
