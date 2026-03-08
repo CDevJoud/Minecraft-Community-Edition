@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="Common\Assert.hpp" />
     <ClInclude Include="Common\Platform.hpp" />
+    <ClInclude Include="Core\CoroutineScheduler.hpp" />
     <ClInclude Include="Core\FunctionContainer.hpp" />
     <ClInclude Include="Core\IEvent.hpp" />
     <ClInclude Include="Core\CoroutineSchedular.hpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Core\QEventBus.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\CoroutineScheduler.cpp" />
     <ClCompile Include="Core\eastl_allocator.cpp" />
     <ClCompile Include="Core\FunctionContainer.cpp" />
     <ClCompile Include="Core\CoroutineSchedular.cpp" />
