@@ -193,10 +193,6 @@
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="test.bin" />
-    <None Include="test.json" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
