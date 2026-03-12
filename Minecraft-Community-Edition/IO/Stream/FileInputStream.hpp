@@ -1,5 +1,6 @@
 #pragma once
 
+#include "..\..\Common\Platform.hpp"
 #include <fstream>
 
 #include "InputStream.hpp"
@@ -9,30 +10,24 @@
 namespace mce {
 	class FileInputStream final : public InputStream {
 	public:
-		FileInputStream() = default;
-
+		FileInputStream();
+		~FileInputStream();
 		/**
 		 * @brief Constructs the stream and opens a file
 		 * @param file The path (absolute or relative) to the file
 		 */
-		explicit FileInputStream(eastl::string_view file);
+		//explicit FileInputStream(eastl::string_view file);
 
 		/**
 		 * @brief Opens a file to read from
 		 * @param file The path (absolute or relative) to the file
 		 */
-		void open(eastl::string_view file);
+		bool open(const std::string& file);
 
 		/**
 		 * @return True if the file was successfully opened
 		 */
 		bool isOpen() const;
-
-		/**
-		 * @brief Checks if the stream is at the end of the file
-		 * @return True if the file stream has the end-of-file flag (EOF).
-		 */
-		bool eof() const;
 
 		/**
 		 * @brief Closes the file
@@ -63,8 +58,15 @@ namespace mce {
 		 * @return The size of the stream in bytes
 		 */
 		size_t getSize() override;
+
+		static inline constexpr size_t FILE_NOT_FOUND = 0;
+		static inline constexpr size_t INVALID_FILE_SIZE = ~(0);
+		static inline constexpr size_t INVALID_FILE_POSITION = ~(0);
 	private:
-		std::ifstream stream;
-		std::string fileName;
+#ifdef MCE_PLATFORM_WINDOWS
+		void* __ptr64 hFile = nullptr;
+#elif defined(MCE_PLATFORM_LINUX) || defined(MCE_PLATFORM_MACOS)
+		std::FILE* file;
+#endif
 	};
 }
