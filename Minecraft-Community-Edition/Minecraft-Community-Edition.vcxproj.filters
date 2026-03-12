@@ -68,6 +68,14 @@
     <ClInclude Include="Core\CoroutineSchedular.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Core\CoroutineScheduler.hpp" />
+    <ClInclude Include="IO\VirtualFileSystem.hpp" />
+    <ClInclude Include="IO\nlohmann\json.hpp" />
+    <ClInclude Include="IO\Stream\OutputStream.hpp" />
+    <ClInclude Include="IO\Stream\FileInputStream.hpp" />
+    <ClInclude Include="IO\Stream\FileOutputStream.hpp" />
+    <ClInclude Include="IO\Stream\InputStream.hpp" />
+    <ClInclude Include="IO\Stream\MemoryInputStream.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\gl.c">
@@ -130,8 +138,21 @@
     <ClCompile Include="Core\QEventBus.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Core\CoroutineSchedular.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
+    <ClCompile Include="IO\VirtualFileSystem.cpp" />
+    <ClCompile Include="IO\Stream\FileInputStream.cpp" />
+    <ClCompile Include="IO\Stream\FileOutputStream.cpp" />
+    <ClCompile Include="IO\Stream\InputStream.cpp" />
+    <ClCompile Include="IO\Stream\OutputStream.cpp" />
+    <ClCompile Include="Core\CoroutineScheduler.cpp" />
+    <ClCompile Include="IO\Stream\MemoryInputStream.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Core\__copilot_shim_test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.json" />
+    <None Include="test.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

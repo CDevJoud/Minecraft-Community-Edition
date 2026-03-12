@@ -8,17 +8,11 @@ namespace mce {
 		virtual ~OutputStream() = 0;
 
 		/**
-		 * @brief Writes all pending operations to the file
-		 */
-		virtual void flush() = 0;
-
-		/**
-		 * @brief Writes to the output stream
 		 * @param buffer The data to write
 		 * @param size How many bytes to write
 		 * @return How many bytes were written
 		 */
-		virtual size_t write(void* buffer, size_t size) = 0;
+		virtual size_t write(const void* buffer, size_t size) = 0;
 
 		/**
 		 * @brief Changes the current position the stream is at
