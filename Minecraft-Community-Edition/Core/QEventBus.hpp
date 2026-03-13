@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <EASTL/functional.h>
 #include <EASTL/unordered_map.h>
 #include <EASTL/vector.h>
