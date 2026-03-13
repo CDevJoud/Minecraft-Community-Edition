@@ -158,6 +158,9 @@
     <ClInclude Include="Core\QEventBus.hpp" />
     <ClInclude Include="IO\VirtualFileSystem.hpp" />
     <ClInclude Include="IO\nlohmann\json.hpp" />
+    <ClInclude Include="Core\ThreadImpl.hpp" />
+    <ClInclude Include="Core\Thread.hpp" />
+    <ClInclude Include="Core\ThreadManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\CoroutineScheduler.cpp" />
@@ -178,6 +181,9 @@
     <ClCompile Include="IO\Stream\MemoryInputStream.cpp" />
     <ClCompile Include="Minecraft.cpp" />
     <ClCompile Include="Core\QEventBus.cpp" />
+    <ClCompile Include="Core\ThreadImpl.cpp" />
+    <ClCompile Include="Core\Thread.cpp" />
+    <ClCompile Include="Core\ThreadManager.cpp" />
     <ClCompile Include="Vendor\EASTL\source\allocator_eastl.cpp" />
     <ClCompile Include="Vendor\EASTL\source\assert.cpp" />
     <ClCompile Include="Vendor\EASTL\source\atomic.cpp" />
