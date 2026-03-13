@@ -7,6 +7,12 @@
 
 #include <EASTL/string_view.h>
 
+#ifdef MCE_PLATFORM_WINDOWS
+#ifdef INVALID_FILE_SIZE
+#undef INVALID_FILE_SIZE
+#endif
+#endif
+
 namespace mce {
 	class FileInputStream final : public InputStream {
 	public:
