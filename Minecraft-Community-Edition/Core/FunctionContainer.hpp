@@ -44,7 +44,7 @@ namespace mce {
 		 *
 		 * @param initlist Initializer list of pairs (name, callable-as-eastl::any).
 		 */
-		FunctionContainer(std::initializer_list<std::pair<eastl::string, eastl::any>> initlist);
+		FunctionContainer(QEventBus& qBus, std::initializer_list<std::pair<eastl::string, eastl::any>> initlist);
 
 		/**
 		 * @brief Add a function to the container.
@@ -118,6 +118,7 @@ namespace mce {
 	private:
 		/// Internal map of name to stored callable (wrapped in eastl::any)
 		eastl::unordered_map<eastl::string, eastl::any> functions;
+		QEventBus& qBus;
 	};
 
 	// Template implementations

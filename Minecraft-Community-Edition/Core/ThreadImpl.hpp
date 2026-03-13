@@ -69,6 +69,8 @@ namespace mce {
 		 */
 		void terminate();
 
+
+		bool isRunning() const;
 	private:
 
 		/**

@@ -6,7 +6,7 @@ namespace mce {
 		qBus.subscribe<event::ThreadFinished>([this](const auto& e) {
 			onThreadFinished(e);
 			});
-		qBus.subscribe<event::ThreadStarted>([this](const auto& e) {
+		qBus.subscribe<event::ThreadStarted>([this, &qBus](const auto& e) {
 			// Log thread name that started
 			MCE_INFO_TRACE("[ThreadManager] Thread '{}' started", e.threadName.data());
 			});
