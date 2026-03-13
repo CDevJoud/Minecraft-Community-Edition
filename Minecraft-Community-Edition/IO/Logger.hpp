@@ -14,14 +14,14 @@
 #define MCE_LOGGER_SET_QEVENTBUS 0
 
 #ifndef NDEBUG
-#define MCE_INFO(...) mce::Logger::getGlobalLogger().info(__VA_ARGS__)
-#define MCE_WARN(...) mce::Logger::getGlobalLogger().warn(__VA_ARGS__)
-#define MCE_ERROR(...) mce::Logger::getGlobalLogger().error(__VA_ARGS__)
-#define MCE_DEBUG(...) mce::Logger::getGlobalLogger().debug(__VA_ARGS__)
-#define MCE_INFO_TRACE(...) mce::Logger::getGlobalLogger().info_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_WARN_TRACE(...) mce::Logger::getGlobalLogger().warn_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_ERROR_TRACE(...) mce::Logger::getGlobalLogger().error_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_DEBUG_TRACE(...) mce::Logger::getGlobalLogger().debug_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_INFO(...) mce::Logger::getGlobalLogger(qBus).info(__VA_ARGS__)
+#define MCE_WARN(...) mce::Logger::getGlobalLogger(qBus).warn(__VA_ARGS__)
+#define MCE_ERROR(...) mce::Logger::getGlobalLogger(qBus).error(__VA_ARGS__)
+#define MCE_DEBUG(...) mce::Logger::getGlobalLogger(qBus).debug(__VA_ARGS__)
+#define MCE_INFO_TRACE(...) mce::Logger::getGlobalLogger(qBus).info_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_WARN_TRACE(...) mce::Logger::getGlobalLogger(qBus).warn_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_ERROR_TRACE(...) mce::Logger::getGlobalLogger(qBus).error_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_DEBUG_TRACE(...) mce::Logger::getGlobalLogger(qBus).debug_trace(std::source_location::current(), __VA_ARGS__)
 #else
 #define MCE_INFO(...)
 #define MCE_WARN(...)
@@ -90,13 +90,13 @@ namespace mce {
 			log(LogLevel::DEBUG, std::format(format, std::forward<Args>(args)...), location);
 		}
 
-		static QEventBus& getGlobalEventBus();
-		static Logger& getGlobalLogger();
+		//static QEventBus& getGlobalEventBus();
+		static Logger& getGlobalLogger(QEventBus& qBus);
 	private:
-		class LoggerEventBus : public QEventBus {
+		/*class LoggerEventBus : public QEventBus {
 		public:
 			LoggerEventBus();
-		};
+		};*/
 
 		void logCallback(const event::LoggerOutput& e);
 		static std::string getFormattedSource(const std::source_location& location);
