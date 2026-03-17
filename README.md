@@ -1,5 +1,7 @@
 # Minecraft-Community-Edition
 
+![Discord](https://discord.gg/eZZ83Jb8)
+
 ![Project Logo](logo.webp)
 
 ## Cross Platform Support (Linux, macOS, etc) and Rewriting, Restructuring, and Redocumenting the LCEMP
