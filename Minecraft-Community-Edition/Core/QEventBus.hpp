@@ -8,6 +8,11 @@
 #include <mutex>
 #include "IEvent.hpp"
 
+/**
+ * @file QEventBus.hpp
+ * @brief Thread-safe event bus.
+ */
+
 namespace mce {
 
 	/**
