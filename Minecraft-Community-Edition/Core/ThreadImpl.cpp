@@ -1,12 +1,13 @@
 #include "..\Common\Platform.hpp"
 
 #ifdef MCE_PLATFORM_WINDOWS
-#include "ThreadImpl.hpp"
+
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <process.h>
 #include <assert.h>
 #include "Thread.hpp"
+#include "ThreadImpl.hpp"
 
 namespace mce {
 	ThreadImpl::ThreadImpl(Thread* owner) {
@@ -37,6 +38,10 @@ namespace mce {
 		}
 	}
 
+	bool ThreadImpl::isRunning() const {
+		return (ThreadImpl::hThread);
+	}
+
 	inline unsigned int __stdcall ThreadImpl::entryPoint(void* userData) {
 
 		Thread* owner = static_cast<Thread*>(userData);
@@ -58,7 +63,7 @@ namespace mce {
 	ThreadImpl::ThreadImpl(Thread* owner) {
 		ThreadImpl::isActive = pthread_create(&thread, NULL, &ThreadImpl::entryPoint, owner) == 0;
 
-		if (!ThreadImpl::hThread) {
+		if (!ThreadImpl::isActive) {
 			// error could not create a thread
 		}
 	}
@@ -75,6 +80,10 @@ namespace mce {
 			// See https://stackoverflow.com/questions/4610086/pthread-cancel-al
 			pthread_kill(m_thread, SIGUSR1);
 		}
+	}
+
+	bool ThreadImpl::isRunning() const {
+		return (ThreadImpl::isActive);
 	}
 
 	inline unsigned int __stdcall ThreadImpl::entryPoint(void* userData) {

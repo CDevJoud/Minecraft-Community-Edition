@@ -10,6 +10,9 @@ namespace mce{
 	void Thread::launch() {
 		Thread::wait();
 		Thread::pImpl = new ThreadImpl(this);
+		if (Thread::pImpl->isRunning()) {
+
+		}
 	}
 	void Thread::wait() {
 		if (Thread::pImpl) {
@@ -23,6 +26,7 @@ namespace mce{
 			entryPoint->run();
 
 			// a QEventBus post an event of thread finished
+			qBus.post<event::ThreadFinished>(event::ThreadFinished{ this });
 		}
 	}
 }

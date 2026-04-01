@@ -19,17 +19,17 @@ namespace mce {
 		static const std::string RESET = "\x1b[0m";
 	}
 
-	Logger::LoggerEventBus::LoggerEventBus() {
+	/*Logger::LoggerEventBus::LoggerEventBus() {
 		runAsync();
-	}
+	}*/
 
 	Logger::Logger(QEventBus& qBus, const std::string_view name, const bool createStdoutSink)
 		:
-		name(name), qBus(qBus),
-		busSubscription(qBus.subscribeRAII<event::LoggerOutput>([this](const event::LoggerOutput& e) {
-			logCallback(e);
-		}))
+		name(name), qBus(qBus)
 	{
+		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
+			logCallback(e);
+			});
 		if (createStdoutSink)
 			sinks.emplace_back(eastl::make_shared<StdoutSink>());
 	}
@@ -63,13 +63,13 @@ namespace mce {
 		return time;
 	}
 
-	QEventBus& Logger::getGlobalEventBus() {
+	/*QEventBus& Logger::getGlobalEventBus() {
 		static LoggerEventBus loggerEventBus;
 		return loggerEventBus;
-	}
+	}*/
 
-	Logger& Logger::getGlobalLogger() {
-		static Logger globalLogger(getGlobalEventBus(), "MCE");
+	Logger& Logger::getGlobalLogger(QEventBus& _qBus) {
+		static Logger globalLogger(_qBus, _qBus.getNamespace());
 		return globalLogger;
 	}
 

@@ -1,6 +1,7 @@
 #include "QEventBus.hpp"
 
 namespace mce {
+	QEventBus::QEventBus(const std::string_view& eventNamespace) : eventNamespace(eventNamespace) {}
 	void QEventBus::process() {
 		eastl::queue<eastl::unique_ptr<IEvent>> localQueue;
 		{
@@ -45,6 +46,11 @@ namespace mce {
 
 	QEventBus::~QEventBus() {
 		QEventBus::stop();
+	}
+
+	const std::string_view& QEventBus::getNamespace() const {
+		// TODO: insert return statement here
+		return QEventBus::eventNamespace;
 	}
 
 	void QEventBus::dispatch(const IEvent& e) {

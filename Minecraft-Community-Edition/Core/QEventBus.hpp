@@ -8,6 +8,11 @@
 #include <mutex>
 #include "IEvent.hpp"
 
+/**
+ * @file QEventBus.hpp
+ * @brief Thread-safe event bus.
+ */
+
 namespace mce {
 
 	/**
@@ -52,6 +57,8 @@ namespace mce {
 	 */
 	class QEventBus {
 	public:
+		QEventBus(const std::string_view& eventNamespace);
+
 		/**
 		 * @brief Alias for an event handler function.
 		 * @tparam EventType Concrete event type handled by the function.
@@ -131,6 +138,8 @@ namespace mce {
 		 * up. Any remaining queued events will be destroyed.
 		 */
 		~QEventBus();
+
+		const std::string_view& getNamespace() const;
 	private:
 		/**
 		 * @brief Dispatch a concrete IEvent to all registered handlers for its type.
@@ -201,6 +210,8 @@ namespace mce {
 		 * @brief Background thread used for asynchronous processing when runAsync() is called.
 		 */
 		std::thread thread;
+
+		const std::string_view eventNamespace;
 	};
 	template<typename EventType>
 	inline SubscriptionToken QEventBus::subscribeRAII(Handler<EventType> handler) {
