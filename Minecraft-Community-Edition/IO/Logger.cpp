@@ -25,11 +25,11 @@ namespace mce {
 
 	Logger::Logger(QEventBus& qBus, const std::string_view name, const bool createStdoutSink)
 		:
-		name(name), qBus(qBus),
-		busSubscription(qBus.subscribeRAII<event::LoggerOutput>([this](const event::LoggerOutput& e) {
-			logCallback(e);
-		}))
+		name(name), qBus(qBus)
 	{
+		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
+			logCallback(e);
+			});
 		if (createStdoutSink)
 			sinks.emplace_back(eastl::make_shared<StdoutSink>());
 	}
