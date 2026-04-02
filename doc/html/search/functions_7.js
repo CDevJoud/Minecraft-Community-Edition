@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['makeversion_0',['makeVersion',['../unionmce_1_1_virtual_file_system_1_1_version.html#a7674f5a1656039e67890095b1a2d9458',1,'mce::VirtualFileSystem::Version']]],
-  ['memoryinputstream_1',['MemoryInputStream',['../classmce_1_1_memory_input_stream.html#a6f8edd8bbe3b0fe735cce8f43f2a41b4',1,'mce::MemoryInputStream']]]
+  ['makeversion_0',['makeVersion',['../unionmce_1_1io_1_1_virtual_file_system_1_1_version.html#ad5c4d8cd0134fdf49301bb1b54e0dcee',1,'mce::io::VirtualFileSystem::Version']]],
+  ['memoryinputstream_1',['MemoryInputStream',['../classmce_1_1io_1_1stream_1_1_memory_input_stream.html#a917b4771e9ba796b606530ce9325fae6',1,'mce::io::stream::MemoryInputStream']]]
 ];

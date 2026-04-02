@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Minecraft Community Edition: Core/ThreadImpl.hpp Source File</title>
-<link rel="icon" href="logo channel.png" type="image/x-icon" />
+<title>Minecraft Community Edition: Minecraft-Community-Edition/Core/ThreadImpl.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -93,27 +92,27 @@ $(function(){initNavTree('_thread_impl_8hpp_source.html','',''); });
 </div><!--header-->
 <div class="contents">
 <a href="_thread_impl_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;..\Common\Platform.hpp&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;..\Platform.hpp&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#if defined(MCE_PLATFORM_LINUX) || defined(MCE_PLATFORM_MACOS)</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;pthread.h&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>mce {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">class </span><a class="code hl_class" href="classmce_1_1_thread.html">Thread</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>mce::core {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">class </span><a class="code hl_class" href="classmce_1_1core_1_1_thread.html">Thread</a>;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span></div>
 <div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classmce_1_1_thread_impl.html">   32</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classmce_1_1_thread_impl.html#a671887ec3998eab1d2f0262a85a3b087">ThreadImpl</a> {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classmce_1_1core_1_1_thread_impl.html">   32</a></span>    <span class="keyword">class </span><a class="code hl_function" href="classmce_1_1core_1_1_thread_impl.html#af5cd60703d89b878ddbf8ba6ce35cf5d">ThreadImpl</a> {</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classmce_1_1_thread_impl.html#a671887ec3998eab1d2f0262a85a3b087">   41</a></span>        <a class="code hl_function" href="classmce_1_1_thread_impl.html#a671887ec3998eab1d2f0262a85a3b087">ThreadImpl</a>(<a class="code hl_class" href="classmce_1_1_thread.html">Thread</a>* owner);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classmce_1_1core_1_1_thread_impl.html#af5cd60703d89b878ddbf8ba6ce35cf5d">   41</a></span>        <a class="code hl_function" href="classmce_1_1core_1_1_thread_impl.html#af5cd60703d89b878ddbf8ba6ce35cf5d">ThreadImpl</a>(<a class="code hl_class" href="classmce_1_1core_1_1_thread.html">Thread</a>* owner);</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#ifdef MCE_PLATFORM_WINDOWS</span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_function" href="classmce_1_1_thread_impl.html#a671887ec3998eab1d2f0262a85a3b087">~ThreadImpl</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_function" href="classmce_1_1core_1_1_thread_impl.html#af5cd60703d89b878ddbf8ba6ce35cf5d">~ThreadImpl</a>();</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classmce_1_1_thread_impl.html#a2608abc24e2f18be8e25eb3a4265cdda">   60</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classmce_1_1_thread_impl.html#a2608abc24e2f18be8e25eb3a4265cdda">wait</a>();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classmce_1_1core_1_1_thread_impl.html#aeef6af3b52228514016470c300b99e0f">   60</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classmce_1_1core_1_1_thread_impl.html#aeef6af3b52228514016470c300b99e0f">wait</a>();</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classmce_1_1_thread_impl.html#ae003bae531fde909b1cb13d6159b1fcb">   70</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classmce_1_1_thread_impl.html#ae003bae531fde909b1cb13d6159b1fcb">terminate</a>();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classmce_1_1core_1_1_thread_impl.html#aabbc90d71c67ebea645c0261874ad3ac">   70</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classmce_1_1core_1_1_thread_impl.html#aabbc90d71c67ebea645c0261874ad3ac">terminate</a>();</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordtype">bool</span> isRunning() <span class="keyword">const</span>;</div>
@@ -133,17 +132,17 @@ $(function(){initNavTree('_thread_impl_8hpp_source.html','',''); });
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    };</div>
 </div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
-<div class="ttc" id="aclassmce_1_1_thread_html"><div class="ttname"><a href="classmce_1_1_thread.html">mce::Thread</a></div><div class="ttdoc">Lightweight high-level thread wrapper.</div><div class="ttdef"><b>Definition</b> Thread.hpp:134</div></div>
-<div class="ttc" id="aclassmce_1_1_thread_impl_html_a2608abc24e2f18be8e25eb3a4265cdda"><div class="ttname"><a href="classmce_1_1_thread_impl.html#a2608abc24e2f18be8e25eb3a4265cdda">mce::ThreadImpl::wait</a></div><div class="ttdeci">void wait()</div><div class="ttdoc">Block until the associated thread exits.</div></div>
-<div class="ttc" id="aclassmce_1_1_thread_impl_html_a671887ec3998eab1d2f0262a85a3b087"><div class="ttname"><a href="classmce_1_1_thread_impl.html#a671887ec3998eab1d2f0262a85a3b087">mce::ThreadImpl::ThreadImpl</a></div><div class="ttdeci">ThreadImpl(Thread *owner)</div><div class="ttdoc">Construct a ThreadImpl bound to its owner.</div></div>
-<div class="ttc" id="aclassmce_1_1_thread_impl_html_ae003bae531fde909b1cb13d6159b1fcb"><div class="ttname"><a href="classmce_1_1_thread_impl.html#ae003bae531fde909b1cb13d6159b1fcb">mce::ThreadImpl::terminate</a></div><div class="ttdeci">void terminate()</div><div class="ttdoc">Request termination of the associated thread.</div></div>
+<div class="ttc" id="aclassmce_1_1core_1_1_thread_html"><div class="ttname"><a href="classmce_1_1core_1_1_thread.html">mce::core::Thread</a></div><div class="ttdoc">Lightweight high-level thread wrapper.</div><div class="ttdef"><b>Definition</b> Thread.hpp:134</div></div>
+<div class="ttc" id="aclassmce_1_1core_1_1_thread_impl_html_aabbc90d71c67ebea645c0261874ad3ac"><div class="ttname"><a href="classmce_1_1core_1_1_thread_impl.html#aabbc90d71c67ebea645c0261874ad3ac">mce::core::ThreadImpl::terminate</a></div><div class="ttdeci">void terminate()</div><div class="ttdoc">Request termination of the associated thread.</div></div>
+<div class="ttc" id="aclassmce_1_1core_1_1_thread_impl_html_aeef6af3b52228514016470c300b99e0f"><div class="ttname"><a href="classmce_1_1core_1_1_thread_impl.html#aeef6af3b52228514016470c300b99e0f">mce::core::ThreadImpl::wait</a></div><div class="ttdeci">void wait()</div><div class="ttdoc">Block until the associated thread exits.</div></div>
+<div class="ttc" id="aclassmce_1_1core_1_1_thread_impl_html_af5cd60703d89b878ddbf8ba6ce35cf5d"><div class="ttname"><a href="classmce_1_1core_1_1_thread_impl.html#af5cd60703d89b878ddbf8ba6ce35cf5d">mce::core::ThreadImpl::ThreadImpl</a></div><div class="ttdeci">ThreadImpl(Thread *owner)</div><div class="ttdoc">Construct a ThreadImpl bound to its owner.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Core</b></li><li class="navelem"><a href="_thread_impl_8hpp.html">ThreadImpl.hpp</a></li>
+    <li class="navelem"><b>Minecraft-Community-Edition</b></li><li class="navelem"><b>Core</b></li><li class="navelem"><a href="_thread_impl_8hpp.html">ThreadImpl.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

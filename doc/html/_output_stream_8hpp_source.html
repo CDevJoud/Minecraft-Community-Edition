@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Minecraft Community Edition: IO/Stream/OutputStream.hpp Source File</title>
-<link rel="icon" href="logo channel.png" type="image/x-icon" />
+<title>Minecraft Community Edition: Minecraft-Community-Edition/IO/Stream/OutputStream.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -96,34 +95,34 @@ $(function(){initNavTree('_output_stream_8hpp_source.html','',''); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>mce {</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>mce::io::stream {</div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classmce_1_1_output_stream.html">    6</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classmce_1_1_output_stream.html">OutputStream</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="classmce_1_1io_1_1stream_1_1_output_stream.html">    6</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classmce_1_1io_1_1stream_1_1_output_stream.html">OutputStream</a> {</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classmce_1_1_output_stream.html">~OutputStream</a>() = 0;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classmce_1_1io_1_1stream_1_1_output_stream.html">~OutputStream</a>() = 0;</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classmce_1_1_output_stream.html#a549f1ca23e39341f9a3cc23927644d81">   15</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1_output_stream.html#a549f1ca23e39341f9a3cc23927644d81">write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size) = 0;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classmce_1_1io_1_1stream_1_1_output_stream.html#a6fae9568f6c908d7d1465839ad5ea5bf">   15</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1io_1_1stream_1_1_output_stream.html#a6fae9568f6c908d7d1465839ad5ea5bf">write</a>(<span class="keyword">const</span> <span class="keywordtype">void</span>* buffer, <span class="keywordtype">size_t</span> size) = 0;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classmce_1_1_output_stream.html#af2b439b646d1c6262fa2fb5e5025c0f4">   22</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1_output_stream.html#af2b439b646d1c6262fa2fb5e5025c0f4">seek</a>(<span class="keywordtype">size_t</span> position) = 0;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classmce_1_1io_1_1stream_1_1_output_stream.html#a1552e76f546d7b83703c9b1d00ae8e21">   22</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1io_1_1stream_1_1_output_stream.html#a1552e76f546d7b83703c9b1d00ae8e21">seek</a>(<span class="keywordtype">size_t</span> position) = 0;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classmce_1_1_output_stream.html#a738833d8f02a3442f2cd317bd64bb0c4">   27</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1_output_stream.html#a738833d8f02a3442f2cd317bd64bb0c4">tell</a>() = 0;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classmce_1_1io_1_1stream_1_1_output_stream.html#a8c4f9dcad0fff9741a6a4e3d32693a48">   27</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1io_1_1stream_1_1_output_stream.html#a8c4f9dcad0fff9741a6a4e3d32693a48">tell</a>() = 0;</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classmce_1_1_output_stream.html#a4b19dae8e434c51a7d79058994c035c7">   32</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1_output_stream.html#a4b19dae8e434c51a7d79058994c035c7">getSize</a>() = 0;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classmce_1_1io_1_1stream_1_1_output_stream.html#aa78274dd254564c68bbb4d3098705baf">   32</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code hl_function" href="classmce_1_1io_1_1stream_1_1_output_stream.html#aa78274dd254564c68bbb4d3098705baf">getSize</a>() = 0;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    };</div>
 </div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
-<div class="ttc" id="aclassmce_1_1_output_stream_html"><div class="ttname"><a href="classmce_1_1_output_stream.html">mce::OutputStream</a></div><div class="ttdef"><b>Definition</b> OutputStream.hpp:6</div></div>
-<div class="ttc" id="aclassmce_1_1_output_stream_html_a4b19dae8e434c51a7d79058994c035c7"><div class="ttname"><a href="classmce_1_1_output_stream.html#a4b19dae8e434c51a7d79058994c035c7">mce::OutputStream::getSize</a></div><div class="ttdeci">virtual size_t getSize()=0</div></div>
-<div class="ttc" id="aclassmce_1_1_output_stream_html_a549f1ca23e39341f9a3cc23927644d81"><div class="ttname"><a href="classmce_1_1_output_stream.html#a549f1ca23e39341f9a3cc23927644d81">mce::OutputStream::write</a></div><div class="ttdeci">virtual size_t write(const void *buffer, size_t size)=0</div></div>
-<div class="ttc" id="aclassmce_1_1_output_stream_html_a738833d8f02a3442f2cd317bd64bb0c4"><div class="ttname"><a href="classmce_1_1_output_stream.html#a738833d8f02a3442f2cd317bd64bb0c4">mce::OutputStream::tell</a></div><div class="ttdeci">virtual size_t tell()=0</div></div>
-<div class="ttc" id="aclassmce_1_1_output_stream_html_af2b439b646d1c6262fa2fb5e5025c0f4"><div class="ttname"><a href="classmce_1_1_output_stream.html#af2b439b646d1c6262fa2fb5e5025c0f4">mce::OutputStream::seek</a></div><div class="ttdeci">virtual size_t seek(size_t position)=0</div><div class="ttdoc">Changes the current position the stream is at.</div></div>
+<div class="ttc" id="aclassmce_1_1io_1_1stream_1_1_output_stream_html"><div class="ttname"><a href="classmce_1_1io_1_1stream_1_1_output_stream.html">mce::io::stream::OutputStream</a></div><div class="ttdef"><b>Definition</b> OutputStream.hpp:6</div></div>
+<div class="ttc" id="aclassmce_1_1io_1_1stream_1_1_output_stream_html_a1552e76f546d7b83703c9b1d00ae8e21"><div class="ttname"><a href="classmce_1_1io_1_1stream_1_1_output_stream.html#a1552e76f546d7b83703c9b1d00ae8e21">mce::io::stream::OutputStream::seek</a></div><div class="ttdeci">virtual size_t seek(size_t position)=0</div><div class="ttdoc">Changes the current position the stream is at.</div></div>
+<div class="ttc" id="aclassmce_1_1io_1_1stream_1_1_output_stream_html_a6fae9568f6c908d7d1465839ad5ea5bf"><div class="ttname"><a href="classmce_1_1io_1_1stream_1_1_output_stream.html#a6fae9568f6c908d7d1465839ad5ea5bf">mce::io::stream::OutputStream::write</a></div><div class="ttdeci">virtual size_t write(const void *buffer, size_t size)=0</div></div>
+<div class="ttc" id="aclassmce_1_1io_1_1stream_1_1_output_stream_html_a8c4f9dcad0fff9741a6a4e3d32693a48"><div class="ttname"><a href="classmce_1_1io_1_1stream_1_1_output_stream.html#a8c4f9dcad0fff9741a6a4e3d32693a48">mce::io::stream::OutputStream::tell</a></div><div class="ttdeci">virtual size_t tell()=0</div></div>
+<div class="ttc" id="aclassmce_1_1io_1_1stream_1_1_output_stream_html_aa78274dd254564c68bbb4d3098705baf"><div class="ttname"><a href="classmce_1_1io_1_1stream_1_1_output_stream.html#aa78274dd254564c68bbb4d3098705baf">mce::io::stream::OutputStream::getSize</a></div><div class="ttdeci">virtual size_t getSize()=0</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>IO</b></li><li class="navelem"><b>Stream</b></li><li class="navelem"><b>OutputStream.hpp</b></li>
+    <li class="navelem"><b>Minecraft-Community-Edition</b></li><li class="navelem"><b>IO</b></li><li class="navelem"><b>Stream</b></li><li class="navelem"><b>OutputStream.hpp</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

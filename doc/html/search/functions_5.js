@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['isopen_0',['isOpen',['../classmce_1_1_file_input_stream.html#a26a715bb8bb53cb3cb1b1de6059af07a',1,'mce::FileInputStream::isOpen()'],['../classmce_1_1_file_output_stream.html#ae17a2bca1876c50cb5725b41551dd43b',1,'mce::FileOutputStream::isOpen()']]]
+  ['isopen_0',['isOpen',['../classmce_1_1io_1_1stream_1_1_file_input_stream.html#ac7a544d4bdaab0f51c40e697870ed81b',1,'mce::io::stream::FileInputStream::isOpen()'],['../classmce_1_1io_1_1stream_1_1_file_output_stream.html#aa5850054846c0e24e244ec8f137f80c8',1,'mce::io::stream::FileOutputStream::isOpen()'],['../classmce_1_1io_1_1_file_output_stream.html#aa5850054846c0e24e244ec8f137f80c8',1,'mce::io::FileOutputStream::isOpen()'],['../classmce_1_1io_1_1_file_input_stream.html#ac7a544d4bdaab0f51c40e697870ed81b',1,'mce::io::FileInputStream::isOpen()']]]
 ];

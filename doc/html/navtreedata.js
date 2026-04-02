@@ -25,10 +25,6 @@
 var NAVTREE =
 [
   [ "Minecraft Community Edition", "index.html", [
-    [ "Todo List", "todo.html", null ],
-    [ "Bug List", "bug.html", null ],
-    [ "Deprecated List", "deprecated.html", null ],
-    [ "Topics", "topics.html", "topics" ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -44,14 +40,13 @@ var NAVTREE =
     ] ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ]
-    ] ],
-    [ "Examples", "examples.html", "examples" ]
+    ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"_assert_8hpp_source.html"
+"_coroutine_scheduler_8hpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
