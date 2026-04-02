@@ -1,6 +1,6 @@
 #pragma once
 
-namespace mce {
+namespace mce::gfx {
 	class Renderer {
 	public:
 		virtual ~Renderer();

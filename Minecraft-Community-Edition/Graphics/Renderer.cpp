@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-namespace mce {
+namespace mce::gfx {
 	Renderer::~Renderer() {
 	}
 }

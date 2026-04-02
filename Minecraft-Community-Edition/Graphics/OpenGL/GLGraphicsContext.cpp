@@ -1,7 +1,7 @@
 #include "GLGraphicsContext.hpp"
 #include "GLRenderer.hpp"
 
-namespace mce {
+namespace mce::gfx::gl {
 	GLGraphicsContext::GLGraphicsContext() {
 	}
 

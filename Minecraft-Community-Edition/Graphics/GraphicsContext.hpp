@@ -5,7 +5,7 @@ namespace sf {
 	class Window;
 }
 
-namespace mce {
+namespace mce::gfx {
 	class Renderer;
 
 	class GraphicsContext {
