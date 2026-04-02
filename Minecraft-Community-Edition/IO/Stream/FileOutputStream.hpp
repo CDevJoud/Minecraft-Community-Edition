@@ -1,5 +1,5 @@
 #pragma once
-#include "..\..\Common\Platform.hpp"
+#include "..\..\Platform.hpp"
 #include "OutputStream.hpp"
 #ifdef MCE_PLATFORM_WINDOWS
 #undef INVALID_FILE_SIZE

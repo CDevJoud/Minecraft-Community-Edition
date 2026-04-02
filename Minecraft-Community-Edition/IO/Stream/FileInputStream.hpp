@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\..\Common\Platform.hpp"
+#include "..\..\Platform.hpp"
 #include <fstream>
 
 #include "InputStream.hpp"

@@ -1,4 +1,4 @@
-#include "Common/Platform.hpp"
+#include "Platform.hpp"
 #ifdef MCE_PLATFORM_WINDOWS
 #include <Windows.h>
 #include "FileInputStream.hpp"

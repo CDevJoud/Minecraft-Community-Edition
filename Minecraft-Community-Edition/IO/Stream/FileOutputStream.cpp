@@ -1,4 +1,4 @@
-#include "..\..\Common\Platform.hpp"
+#include "..\..\Platform.hpp"
 #ifdef MCE_PLATFORM_WINDOWS
 #undef UNICODE
 #define WIN32_LEAN_AND_MEAN

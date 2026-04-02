@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Common\Platform.hpp"
+#include "..\Platform.hpp"
 #if defined(MCE_PLATFORM_LINUX) || defined(MCE_PLATFORM_MACOS)
 #include <pthread.h>
 #endif
