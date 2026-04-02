@@ -12,7 +12,7 @@
  * platform thread handles and lifecycle operations.
  */
 
-namespace mce {
+namespace mce::core {
 	/**
 	 * @brief Forward declaration of the high-level Thread wrapper.
 	 *

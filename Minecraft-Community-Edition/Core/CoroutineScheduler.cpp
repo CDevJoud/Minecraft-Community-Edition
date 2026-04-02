@@ -1,6 +1,6 @@
 #include "CoroutineScheduler.hpp"
 
-namespace mce{
+namespace mce::core {
 	CoroutineScheduler::~CoroutineScheduler() {
 		std::unique_lock lock(tasksMutex);
 		CoroutineScheduler::vecTasks.clear();

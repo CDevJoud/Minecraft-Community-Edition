@@ -14,7 +14,7 @@
  * for monitoring start/end times and finished state.
  */
 
-namespace mce {
+namespace mce::core {
 
 	class ThreadManager {
 	public:

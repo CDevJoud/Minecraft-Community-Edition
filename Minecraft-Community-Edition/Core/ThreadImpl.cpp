@@ -9,7 +9,7 @@
 #include "Thread.hpp"
 #include "ThreadImpl.hpp"
 
-namespace mce {
+namespace mce::core {
 	ThreadImpl::ThreadImpl(Thread* owner) {
 		ThreadImpl::hThread = reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, &ThreadImpl::entryPoint, owner, 0, &threadID));
 

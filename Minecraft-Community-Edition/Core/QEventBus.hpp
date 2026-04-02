@@ -13,7 +13,7 @@
  * @brief Thread-safe event bus.
  */
 
-namespace mce {
+namespace mce::core {
 
 	/**
 	 * @brief Token object that controls the lifetime of an event subscription.

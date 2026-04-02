@@ -1,6 +1,6 @@
 #include "QEventBus.hpp"
 
-namespace mce {
+namespace mce::core {
 	QEventBus::QEventBus(const std::string_view& eventNamespace) : eventNamespace(eventNamespace) {}
 	void QEventBus::process() {
 		eastl::queue<eastl::unique_ptr<IEvent>> localQueue;

@@ -7,7 +7,7 @@
 #include "..\IO\Logger.hpp"
 #include <source_location>
 
-namespace mce {
+namespace mce::core {
 	/**
 	 * @brief Container for storing and invoking named functions.
 	 *

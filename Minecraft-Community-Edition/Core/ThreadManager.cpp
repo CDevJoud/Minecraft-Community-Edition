@@ -1,7 +1,7 @@
 #include "ThreadManager.hpp"
 #include "..\IO\Logger.hpp"
 
-namespace mce {
+namespace mce::core {
 	ThreadManager::ThreadManager(QEventBus& qBus) : qBus(qBus) {
 		qBus.subscribe<event::ThreadFinished>([this](const auto& e) {
 			onThreadFinished(e);

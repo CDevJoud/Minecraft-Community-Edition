@@ -1,7 +1,7 @@
 #include "ThreadImpl.hpp"
 #include "Thread.hpp"
 
-namespace mce{
+namespace mce::core {
 	Thread::~Thread() {
 		Thread::wait();
 		delete Thread::entryPoint;

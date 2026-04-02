@@ -10,7 +10,7 @@
  * (ThreadImpl) and a QEventBus reference for posting lifecycle events.
  */
 
-namespace mce {
+namespace mce::core {
 	class ThreadImpl;
 
 	/**

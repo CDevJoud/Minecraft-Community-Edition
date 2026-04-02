@@ -10,7 +10,7 @@
  * @brief Simple coroutine scheduler that runs periodic callbacks using SFML time utilities.
  */
 
-namespace mce {
+namespace mce::core {
 /**
  * @brief Coroutine scheduler that manages periodic tasks.
  *
