@@ -25,10 +25,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common\Assert.hpp">
+    <ClInclude Include="Assert.hpp">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Common\Platform.hpp">
+    <ClInclude Include="Platform.hpp">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="glad\gl.h">

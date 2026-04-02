@@ -136,8 +136,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
-    <ClInclude Include="Common\Assert.hpp" />
-    <ClInclude Include="Common\Platform.hpp" />
+    <ClInclude Include="Assert.hpp" />
+    <ClInclude Include="Platform.hpp" />
     <ClInclude Include="Core\CoroutineScheduler.hpp" />
     <ClInclude Include="Core\FunctionContainer.hpp" />
     <ClInclude Include="IEvent.hpp" />
