@@ -4,7 +4,7 @@
 #include <EASTL/optional.h>
 #include <EASTL/shared_ptr.h>
 #include <EASTL/string.h>
-#include "Common\Platform.hpp"
+#include "Platform.hpp"
 #ifdef MCE_PLATFORM_WINDOWS
 #undef ERROR
 #endif

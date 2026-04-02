@@ -4,7 +4,7 @@ public:
 	virtual int run() = 0;
 };
 
-#include "Common/Platform.hpp"
+#include "Platform.hpp"
 #if defined(MCE_PLATFORM_WINDOWS) && defined(NDEBUG)
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
