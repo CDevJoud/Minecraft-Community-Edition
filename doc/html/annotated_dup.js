@@ -39,6 +39,19 @@ var annotated_dup =
         [ "SubscriptionToken", "structmce_1_1io_1_1_subscription_token.html", "structmce_1_1io_1_1_subscription_token" ],
         [ "FileOutputStream", "classmce_1_1io_1_1_file_output_stream.html", "classmce_1_1io_1_1_file_output_stream" ],
         [ "FileInputStream", "classmce_1_1io_1_1_file_input_stream.html", "classmce_1_1io_1_1_file_input_stream" ]
-      ] ]
-    ] ]
+      ] ],
+      [ "event", null, [
+        [ "LoggerOutput", "structmce_1_1event_1_1_logger_output.html", null ],
+        [ "ThreadFinished", "structmce_1_1event_1_1_thread_finished.html", null ],
+        [ "ThreadStarted", "structmce_1_1event_1_1_thread_started.html", null ]
+      ] ],
+      [ "Application", "classmce_1_1_application.html", "classmce_1_1_application" ],
+      [ "IEvent", "structmce_1_1_i_event.html", null ],
+      [ "Minecraft", "classmce_1_1_minecraft.html", null ],
+      [ "Thread", "classmce_1_1_thread.html", "classmce_1_1_thread" ],
+      [ "QEventBus", "classmce_1_1_q_event_bus.html", "classmce_1_1_q_event_bus" ],
+      [ "GraphicsContext", "classmce_1_1_graphics_context.html", null ],
+      [ "Renderer", "classmce_1_1_renderer.html", null ]
+    ] ],
+    [ "Startup", "class_startup.html", null ]
 ];

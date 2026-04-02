@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "Minecraft Community Edition", "index.html", [
+    [ "Todo List", "todo.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -46,7 +47,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_coroutine_scheduler_8hpp.html"
+"_application_8hpp_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

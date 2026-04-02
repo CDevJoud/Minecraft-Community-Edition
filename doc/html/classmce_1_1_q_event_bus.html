@@ -6,7 +6,6 @@
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Minecraft Community Edition: mce::QEventBus Class Reference</title>
-<link rel="icon" href="logo channel.png" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -100,44 +99,44 @@ $(function(){initNavTree('classmce_1_1_q_event_bus.html','','classmce_1_1_q_even
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a7f5a80e3f10f95ab433dd04942778e5b" id="r_a7f5a80e3f10f95ab433dd04942778e5b"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
-<tr class="memitem:a7f5a80e3f10f95ab433dd04942778e5b template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a7f5a80e3f10f95ab433dd04942778e5b">Handler</a> = eastl::function&lt;void(const EventType&amp;)&gt;</td></tr>
-<tr class="memdesc:a7f5a80e3f10f95ab433dd04942778e5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for an event handler function.  <br /></td></tr>
+<tr class="memitem:ac6b25bc7c6d277c777e1af45aa77eff5" id="r_ac6b25bc7c6d277c777e1af45aa77eff5"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
+<tr class="memitem:ac6b25bc7c6d277c777e1af45aa77eff5 template"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#ac6b25bc7c6d277c777e1af45aa77eff5">Handler</a> = eastl::function&lt;void(const EventType&amp;)&gt;</td></tr>
+<tr class="memdesc:ac6b25bc7c6d277c777e1af45aa77eff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for an event handler function.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0aae70ba9e98ff9a438cd2e7a232048f" id="r_a0aae70ba9e98ff9a438cd2e7a232048f"><td class="memItemLeft"><a id="a0aae70ba9e98ff9a438cd2e7a232048f" name="a0aae70ba9e98ff9a438cd2e7a232048f"></a>
+<tr class="memitem:a66299dc4ea77f6a02a45026cdeb52840" id="r_a66299dc4ea77f6a02a45026cdeb52840"><td class="memItemLeft"><a id="a66299dc4ea77f6a02a45026cdeb52840" name="a66299dc4ea77f6a02a45026cdeb52840"></a>
 &#160;</td><td class="memItemRight"><b>QEventBus</b> (const std::string_view &amp;eventNamespace)</td></tr>
-<tr class="memitem:a8a47e0ac9ec1cb0430c19ab9aae2bc21" id="r_a8a47e0ac9ec1cb0430c19ab9aae2bc21"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
-<tr class="memitem:a8a47e0ac9ec1cb0430c19ab9aae2bc21 template"><td class="memItemLeft"><a class="el" href="structmce_1_1_subscription_token.html">SubscriptionToken</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8a47e0ac9ec1cb0430c19ab9aae2bc21">subscribeRAII</a> (<a class="el" href="#a7f5a80e3f10f95ab433dd04942778e5b">Handler</a>&lt; EventType &gt; handler)</td></tr>
-<tr class="memdesc:a8a47e0ac9ec1cb0430c19ab9aae2bc21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe a handler to EventType and receive a RAII token.  <br /></td></tr>
-<tr class="memitem:ae4a067bd3f491f948307f688acabd905" id="r_ae4a067bd3f491f948307f688acabd905"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
-<tr class="memitem:ae4a067bd3f491f948307f688acabd905 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae4a067bd3f491f948307f688acabd905">subscribe</a> (<a class="el" href="#a7f5a80e3f10f95ab433dd04942778e5b">Handler</a>&lt; EventType &gt; handler)</td></tr>
-<tr class="memdesc:ae4a067bd3f491f948307f688acabd905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe a handler to EventType without RAII token.  <br /></td></tr>
-<tr class="memitem:a13302d26ca2e8b91e075e5430ea9ce97" id="r_a13302d26ca2e8b91e075e5430ea9ce97"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
-<tr class="memitem:a13302d26ca2e8b91e075e5430ea9ce97 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a13302d26ca2e8b91e075e5430ea9ce97">post</a> (EventType &amp;&amp;event)</td></tr>
-<tr class="memdesc:a13302d26ca2e8b91e075e5430ea9ce97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post an event instance to the bus for later processing.  <br /></td></tr>
-<tr class="memitem:a37196ad021d476479362bfe51ffc1b59" id="r_a37196ad021d476479362bfe51ffc1b59"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a37196ad021d476479362bfe51ffc1b59">process</a> ()</td></tr>
-<tr class="memdesc:a37196ad021d476479362bfe51ffc1b59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process and dispatch all currently queued events.  <br /></td></tr>
-<tr class="memitem:a292b5d677b6dc2b483339e5ff6fc8497" id="r_a292b5d677b6dc2b483339e5ff6fc8497"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a292b5d677b6dc2b483339e5ff6fc8497">runAsync</a> ()</td></tr>
-<tr class="memdesc:a292b5d677b6dc2b483339e5ff6fc8497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start asynchronous processing of queued events.  <br /></td></tr>
-<tr class="memitem:a06db1890efe5587da99b9d45b6436b88" id="r_a06db1890efe5587da99b9d45b6436b88"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a06db1890efe5587da99b9d45b6436b88">stop</a> ()</td></tr>
-<tr class="memdesc:a06db1890efe5587da99b9d45b6436b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop asynchronous processing and join the worker thread.  <br /></td></tr>
-<tr class="memitem:a33ca539f42cf5321a3d5c84cd449a8f5" id="r_a33ca539f42cf5321a3d5c84cd449a8f5"><td class="memItemLeft"><a id="a33ca539f42cf5321a3d5c84cd449a8f5" name="a33ca539f42cf5321a3d5c84cd449a8f5"></a>
+<tr class="memitem:abfc942cfc9d467f459a91c78f65cc87f" id="r_abfc942cfc9d467f459a91c78f65cc87f"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
+<tr class="memitem:abfc942cfc9d467f459a91c78f65cc87f template"><td class="memItemLeft">SubscriptionToken&#160;</td><td class="memItemRight"><a class="el" href="#abfc942cfc9d467f459a91c78f65cc87f">subscribeRAII</a> (<a class="el" href="#ac6b25bc7c6d277c777e1af45aa77eff5">Handler</a>&lt; EventType &gt; handler)</td></tr>
+<tr class="memdesc:abfc942cfc9d467f459a91c78f65cc87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe a handler to EventType and receive a RAII token.  <br /></td></tr>
+<tr class="memitem:a433c7ba313925f4d15706bda9428cb90" id="r_a433c7ba313925f4d15706bda9428cb90"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
+<tr class="memitem:a433c7ba313925f4d15706bda9428cb90 template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a433c7ba313925f4d15706bda9428cb90">subscribe</a> (<a class="el" href="#ac6b25bc7c6d277c777e1af45aa77eff5">Handler</a>&lt; EventType &gt; handler)</td></tr>
+<tr class="memdesc:a433c7ba313925f4d15706bda9428cb90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribe a handler to EventType without RAII token.  <br /></td></tr>
+<tr class="memitem:a9c90940992c45828785bc470bb7bc72e" id="r_a9c90940992c45828785bc470bb7bc72e"><td class="memTemplParams" colspan="2">template&lt;typename EventType&gt; </td></tr>
+<tr class="memitem:a9c90940992c45828785bc470bb7bc72e template"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9c90940992c45828785bc470bb7bc72e">post</a> (EventType &amp;&amp;event)</td></tr>
+<tr class="memdesc:a9c90940992c45828785bc470bb7bc72e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post an event instance to the bus for later processing.  <br /></td></tr>
+<tr class="memitem:a78ba6364174af661c7b728253144e137" id="r_a78ba6364174af661c7b728253144e137"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a78ba6364174af661c7b728253144e137">process</a> ()</td></tr>
+<tr class="memdesc:a78ba6364174af661c7b728253144e137"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process and dispatch all currently queued events.  <br /></td></tr>
+<tr class="memitem:a63f7403250a74245dae27ef7414694b8" id="r_a63f7403250a74245dae27ef7414694b8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a63f7403250a74245dae27ef7414694b8">runAsync</a> ()</td></tr>
+<tr class="memdesc:a63f7403250a74245dae27ef7414694b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start asynchronous processing of queued events.  <br /></td></tr>
+<tr class="memitem:a63a90c0389b1517503337f8124cea297" id="r_a63a90c0389b1517503337f8124cea297"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a63a90c0389b1517503337f8124cea297">stop</a> ()</td></tr>
+<tr class="memdesc:a63a90c0389b1517503337f8124cea297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop asynchronous processing and join the worker thread.  <br /></td></tr>
+<tr class="memitem:abf4501b5e06c69a24306ba8051c6c9cb" id="r_abf4501b5e06c69a24306ba8051c6c9cb"><td class="memItemLeft"><a id="abf4501b5e06c69a24306ba8051c6c9cb" name="abf4501b5e06c69a24306ba8051c6c9cb"></a>
 size_t&#160;</td><td class="memItemRight"><b>getQueueSize</b> () const</td></tr>
-<tr class="memitem:a030f589e472aa12873a6302677878d67" id="r_a030f589e472aa12873a6302677878d67"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a030f589e472aa12873a6302677878d67">~QEventBus</a> ()</td></tr>
-<tr class="memdesc:a030f589e472aa12873a6302677878d67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
-<tr class="memitem:a1f3d257060295966b936322787a4b597" id="r_a1f3d257060295966b936322787a4b597"><td class="memItemLeft"><a id="a1f3d257060295966b936322787a4b597" name="a1f3d257060295966b936322787a4b597"></a>
+<tr class="memitem:acfb8698fa740a06260bf55aa9ef7b4be" id="r_acfb8698fa740a06260bf55aa9ef7b4be"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acfb8698fa740a06260bf55aa9ef7b4be">~QEventBus</a> ()</td></tr>
+<tr class="memdesc:acfb8698fa740a06260bf55aa9ef7b4be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
+<tr class="memitem:a7c0a436000b91a72492d7390815fdc76" id="r_a7c0a436000b91a72492d7390815fdc76"><td class="memItemLeft"><a id="a7c0a436000b91a72492d7390815fdc76" name="a7c0a436000b91a72492d7390815fdc76"></a>
 const std::string_view &amp;&#160;</td><td class="memItemRight"><b>getNamespace</b> () const</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Thread-safe event bus. </p>
-<p><a class="el" href="classmce_1_1_q_event_bus.html" title="Thread-safe event bus.">QEventBus</a> allows subscribing handlers to event types, posting events to a queue, and dispatching queued events to all registered handlers. It supports both synchronous processing via <a class="el" href="#a37196ad021d476479362bfe51ffc1b59" title="Process and dispatch all currently queued events.">process()</a> and asynchronous processing via <a class="el" href="#a292b5d677b6dc2b483339e5ff6fc8497" title="Start asynchronous processing of queued events.">runAsync()</a>/stop().</p>
+<p><a class="el" href="classmce_1_1_q_event_bus.html" title="Thread-safe event bus.">QEventBus</a> allows subscribing handlers to event types, posting events to a queue, and dispatching queued events to all registered handlers. It supports both synchronous processing via <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a78ba6364174af661c7b728253144e137" title="Process and dispatch all currently queued events.">process()</a> and asynchronous processing via <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a63f7403250a74245dae27ef7414694b8" title="Start asynchronous processing of queued events.">runAsync()</a>/stop().</p>
 <p>Handlers are stored per event type (std::type_index of the concrete event) and receive events by const-reference to the concrete event type.</p>
 <dl class="section note"><dt>Note</dt><dd>All public subscribe/post/process operations are designed to be thread-safe, but handlers themselves are invoked on the processing thread/context and must be safe to execute there. </dd></dl>
 </div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
-<a id="a7f5a80e3f10f95ab433dd04942778e5b" name="a7f5a80e3f10f95ab433dd04942778e5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f5a80e3f10f95ab433dd04942778e5b">&#9670;&#160;</a></span>Handler</h2>
+<a id="ac6b25bc7c6d277c777e1af45aa77eff5" name="ac6b25bc7c6d277c777e1af45aa77eff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6b25bc7c6d277c777e1af45aa77eff5">&#9670;&#160;</a></span>Handler</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,7 +144,7 @@ const std::string_view &amp;&#160;</td><td class="memItemRight"><b>getNamespace<
 template&lt;typename EventType&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="#a7f5a80e3f10f95ab433dd04942778e5b">mce::QEventBus::Handler</a> = eastl::function&lt;void(const EventType&amp;)&gt;</td>
+          <td class="memname">using <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#ac6b25bc7c6d277c777e1af45aa77eff5">mce::core::QEventBus::Handler</a> = eastl::function&lt;void(const EventType&amp;)&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -162,14 +161,14 @@ template&lt;typename EventType&gt; </div>
 </div>
 </div>
 <a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a030f589e472aa12873a6302677878d67" name="a030f589e472aa12873a6302677878d67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a030f589e472aa12873a6302677878d67">&#9670;&#160;</a></span>~QEventBus()</h2>
+<a id="acfb8698fa740a06260bf55aa9ef7b4be" name="acfb8698fa740a06260bf55aa9ef7b4be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfb8698fa740a06260bf55aa9ef7b4be">&#9670;&#160;</a></span>~QEventBus()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">mce::QEventBus::~QEventBus </td>
+          <td class="memname"><a class="el" href="classmce_1_1core_1_1_q_event_bus.html#acfb8698fa740a06260bf55aa9ef7b4be">mce::core::QEventBus::~QEventBus</a> </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -183,8 +182,8 @@ template&lt;typename EventType&gt; </div>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a13302d26ca2e8b91e075e5430ea9ce97" name="a13302d26ca2e8b91e075e5430ea9ce97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13302d26ca2e8b91e075e5430ea9ce97">&#9670;&#160;</a></span>post()</h2>
+<a id="a9c90940992c45828785bc470bb7bc72e" name="a9c90940992c45828785bc470bb7bc72e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c90940992c45828785bc470bb7bc72e">&#9670;&#160;</a></span>post()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -195,7 +194,7 @@ template&lt;typename EventType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void mce::QEventBus::post </td>
+          <td class="memname">void <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a9c90940992c45828785bc470bb7bc72e">mce::core::QEventBus::post</a> </td>
           <td>(</td>
           <td class="paramtype">EventType &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
           <td></td>
@@ -221,18 +220,18 @@ template&lt;typename EventType&gt; </div>
   </table>
   </dd>
 </dl>
-<p>The event is stored as a heap-allocated IEvent-derived instance and will be dispatched during <a class="el" href="#a37196ad021d476479362bfe51ffc1b59" title="Process and dispatch all currently queued events.">process()</a> or by the asynchronous thread if <a class="el" href="#a292b5d677b6dc2b483339e5ff6fc8497" title="Start asynchronous processing of queued events.">runAsync()</a> is active. </p>
+<p>The event is stored as a heap-allocated IEvent-derived instance and will be dispatched during <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a78ba6364174af661c7b728253144e137" title="Process and dispatch all currently queued events.">process()</a> or by the asynchronous thread if <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a63f7403250a74245dae27ef7414694b8" title="Start asynchronous processing of queued events.">runAsync()</a> is active. </p>
 
 </div>
 </div>
-<a id="a37196ad021d476479362bfe51ffc1b59" name="a37196ad021d476479362bfe51ffc1b59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37196ad021d476479362bfe51ffc1b59">&#9670;&#160;</a></span>process()</h2>
+<a id="a78ba6364174af661c7b728253144e137" name="a78ba6364174af661c7b728253144e137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78ba6364174af661c7b728253144e137">&#9670;&#160;</a></span>process()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void mce::QEventBus::process </td>
+          <td class="memname">void <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a78ba6364174af661c7b728253144e137">mce::core::QEventBus::process</a> </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -245,14 +244,14 @@ template&lt;typename EventType&gt; </div>
 
 </div>
 </div>
-<a id="a292b5d677b6dc2b483339e5ff6fc8497" name="a292b5d677b6dc2b483339e5ff6fc8497"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a292b5d677b6dc2b483339e5ff6fc8497">&#9670;&#160;</a></span>runAsync()</h2>
+<a id="a63f7403250a74245dae27ef7414694b8" name="a63f7403250a74245dae27ef7414694b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63f7403250a74245dae27ef7414694b8">&#9670;&#160;</a></span>runAsync()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void mce::QEventBus::runAsync </td>
+          <td class="memname">void <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a63f7403250a74245dae27ef7414694b8">mce::core::QEventBus::runAsync</a> </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -265,14 +264,14 @@ template&lt;typename EventType&gt; </div>
 
 </div>
 </div>
-<a id="a06db1890efe5587da99b9d45b6436b88" name="a06db1890efe5587da99b9d45b6436b88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06db1890efe5587da99b9d45b6436b88">&#9670;&#160;</a></span>stop()</h2>
+<a id="a63a90c0389b1517503337f8124cea297" name="a63a90c0389b1517503337f8124cea297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63a90c0389b1517503337f8124cea297">&#9670;&#160;</a></span>stop()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void mce::QEventBus::stop </td>
+          <td class="memname">void <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a63a90c0389b1517503337f8124cea297">mce::core::QEventBus::stop</a> </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -281,12 +280,12 @@ template&lt;typename EventType&gt; </div>
 </div><div class="memdoc">
 
 <p>Stop asynchronous processing and join the worker thread. </p>
-<p>Blocks until the background processing thread has exited. After <a class="el" href="#a06db1890efe5587da99b9d45b6436b88" title="Stop asynchronous processing and join the worker thread.">stop()</a> returns, it is safe to destroy the <a class="el" href="classmce_1_1_q_event_bus.html" title="Thread-safe event bus.">QEventBus</a> or call <a class="el" href="#a292b5d677b6dc2b483339e5ff6fc8497" title="Start asynchronous processing of queued events.">runAsync()</a> again. </p>
+<p>Blocks until the background processing thread has exited. After <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a63a90c0389b1517503337f8124cea297" title="Stop asynchronous processing and join the worker thread.">stop()</a> returns, it is safe to destroy the <a class="el" href="classmce_1_1_q_event_bus.html" title="Thread-safe event bus.">QEventBus</a> or call <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a63f7403250a74245dae27ef7414694b8" title="Start asynchronous processing of queued events.">runAsync()</a> again. </p>
 
 </div>
 </div>
-<a id="ae4a067bd3f491f948307f688acabd905" name="ae4a067bd3f491f948307f688acabd905"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4a067bd3f491f948307f688acabd905">&#9670;&#160;</a></span>subscribe()</h2>
+<a id="a433c7ba313925f4d15706bda9428cb90" name="a433c7ba313925f4d15706bda9428cb90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a433c7ba313925f4d15706bda9428cb90">&#9670;&#160;</a></span>subscribe()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,9 +296,9 @@ template&lt;typename EventType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void mce::QEventBus::subscribe </td>
+          <td class="memname">void <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#a433c7ba313925f4d15706bda9428cb90">mce::core::QEventBus::subscribe</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#a7f5a80e3f10f95ab433dd04942778e5b">Handler</a>&lt; EventType &gt;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#ac6b25bc7c6d277c777e1af45aa77eff5">Handler</a>&lt; EventType &gt;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -327,8 +326,8 @@ template&lt;typename EventType&gt; </div>
 
 </div>
 </div>
-<a id="a8a47e0ac9ec1cb0430c19ab9aae2bc21" name="a8a47e0ac9ec1cb0430c19ab9aae2bc21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a47e0ac9ec1cb0430c19ab9aae2bc21">&#9670;&#160;</a></span>subscribeRAII()</h2>
+<a id="abfc942cfc9d467f459a91c78f65cc87f" name="abfc942cfc9d467f459a91c78f65cc87f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfc942cfc9d467f459a91c78f65cc87f">&#9670;&#160;</a></span>subscribeRAII()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,9 +338,9 @@ template&lt;typename EventType&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structmce_1_1_subscription_token.html">SubscriptionToken</a> mce::QEventBus::subscribeRAII </td>
+          <td class="memname">SubscriptionToken <a class="el" href="classmce_1_1core_1_1_q_event_bus.html#abfc942cfc9d467f459a91c78f65cc87f">mce::core::QEventBus::subscribeRAII</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#a7f5a80e3f10f95ab433dd04942778e5b">Handler</a>&lt; EventType &gt;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#ac6b25bc7c6d277c777e1af45aa77eff5">Handler</a>&lt; EventType &gt;</td>          <td class="paramname"><span class="paramname"><em>handler</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -365,14 +364,14 @@ template&lt;typename EventType&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structmce_1_1_subscription_token.html" title="Token object that controls the lifetime of an event subscription.">SubscriptionToken</a> RAII object that will unsubscribe on destruction.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structmce_1_1core_1_1_subscription_token.html" title="Token object that controls the lifetime of an event subscription.">SubscriptionToken</a> RAII object that will unsubscribe on destruction.</dd></dl>
 <p>The returned token ensures the handler is removed when the token is destroyed. The unsubscribe action captured in the token is safe to call from any thread. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>Core/<a class="el" href="_q_event_bus_8hpp_source.html">QEventBus.hpp</a></li>
-<li>Core/<b>QEventBus.cpp</b></li>
+<li>Minecraft-Community-Edition/Core/<a class="el" href="_q_event_bus_8hpp_source.html">QEventBus.hpp</a></li>
+<li>Minecraft-Community-Edition/Core/<b>QEventBus.cpp</b></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
