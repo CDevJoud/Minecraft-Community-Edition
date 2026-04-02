@@ -11,6 +11,8 @@ This document tracks all released updates and features currently in development.
 **Status:** Completed    
 **Type:** Initial Engine Foundation  
 
+![Project Logo](snapshotv0.1.0.webp)
+
 Version 0.1.0 establishes the structural and architectural backbone of the engine.  
 This release focuses entirely on clean system design and long-term scalability.
 
