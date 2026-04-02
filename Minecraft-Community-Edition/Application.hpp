@@ -46,7 +46,7 @@ namespace mce {
 		
 		eastl::vector<eastl::unique_ptr<Minecraft>> instances;
 		std::mutex instanceMutex;
-		QEventBus qLocalBus;
-		ThreadManager threadManager;
+		core::QEventBus qLocalBus;
+		core::ThreadManager threadManager;
 	};
 }

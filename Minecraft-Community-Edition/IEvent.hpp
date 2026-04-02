@@ -10,7 +10,10 @@
 #endif
 
 namespace mce {
-	class Thread;
+	namespace core {
+		class Thread;
+	}
+	using core::Thread;
 	struct IEvent {
 		virtual ~IEvent() = default;
 		[[nodiscard]] virtual const char const* name() const = 0;

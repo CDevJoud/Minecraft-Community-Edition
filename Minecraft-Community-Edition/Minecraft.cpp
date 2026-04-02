@@ -96,9 +96,9 @@ namespace mce {
 		if (!fs::is_directory("logs"))
 			fs::create_directory("logs");
 
-		eastl::shared_ptr<mce::FileSink> fileSink = eastl::make_shared<mce::FileSink>(getLogFileName());
+		eastl::shared_ptr<mce::io::FileSink> fileSink = eastl::make_shared<mce::io::FileSink>(getLogFileName());
 
-		mce::Logger& logger = mce::Logger::getGlobalLogger(qBus);
+		mce::io::Logger& logger = mce::io::Logger::getGlobalLogger(qBus);
 		logger.addSink(fileSink);
 	}
 }

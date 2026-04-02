@@ -8,8 +8,14 @@
 #include "Core/QEventBus.hpp"
 
 namespace mce {
-	class GraphicsContext;
-	class Renderer;
+	namespace gfx {
+		class GraphicsContext;
+		class Renderer;
+	}
+	
+	using core::QEventBus;
+	using gfx::GraphicsContext;
+	using gfx::Renderer;
 
 	class Minecraft {
 	public:
