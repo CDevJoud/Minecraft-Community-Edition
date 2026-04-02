@@ -6,14 +6,9 @@ This document tracks all released updates and features currently in development.
 
 # 📦 Released Versions
 
-No releases yet!
-
----
-# 🚧 In Development
-
 ## Version 0.1.0 – Core Architecture Foundation
 
-**Status:** In Progress  
+**Status:** Completed    
 **Type:** Initial Engine Foundation  
 
 Version 0.1.0 establishes the structural and architectural backbone of the engine.  
@@ -39,13 +34,12 @@ This release focuses entirely on clean system design and long-term scalability.
 - Extensible and modular structure
 - Cross-platform-ready foundation
 
---- 
-
-# 🔮 Upcoming Roadmap
+---
+# 🚧 In Development
 
 ## Version 0.2.0 – Dynamic UI System
 
-**Status:** Up Comming  
+**Status:** In Progress    
 **Type:** Major Feature Update  
 
 This update focuses on building a flexible and data-driven UI framework.
@@ -68,13 +62,18 @@ This update focuses on building a flexible and data-driven UI framework.
 - Designer-friendly workflow
 - Clear separation between engine and presentation layer
 
----
+
+--- 
+
+# 🔮 Upcoming Roadmap
 
 ## Version 0.3.0 – Rendering Expansion
 - Rendering backend improvements
 - Resource management system
 - Shader abstraction layer
 - Texture and asset pipeline foundation
+
+---
 
 ## Version 0.4.0 – Input & Interaction Layer
 - Unified input abstraction
