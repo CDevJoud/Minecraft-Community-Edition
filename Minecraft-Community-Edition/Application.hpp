@@ -23,7 +23,7 @@ namespace mce {
  * @note Each instance is independent and can be configured separately.
  * @todo Implement instance management and window/multi-monitor support.
  */
-	class Application {
+	class Application : public Startup {
 	public:
 		/**
 		 * @brief Default constructor.
@@ -37,7 +37,7 @@ namespace mce {
 		 *
 		 * Launches all managed game instances and handles the main loop.
 		 */
-		int run();
+		virtual int run() override;
 
 	private:
 
