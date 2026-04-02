@@ -31,7 +31,7 @@ void main()
 }
 )";
 
-namespace MCE {
+namespace mce::gfx::gl {
 	GLRenderer::GLRenderer(sf::Window& window) : window(window) {
 		gladLoadGL(sf::Context::getFunction);
 

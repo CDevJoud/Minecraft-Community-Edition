@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+    <source_groups>
+        <source_group_c57ecfe8-6687-4732-93c1-040a057361f0>
+            <compiler_flags>
+                <compiler_flag>-fms-extensions</compiler_flag>
+                <compiler_flag>-fms-compatibility</compiler_flag>
+                <compiler_flag>-fms-compatibility-version=19</compiler_flag>
+            </compiler_flags>
+            <cpp_standard>c++17</cpp_standard>
+            <cross_compilation>
+                <target>
+                    <abi>unknown</abi>
+                    <arch>x86_64</arch>
+                    <sys>windows</sys>
+                    <vendor>unknown</vendor>
+                </target>
+                <target_options_enabled>1</target_options_enabled>
+            </cross_compilation>
+            <exclude_filters>
+                <exclude_filter>Minecraft-Community-Edition/Vendor</exclude_filter>
+            </exclude_filters>
+            <name>C++ Source Group</name>
+            <pch_flags>
+                <use_compiler_flags>1</use_compiler_flags>
+            </pch_flags>
+            <source_extensions>
+                <source_extension>.cpp</source_extension>
+                <source_extension>.cxx</source_extension>
+                <source_extension>.cc</source_extension>
+            </source_extensions>
+            <source_paths>
+                <source_path>Minecraft-Community-Edition</source_path>
+            </source_paths>
+            <status>enabled</status>
+            <type>C++ Source Group</type>
+        </source_group_c57ecfe8-6687-4732-93c1-040a057361f0>
+    </source_groups>
+    <version>8</version>
+</config>
