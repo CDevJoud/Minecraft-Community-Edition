@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace mce {
+namespace mce::io::stream {
 	class OutputStream {
 	public:
 		virtual ~OutputStream() = 0;

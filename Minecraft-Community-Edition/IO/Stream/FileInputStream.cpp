@@ -6,7 +6,7 @@
 #undef INVALID_FILE_SIZE
 #endif
 
-namespace mce {
+namespace mce::io::stream {
 
 	FileInputStream::FileInputStream() {
 		FileInputStream::hFile = INVALID_HANDLE_VALUE;

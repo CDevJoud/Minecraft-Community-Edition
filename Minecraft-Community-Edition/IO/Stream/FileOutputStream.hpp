@@ -8,7 +8,7 @@
 #include <string>
 #include <cstdio>
 
-namespace mce {
+namespace mce::io::stream {
 /**
  * @brief Platform-independent file output stream implementation.
  *

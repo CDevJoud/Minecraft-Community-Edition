@@ -9,19 +9,19 @@
 #include "EASTL/vector.h"
 
 #include "Core/QEventBus.hpp"
-#include "Core/IEvent.hpp"
+#include "IEvent.hpp"
 
 #define MCE_LOGGER_SET_QEVENTBUS 0
 
 #ifndef NDEBUG
-#define MCE_INFO(...) mce::Logger::getGlobalLogger(qBus).info(__VA_ARGS__)
-#define MCE_WARN(...) mce::Logger::getGlobalLogger(qBus).warn(__VA_ARGS__)
-#define MCE_ERROR(...) mce::Logger::getGlobalLogger(qBus).error(__VA_ARGS__)
-#define MCE_DEBUG(...) mce::Logger::getGlobalLogger(qBus).debug(__VA_ARGS__)
-#define MCE_INFO_TRACE(...) mce::Logger::getGlobalLogger(qBus).info_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_WARN_TRACE(...) mce::Logger::getGlobalLogger(qBus).warn_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_ERROR_TRACE(...) mce::Logger::getGlobalLogger(qBus).error_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_DEBUG_TRACE(...) mce::Logger::getGlobalLogger(qBus).debug_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_INFO(...) mce::io::Logger::getGlobalLogger(qBus).info(__VA_ARGS__)
+#define MCE_WARN(...) mce::io::Logger::getGlobalLogger(qBus).warn(__VA_ARGS__)
+#define MCE_ERROR(...) mce::io::Logger::getGlobalLogger(qBus).error(__VA_ARGS__)
+#define MCE_DEBUG(...) mce::io::Logger::getGlobalLogger(qBus).debug(__VA_ARGS__)
+#define MCE_INFO_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).info_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_WARN_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).warn_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_ERROR_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).error_trace(std::source_location::current(), __VA_ARGS__)
+#define MCE_DEBUG_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).debug_trace(std::source_location::current(), __VA_ARGS__)
 #else
 #define MCE_INFO(...)
 #define MCE_WARN(...)
@@ -33,8 +33,10 @@
 #define MCE_DEBUG_TRACE(...)
 #endif
 
-namespace mce {
+namespace mce::io {
 	class LoggerSink;
+	using core::QEventBus;
+	using core::SubscriptionToken;
 
 	enum class LogLevel {
 		INFO,

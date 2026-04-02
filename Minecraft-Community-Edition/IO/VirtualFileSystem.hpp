@@ -6,7 +6,8 @@
 #include "nlohmann/json.hpp"
 #include "Stream/FileInputStream.hpp"
 
-namespace mce {
+namespace mce::io {
+	using stream::FileInputStream;
 /**
  * @brief VirtualFileSystem manages a collection of files referenced by tags.
  *

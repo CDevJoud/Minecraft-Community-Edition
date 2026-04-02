@@ -1,7 +1,7 @@
 #pragma once
 #include "InputStream.hpp"
 
-namespace mce {
+namespace mce::io::stream {
 /**
  * @brief Memory-backed input stream.
  *

@@ -4,12 +4,12 @@
 #include <cstring>
 
 
-namespace mce {
+namespace mce::io::stream {
 	MemoryInputStream::MemoryInputStream(const void* data, size_t size) : 
 		data(static_cast<const char*>(data)), size(size) {
 		
 	}
-	size_t mce::MemoryInputStream::read(void* buffer, size_t size) {
+	size_t MemoryInputStream::read(void* buffer, size_t size) {
 		if (!MemoryInputStream::data)
 			return ~(0);
 

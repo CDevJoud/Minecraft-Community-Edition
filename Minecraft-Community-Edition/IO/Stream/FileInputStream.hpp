@@ -13,7 +13,7 @@
 #endif
 #endif
 
-namespace mce {
+namespace mce::io::stream {
 	class FileInputStream final : public InputStream {
 	public:
 		FileInputStream();

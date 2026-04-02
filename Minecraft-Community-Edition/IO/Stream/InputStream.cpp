@@ -1,5 +1,5 @@
 #include "InputStream.hpp"
 
-namespace mce {
+namespace mce::io::stream {
 	InputStream::~InputStream() {}
 }

@@ -1,9 +1,3 @@
-#include "VirtualFileSystem.hpp"
-#include "Stream/FileOutputStream.hpp"
-#include "Stream/MemoryInputStream.hpp"
-
-namespace mce {
-
 /*
  * VirtualFileSystem.cpp
  *
@@ -32,6 +26,13 @@ namespace mce {
  *   memory (binary) and reads are memcpy'ed out of that buffer.
  *
  */
+
+#include "VirtualFileSystem.hpp"
+#include "Stream/FileOutputStream.hpp"
+#include "Stream/MemoryInputStream.hpp"
+
+namespace mce::io {
+	using stream::FileOutputStream;
 
 /* Create a packed Version from components. */
 VirtualFileSystem::Version VirtualFileSystem::Version::makeVersion(unsigned char major, unsigned char minor, unsigned char patch) {

@@ -10,7 +10,7 @@
 EA_DISABLE_GCC_WARNING(-Wdeprecated-literal-operator)
 #include <EASTL/string_view.h>
 
-namespace mce {
+namespace mce::io {
 	enum class LogLevel;
 
 	class LoggerSink {

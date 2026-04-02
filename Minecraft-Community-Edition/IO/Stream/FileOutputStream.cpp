@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include "FileOutputStream.hpp"
 
-namespace mce {
+namespace mce::io::stream {
 	bool FileOutputStream::open(const std::string& file) {
 		FileOutputStream::hFile = CreateFile(file.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		return (FileOutputStream::hFile != INVALID_HANDLE_VALUE);
