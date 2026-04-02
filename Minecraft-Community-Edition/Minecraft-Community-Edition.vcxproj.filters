@@ -62,7 +62,7 @@
     <ClInclude Include="Core\QEventBus.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\IEvent.hpp">
+    <ClInclude Include="IEvent.hpp">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Core\CoroutineSchedular.hpp">
@@ -99,7 +99,7 @@
     </ClCompile>
     <ClCompile Include="Minecraft.cpp" />
     <ClCompile Include="Startup.hpp" />
-    <ClCompile Include="Core\eastl_allocator.cpp" />
+    <ClCompile Include="eastl_allocator.cpp" />
     <ClCompile Include="Vendor\EASTL\source\atomic.cpp">
       <Filter>EASTL_src</Filter>
     </ClCompile>
