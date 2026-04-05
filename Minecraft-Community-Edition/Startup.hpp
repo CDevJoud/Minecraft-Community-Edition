@@ -1,6 +1,7 @@
 
 class Startup {
 public:
+	Startup() = default;
 	virtual int run() = 0;
 };
 
@@ -8,7 +9,45 @@ public:
 #if defined(MCE_PLATFORM_WINDOWS) && defined(NDEBUG)
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#define MCE_STARTUP(Startup) int WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {Startup app; return app.run();}
+#include <shellapi.h>
+#define MCE_STARTUP(_Startup)                                      							 \
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,       						 \
+                   LPSTR lpCmdLine, int nCmdShow)                      						 \
+{                                                                      						 \
+	LPWSTR pCmdLine = GetCommandLineW();													 \
+																							 \
+	int argc = 0;																			 \
+	LPWSTR* argvW = CommandLineToArgvW(pCmdLine, &argc);									 \
+																							 \
+	if (argvW == NULL)																		 \
+		return 1;																			 \
+																							 \
+	char** argv = (char**)LocalAlloc(LPTR, argc * sizeof(char*));							 \
+																							 \
+	for (int i = 0; i < argc; ++i) {														 \
+		int size = WideCharToMultiByte(CP_UTF8, 0, argvW[i], -1, NULL, 0, NULL, NULL);		 \
+																							 \
+		argv[i] = (char*)LocalAlloc(LPTR, size);											 \
+																							 \
+		if (argv[i]) {																		 \
+			WideCharToMultiByte(CP_UTF8, 0, argvW[i], -1, argv[i], size, NULL, NULL);		 \
+		}																					 \
+		else {																				 \
+			argv[i] = NULL;     													         \
+		}																					 \
+	}																						 \
+																							 \
+	_Startup app(argc, argv);																 \
+																							 \
+	for (int i = 0; i < argc; ++i) {														 \
+		LocalFree(argv[i]);																	 \
+	}																						 \
+	LocalFree(argv);																		 \
+																							 \
+	LocalFree(argvW);																		 \
+																							 \
+	return app.run();																		 \
+}
 #else
-#define MCE_STARTUP(Startup) int main() {Startup app; return app.run();}
+#define MCE_STARTUP(Startup) int main(int argc, char* argv[]) {Startup app(argc, argv); return app.run();}
 #endif
