@@ -5,6 +5,8 @@
 #include <EASTL/shared_ptr.h>
 #include <EASTL/string.h>
 #include "Platform.hpp"
+#include <SFML/Window/WindowHandle.hpp>
+#include <SFML/System/Vector2.hpp>
 #ifdef MCE_PLATFORM_WINDOWS
 #undef ERROR
 #endif
@@ -50,5 +52,21 @@ namespace mce {
 			const eastl::string threadName;
 			virtual const char const* name() const override { return "mce.core.event.thread_started"; }
 		};
+
+		namespace window {
+			struct Close : IEvent {
+				Close(sf::WindowHandle window) : window(window) {}
+				sf::WindowHandle window;
+				virtual const char const* name() const override { return "mce.core.event.window.close"; }
+			};
+
+			struct Resize : IEvent {
+				Resize(sf::WindowHandle window, sf::Vector2u newSize) : window(window), newSize(newSize) {}
+				sf::WindowHandle window;
+				sf::Vector2u newSize;
+				virtual const char const* name() const override { return "mce.core.event.window.resize"; }
+			};
+		}
+
 	}
 }
