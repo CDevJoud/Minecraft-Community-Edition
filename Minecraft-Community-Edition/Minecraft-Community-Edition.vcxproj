@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Vendor\SFML\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Vendor\bgfx\bx\include;$(ProjectDir)Vendor\bgfx\bgfx\include;$(ProjectDir)Vendor\SFML\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Vendor\bgfx\bin;$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)Vendor\SFML\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Vendor\bgfx\bx\include;$(ProjectDir)Vendor\bgfx\bgfx\include;$(ProjectDir)Vendor\SFML\include;$(ProjectDir)\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Vendor\bgfx\bin;$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,14 +108,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SFML_STATIC;BX_CONFIG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /Zc:trigraphs %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-window-s-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-window-s-d.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;opengl32.lib;winmm.lib;bgfxDebug.lib;bimgDebug.lib;bxDebug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,19 +126,22 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;_AMD64_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;_AMD64_;BX_CONFIG_DEBUG=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /Zc:trigraphs %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;bgfxRelease.lib;bimgRelease.lib;bxRelease.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="Assert.hpp" />
+    <ClInclude Include="Graphics\BgfxRenderContext.hpp" />
     <ClInclude Include="Platform.hpp" />
     <ClInclude Include="Core\CoroutineScheduler.hpp" />
     <ClInclude Include="Core\FunctionContainer.hpp" />
@@ -144,10 +149,6 @@
     <ClInclude Include="Core\CoroutineSchedular.hpp" />
     <ClInclude Include="glad\gl.h" />
     <ClInclude Include="glad\khrplatform.h" />
-    <ClInclude Include="Graphics\GraphicsContext.hpp" />
-    <ClInclude Include="Graphics\OpenGL\GLGraphicsContext.hpp" />
-    <ClInclude Include="Graphics\OpenGL\GLRenderer.hpp" />
-    <ClInclude Include="Graphics\Renderer.hpp" />
     <ClInclude Include="IO\Logger.hpp" />
     <ClInclude Include="IO\LoggerSinks.hpp" />
     <ClInclude Include="IO\Stream\FileInputStream.hpp" />
@@ -162,23 +163,25 @@
     <ClInclude Include="Core\ThreadImpl.hpp" />
     <ClInclude Include="Core\Thread.hpp" />
     <ClInclude Include="Core\ThreadManager.hpp" />
+    <ClInclude Include="Graphics\RenderContext.hpp" />
+    <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="Tasks.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Graphics\BgfxRenderContext.cpp" />
     <ClCompile Include="Core\CoroutineScheduler.cpp" />
     <ClCompile Include="eastl_allocator.cpp" />
     <ClCompile Include="Core\FunctionContainer.cpp" />
     <ClCompile Include="glad\gl.c" />
-    <ClCompile Include="Graphics\GraphicsContext.cpp" />
-    <ClCompile Include="Graphics\OpenGL\GLGraphicsContext.cpp" />
-    <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp" />
-    <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="IO\Logger.cpp" />
     <ClCompile Include="IO\LoggerSinks.cpp" />
     <ClCompile Include="IO\Stream\FileInputStream.cpp" />
     <ClCompile Include="IO\Stream\FileOutputStream.cpp" />
     <ClCompile Include="IO\Stream\InputStream.cpp" />
     <ClCompile Include="IO\Stream\OutputStream.cpp" />
+    <ClCompile Include="Graphics\RenderContext.cpp" />
+    <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Startup.hpp" />
     <ClCompile Include="IO\Stream\MemoryInputStream.cpp" />
     <ClCompile Include="Minecraft.cpp" />

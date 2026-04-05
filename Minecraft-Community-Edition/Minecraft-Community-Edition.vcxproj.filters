@@ -37,18 +37,6 @@
     <ClInclude Include="glad\khrplatform.h">
       <Filter>glad</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\GraphicsContext.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Renderer.hpp">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLRenderer.hpp">
-      <Filter>Graphics\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\OpenGL\GLGraphicsContext.hpp">
-      <Filter>Graphics\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Minecraft.hpp" />
     <ClInclude Include="Core\FunctionContainer.hpp">
       <Filter>Core</Filter>
@@ -80,22 +68,14 @@
     <ClInclude Include="Core\Thread.hpp" />
     <ClInclude Include="Core\ThreadManager.hpp" />
     <ClInclude Include="Application.hpp" />
+    <ClInclude Include="Graphics\RenderContext.hpp" />
+    <ClInclude Include="Graphics\BgfxRenderContext.hpp" />
+    <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="Tasks.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\gl.c">
       <Filter>glad</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\GraphicsContext.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Renderer.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLRenderer.cpp">
-      <Filter>Graphics\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\OpenGL\GLGraphicsContext.cpp">
-      <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Minecraft.cpp" />
     <ClCompile Include="Startup.hpp" />
@@ -153,6 +133,9 @@
     <ClCompile Include="Core\Thread.cpp" />
     <ClCompile Include="Core\ThreadManager.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Graphics\RenderContext.cpp" />
+    <ClCompile Include="Graphics\BgfxRenderContext.cpp" />
+    <ClCompile Include="Graphics\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />
