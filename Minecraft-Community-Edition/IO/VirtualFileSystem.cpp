@@ -33,6 +33,7 @@
 
 namespace mce::io {
 	using stream::FileOutputStream;
+	using stream::MemoryInputStream;
 
 /* Create a packed Version from components. */
 VirtualFileSystem::Version VirtualFileSystem::Version::makeVersion(unsigned char major, unsigned char minor, unsigned char patch) {
