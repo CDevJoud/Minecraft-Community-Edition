@@ -39,7 +39,7 @@ namespace mce {
 					break;
 				}
 
-				sf::Time dt = deltaClock.restart(); // frame time (if you need it)
+				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
 
@@ -74,7 +74,6 @@ namespace mce {
 				bgfx::frame();
 
 			}
-			//qBus.post(event::BeginFrame{});
 			qBus.process();
 
 			sf::sleep(sf::milliseconds(0));
@@ -157,9 +156,7 @@ namespace mce {
 		else {
 			viewId = renderCtx->registerWindow(*window);
 		}
-		//For now we will have a single profile
-		//Application::instances.emplace_back(eastl::make_unique<Minecraft>(profileName, qBus, viewId, window->getSystemHandle(), window->getSize().x, window->getSize().y, renderCtx));
-
+		
 		eastl::unique_ptr<Minecraft> mc = eastl::make_unique<Minecraft>(
 			profileName,
 			qBus,
@@ -175,7 +172,6 @@ namespace mce {
 			eastl::make_pair<eastl::unique_ptr<sf::WindowBase>, eastl::unique_ptr<Minecraft>>(eastl::move(window), eastl::move(mc))
 		);
 
-		//Minecraft* instance = instances.back().second.get();
 
 		//create a new thread so we dont block the main thread
 		threadManager.createThread(profileName, [this, rawMinecraftPtr]() {
