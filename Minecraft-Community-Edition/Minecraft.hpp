@@ -3,42 +3,54 @@
 #include <EASTL/unique_ptr.h>
 #include <EASTL/string.h>
 #include "SFML/Window/Window.hpp"
-#include "Graphics/GraphicsContext.hpp"
-#include "Graphics/Renderer.hpp"
+//#include "Graphics/GraphicsContext.hpp"
+//#include "Graphics/Renderer.hpp"
 #include "Core/QEventBus.hpp"
+#include "Tasks.hpp"
 
 namespace mce {
 	namespace gfx {
-		class GraphicsContext;
+		class RenderContext;
 		class Renderer;
 	}
 	
 	using core::QEventBus;
-	using gfx::GraphicsContext;
-	using gfx::Renderer;
-
+	using core::SubscriptionToken;
+	using gfx::RenderContext;
+	using tasks::RenderTask;
 	class Minecraft {
 	public:
-		Minecraft(const eastl::string_view& profileName);
+		Minecraft(const eastl::string_view& profileName, QEventBus& qBus, uint16_t viewId, sf::WindowHandle window, sf::Vector2u viewSize, eastl::shared_ptr<RenderContext>& renderCtx);
 		~Minecraft();
 
-
 		int run();
+
+		void render();
+
+		bool isRunning() const { return this->bIsRunning; }
+
+		const std::string& getProfileName() const { return this->profileName; }
+	
+	protected:
+		friend class Application;
+		uint16_t getViewId() const { return this->viewId; }
 	private:
+
 		int initInstance();
 
-		void handleEvents();
+	private:
+		bool bIsRunning;
+		uint16_t viewId;
 
-		inline void translateEventAndDispatch(const std::optional<sf::Event> event);
 
-		std::string getLogFileName();;
+		QEventBus& qBus;
+		sf::Vector2u viewSize;
+		sf::WindowHandle window;
 
-		void setupLogging();
+		const std::string profileName;
+		const eastl::shared_ptr<RenderContext>& renderCtx;
 
-		sf::Window window;
+		SubscriptionToken onResize, onClose;
 
-		eastl::unique_ptr<GraphicsContext> graphicsContext;
-		eastl::unique_ptr<Renderer> renderer;
-		QEventBus qBus;
 	};
 }
