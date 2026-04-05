@@ -24,7 +24,9 @@ namespace mce::core {
 	 * This type is move- and copy-assignable depending on the semantics of the
 	 * stored eastl::function. Use subscribeRAII to obtain a token.
 	 */
-	struct SubscriptionToken {
+	class SubscriptionToken {
+	public:
+
 		/**
 		 * @brief Callable invoked to perform the unsubscribe action.
 		 *
@@ -32,13 +34,50 @@ namespace mce::core {
 		 */
 		eastl::function<void()> unsubscribe;
 
+		SubscriptionToken() = default;
+		explicit SubscriptionToken(eastl::function<void()> func) : unsubscribe(eastl::move(func)) {}
+
+		//disable copying
+		SubscriptionToken(const SubscriptionToken&) = delete;
+		SubscriptionToken& operator=(const SubscriptionToken&) = delete;
+
+		//Allow moving
+		SubscriptionToken(SubscriptionToken&& other) noexcept : unsubscribe(eastl::move(other.unsubscribe)) {
+			other.unsubscribe = nullptr;
+		}
+
+		SubscriptionToken& operator=(SubscriptionToken&& other) noexcept {
+			if (this != &other) {
+				if (unsubscribe)
+					unsubscribe();
+
+				unsubscribe = eastl::move(other.unsubscribe);
+				other.unsubscribe = nullptr;
+			}
+			return *this;
+		}
+
 		/**
 		 * @brief Destructor.
 		 *
 		 * Automatically unsubscribes if an unsubscribe callable is present.
 		 */
-		~SubscriptionToken() { if (unsubscribe)unsubscribe(); }
+		~SubscriptionToken() { 
+			if (unsubscribe) {
+				unsubscribe();
+				unsubscribe = nullptr;
+			}
+		}
+
+		//Optional Explicit unsubscribe
+		void reset() {
+			if (unsubscribe) {
+				unsubscribe();
+				unsubscribe = nullptr;
+			}
+		}
 	};
+	//using SubscriptionToken = _SubscriptionToken;
 
 	/**
 	 * @brief Thread-safe event bus.
@@ -219,23 +258,30 @@ namespace mce::core {
 
 		auto& handlers = QEventBus::handlers[typeid(EventType)];
 
+		auto typeIdx = std::type_index(typeid(EventType));
+
+		size_t index = handlers.size();
+
 		handlers.emplace_back([handler](const IEvent& e) {
 			handler(static_cast<const EventType&>(e));
 			});
 
 		auto it = eastl::prev(handlers.end());
-		std::type_index typeIdx = std::type_index(typeid(EventType));
 
-		return SubscriptionToken{ [this, typeIdx, it]() {
-				std::lock_guard<std::mutex> lock(QEventBus::mutex);
-				auto mapIt = QEventBus::handlers.find(typeIdx);
-				if (mapIt != QEventBus::handlers.end()) {
-					auto& vec = mapIt->second;
-					
-					vec.erase(it);
+		return SubscriptionToken {
+			[this, typeIdx, index]() mutable {
+				std::lock_guard<std::mutex> lock(mutex);   // Important: re-lock
 
+				auto mapIt = this->handlers.find(typeIdx);
+				if (mapIt == this->handlers.end()) return;
+
+				auto& vec = mapIt->second;
+				if (index < vec.size()) {
+					vec.erase(vec.begin() + index);
+
+					// Optional: shrink if too many removals, but not necessary
 					if (vec.empty()) {
-						QEventBus::handlers.erase(mapIt);
+						this->handlers.erase(mapIt);
 					}
 				}
 			}
