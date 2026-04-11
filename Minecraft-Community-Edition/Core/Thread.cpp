@@ -29,4 +29,7 @@ namespace mce::core {
 			qBus.post<event::ThreadFinished>(event::ThreadFinished{ this });
 		}
 	}
+	void Thread::terminate() {
+		this->pImpl->terminate();
+	}
 }

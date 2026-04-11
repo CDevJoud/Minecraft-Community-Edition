@@ -179,6 +179,7 @@ namespace mce::core {
 		 */
 		void wait();
 
+		void terminate();
 	private:
 		friend class ThreadImpl;
 
