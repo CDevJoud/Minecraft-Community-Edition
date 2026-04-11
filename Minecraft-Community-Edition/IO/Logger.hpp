@@ -13,25 +13,25 @@
 
 #define MCE_LOGGER_SET_QEVENTBUS 0
 
-#ifndef NDEBUG
-#define MCE_INFO(...) mce::io::Logger::getGlobalLogger(qBus).info(__VA_ARGS__)
-#define MCE_WARN(...) mce::io::Logger::getGlobalLogger(qBus).warn(__VA_ARGS__)
-#define MCE_ERROR(...) mce::io::Logger::getGlobalLogger(qBus).error(__VA_ARGS__)
-#define MCE_DEBUG(...) mce::io::Logger::getGlobalLogger(qBus).debug(__VA_ARGS__)
-#define MCE_INFO_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).info_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_WARN_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).warn_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_ERROR_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).error_trace(std::source_location::current(), __VA_ARGS__)
-#define MCE_DEBUG_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).debug_trace(std::source_location::current(), __VA_ARGS__)
-#else
-#define MCE_INFO(...)
-#define MCE_WARN(...)
-#define MCE_ERROR(...)
-#define MCE_DEBUG(...)
-#define MCE_INFO_TRACE(...)
-#define MCE_WARN_TRACE(...)
-#define MCE_ERROR_TRACE(...)
-#define MCE_DEBUG_TRACE(...)
-#endif
+//#ifndef NDEBUG
+//#define MCE_INFO(...) mce::io::Logger::getGlobalLogger(qBus).info(__VA_ARGS__)
+//#define MCE_WARN(...) mce::io::Logger::getGlobalLogger(qBus).warn(__VA_ARGS__)
+//#define MCE_ERROR(...) mce::io::Logger::getGlobalLogger(qBus).error(__VA_ARGS__)
+//#define MCE_DEBUG(...) mce::io::Logger::getGlobalLogger(qBus).debug(__VA_ARGS__)
+//#define MCE_INFO_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).info_trace(std::source_location::current(), __VA_ARGS__)
+//#define MCE_WARN_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).warn_trace(std::source_location::current(), __VA_ARGS__)
+//#define MCE_ERROR_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).error_trace(std::source_location::current(), __VA_ARGS__)
+//#define MCE_DEBUG_TRACE(...) mce::io::Logger::getGlobalLogger(qBus).debug_trace(std::source_location::current(), __VA_ARGS__)
+//#else
+//#define MCE_INFO(...)
+//#define MCE_WARN(...)
+//#define MCE_ERROR(...)
+//#define MCE_DEBUG(...)
+//#define MCE_INFO_TRACE(...)
+//#define MCE_WARN_TRACE(...)
+//#define MCE_ERROR_TRACE(...)
+//#define MCE_DEBUG_TRACE(...)
+//#endif
 
 namespace mce::io {
 	class LoggerSink;
@@ -39,10 +39,11 @@ namespace mce::io {
 	using core::SubscriptionToken;
 
 	enum class LogLevel {
-		INFO,
-		WARN,
-		ERROR,
-		DEBUG,
+		INFO = 0x02,
+		WARN = 0x06,
+		ERROR = 0x04,
+		DEBUG = 0x07,
+		FATAL = 0xFF//Maybe
 	};
 
 	class Logger {
@@ -50,9 +51,9 @@ namespace mce::io {
 		explicit Logger(QEventBus& qBus, std::string_view name, bool createStdoutSink = true);
 
 		void addSink(const eastl::shared_ptr<LoggerSink>& sink);
-		void log(LogLevel level, std::string_view message, eastl::optional<std::source_location> location = eastl::nullopt);
+		//void log(LogLevel level, std::string_view message, eastl::optional<std::source_location> location = eastl::nullopt);
 
-		template <typename... Args>
+		/*template <typename... Args>
 		void info(std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::INFO, std::format(format, std::forward<Args>(args)...));
 		}
@@ -90,10 +91,10 @@ namespace mce::io {
 		template <typename... Args>
 		void debug_trace(const std::source_location& location, std::format_string<Args...> format, Args&&... args) {
 			log(LogLevel::DEBUG, std::format(format, std::forward<Args>(args)...), location);
-		}
+		}*/
 
 		//static QEventBus& getGlobalEventBus();
-		static Logger& getGlobalLogger(QEventBus& qBus);
+		//static Logger& getGlobalLogger(QEventBus& qBus);
 	private:
 		/*class LoggerEventBus : public QEventBus {
 		public:

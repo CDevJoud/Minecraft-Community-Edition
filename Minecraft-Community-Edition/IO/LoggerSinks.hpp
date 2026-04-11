@@ -19,10 +19,10 @@ namespace mce::io {
 		virtual void log(std::string_view prettyMessage, std::string_view basicMessage) = 0;
 	};
 
-	class StdoutSink final : public LoggerSink {
+	/*class StdoutSink final : public LoggerSink {
 	public:
 		void log(std::string_view prettyMessage, std::string_view basicMessage) override;
-	};
+	};*/
 
 	class FileSink final : public LoggerSink {
 	public:

@@ -30,25 +30,26 @@ namespace mce::io {
 		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
 			logCallback(e);
 			});
-		if (createStdoutSink)
-			sinks.emplace_back(eastl::make_shared<StdoutSink>());
+		/*if (createStdoutSink)
+			sinks.emplace_back(eastl::make_shared<StdoutSink>());*/
 	}
 
 	void Logger::addSink(const eastl::shared_ptr<LoggerSink>& sink) {
 		sinks.emplace_back(sink);
 	}
 
-	void Logger::log(const LogLevel level, std::string_view message, eastl::optional<std::source_location> location) {
-		//Check the event queue size and make sure to not accedintly flood it
-		if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS)
-			return; //Ignore the log
+	//void Logger::log(const LogLevel level, std::string_view message, eastl::optional<std::source_location> location) {
+	//	//Check the event queue size and make sure to not accedintly flood it
+	//	if (Logger::qBus.getQueueSize() >= Logger::MAX_LOG_EVENTS)
+	//		return; //Ignore the log
 
-		event::LoggerOutput lOut;
-		lOut.severity = static_cast<event::LoggerOutput::Severity>(level);
-		lOut.msg = message;
-		lOut.location = location;
-		qBus.post(lOut);
-	}
+	//	event::LoggerOutput lOut;
+	//	lOut.severity = static_cast<event::Log::Severity>(level);
+	//	lOut.msg = message;
+	//	lOut.location = location;
+	//	lOut.channel = "default";
+	//	qBus.post(lOut);
+	//}
 
 	std::string Logger::GetFormattedTime() {
 		const auto now = std::chrono::system_clock::now();
@@ -68,15 +69,15 @@ namespace mce::io {
 		return loggerEventBus;
 	}*/
 
-	Logger& Logger::getGlobalLogger(QEventBus& _qBus) {
+	/*Logger& Logger::getGlobalLogger(QEventBus& _qBus) {
 		static Logger globalLogger(_qBus, _qBus.getNamespace());
 		return globalLogger;
-	}
+	}*/
 
 	void Logger::logCallback(const event::LoggerOutput &e) {
 		std::string severity;
 		std::string color;
-		using Severity = event::LoggerOutput::Severity;
+		/*using Severity = event::LoggerOutput::Severity;
 		switch (static_cast<event::LoggerOutput::Severity>(e.severity)) {
 			case Severity::INFO:
 			{
@@ -110,7 +111,7 @@ namespace mce::io {
 				color = Color::RED;
 			}
 				break;
-		}
+		}*/
 
 		std::string colorized = std::format(
 			"{0}[{1}{2}{0}] [{1}{3}{0}] {4}: {5}[{6}]",
