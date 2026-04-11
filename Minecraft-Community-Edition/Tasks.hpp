@@ -24,4 +24,26 @@ namespace mce::tasks {
 			if (handle && !handle.done()) handle.resume();
 		}
 	};
+
+	struct BgfxShutdown {
+		struct promise_type {
+			BgfxShutdown get_return_object() {
+				return BgfxShutdown{ std::coroutine_handle<promise_type>::from_promise(*this) };
+			}
+			std::suspend_always initial_suspend() { return {}; }
+			std::suspend_always final_suspend() noexcept { return {}; }
+
+			void return_void() {}
+			void unhandled_exception() { std::terminate(); }
+		};
+
+		std::coroutine_handle<promise_type> handle;
+
+		explicit BgfxShutdown(auto h) : handle(h) {}
+		~BgfxShutdown() { if (handle) handle.destroy(); }
+
+		void resume() {
+			if (handle && !handle.done()) handle.resume();
+		}
+	};
 }
