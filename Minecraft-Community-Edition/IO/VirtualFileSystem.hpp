@@ -72,7 +72,7 @@ namespace mce::io {
 		 * @param bytes Output vector which will be filled with file data.
 		 * @return True if the file was found and bytes were successfully loaded.
 		 */
-		bool getFile(const eastl::string_view& fileTag, eastl::vector<char>& bytes);
+		bool getFile(const eastl::string_view& fileTag, eastl::vector<uint8_t>& bytes);
 
 		/**
 		 * @brief Build a binary VFS file from a JSON mapping.

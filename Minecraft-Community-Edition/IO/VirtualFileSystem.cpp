@@ -107,7 +107,7 @@ VirtualFileSystem::Config& VirtualFileSystem::getConfig() {
  * The function resizes `bytes` when necessary. Returns true if the tag was
  * found and bytes were loaded successfully.
  */
-bool VirtualFileSystem::getFile(const eastl::string_view& fileTag, eastl::vector<char>& bytes) {
+bool VirtualFileSystem::getFile(const eastl::string_view& fileTag, eastl::vector<uint8_t>& bytes) {
 #ifdef _DEBUG
 	for (auto& file : VirtualFileSystem::data.items()) {
 		if (file.key() == fileTag.data()) {
@@ -497,7 +497,7 @@ bool VirtualFileSystem::loadVirtualFileSystem(const std::string& fileName) {
 		}
 	}
 
-	return true;
+	return false;
 }
 #endif
 
