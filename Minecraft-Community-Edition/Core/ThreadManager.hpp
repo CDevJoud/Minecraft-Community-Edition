@@ -26,7 +26,7 @@ namespace mce::core {
 		 */
 		struct ThreadInfo {
 			/** @brief Non-owning pointer to the tracked Thread. */
-			Thread* thread;
+			Thread* thread = nullptr;
 			/** @brief Human readable thread name. */
 			eastl::string name;
 			/** @brief Time point when the thread was started. */

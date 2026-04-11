@@ -1,6 +1,7 @@
 #include "ThreadManager.hpp"
 #include "..\IO\Logger.hpp"
-
+#define LOG_INFO(...) qBus.post(event::Log(event::Log::INFO, std::format(__VA_ARGS__)))
+#define LOG_ERROR(...) qBus.post(event::Log(event::Log::ERROR, std::format(__VA_ARGS__)))
 namespace mce::core {
 	ThreadManager::ThreadManager(QEventBus& qBus) : qBus(qBus) {
 		qBus.subscribe<event::ThreadFinished>([this](const auto& e) {
@@ -8,7 +9,8 @@ namespace mce::core {
 			});
 		qBus.subscribe<event::ThreadStarted>([this, &qBus](const auto& e) {
 			// Log thread name that started
-			MCE_INFO("[ThreadManager] Thread '{}' started", e.threadName.data());
+			LOG_INFO("[ThreadManager] Thread '{}' started", e.threadName.data());
+			std::format("", 10);
 			});
 	}
 	ThreadManager::~ThreadManager() {
@@ -79,7 +81,7 @@ namespace mce::core {
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(it->second.endTime - it->second.startTime).count() * 0.001;
 			
 			//Log the thread name and how long it took
-			MCE_INFO("[ThreadManager] thread name: {}, exited and lifespan of it: {} seconds", it->second.name.data(), duration);
+			LOG_INFO("[ThreadManager] thread name: {}, exited and lifespan of it: {} seconds", it->second.name.data(), duration);
 		}
 		cleanupFinishedUnlocked();
 	}
