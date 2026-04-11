@@ -108,7 +108,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SFML_STATIC;BX_CONFIG_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;SFML_STATIC;BX_CONFIG_DEBUG;BGFX_CONFIG_MULTITHREADED=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -126,7 +126,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;_AMD64_;BX_CONFIG_DEBUG=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;_AMD64_;BX_CONFIG_DEBUG=0;-DBGFX_CONFIG_MULTITHREADED=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -141,6 +141,16 @@
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="Assert.hpp" />
+    <ClInclude Include="BgfxCallBack.hpp" />
+    <ClInclude Include="IO\FileLogger.hpp" />
+    <ClInclude Include="TUI\CLogger.hpp" />
+    <ClInclude Include="TUI\Panel.hpp" />
+    <ClInclude Include="TUI\EventProcessor.hpp" />
+    <ClInclude Include="TUI\Component.hpp" />
+    <ClInclude Include="TUI\RenderTarget.hpp" />
+    <ClInclude Include="TUI\IConsole.hpp" />
+    <ClInclude Include="TUI\Console.hpp" />
+    <ClInclude Include="Graphics\Flags.hpp" />
     <ClInclude Include="Graphics\BgfxRenderContext.hpp" />
     <ClInclude Include="Platform.hpp" />
     <ClInclude Include="Core\CoroutineScheduler.hpp" />
@@ -164,16 +174,36 @@
     <ClInclude Include="Core\Thread.hpp" />
     <ClInclude Include="Core\ThreadManager.hpp" />
     <ClInclude Include="Graphics\RenderContext.hpp" />
+    <ClInclude Include="Graphics\IRenderer.hpp" />
     <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="Graphics\RenderFactory.hpp" />
+    <ClInclude Include="Graphics\ShaderProgram.hpp" />
     <ClInclude Include="Tasks.hpp" />
+    <ClInclude Include="Graphics\Void.hpp" />
+    <ClInclude Include="Graphics\Vertex.hpp" />
+    <ClInclude Include="Graphics\VertexArray.hpp" />
+    <ClInclude Include="Graphics\VertexBuffer.hpp" />
+    <ClInclude Include="TUI\icon.hpp" />
+    <ClInclude Include="TUI\WindowsConsole.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BgfxCallBack.cpp" />
+    <ClCompile Include="IO\FileLogger.cpp" />
+    <ClCompile Include="TUI\CLogger.cpp" />
+    <ClCompile Include="TUI\Panel.cpp" />
+    <ClCompile Include="TUI\EventProcessor.cpp" />
+    <ClCompile Include="TUI\Component.cpp" />
+    <ClCompile Include="TUI\icon.cpp" />
+    <ClCompile Include="TUI\RenderTarget.cpp" />
+    <ClCompile Include="TUI\IConsole.cpp" />
+    <ClCompile Include="TUI\Console.cpp" />
     <ClCompile Include="Graphics\BgfxRenderContext.cpp" />
     <ClCompile Include="Core\CoroutineScheduler.cpp" />
     <ClCompile Include="eastl_allocator.cpp" />
     <ClCompile Include="Core\FunctionContainer.cpp" />
     <ClCompile Include="glad\gl.c" />
+    <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="IO\Logger.cpp" />
     <ClCompile Include="IO\LoggerSinks.cpp" />
     <ClCompile Include="IO\Stream\FileInputStream.cpp" />
@@ -181,7 +211,10 @@
     <ClCompile Include="IO\Stream\InputStream.cpp" />
     <ClCompile Include="IO\Stream\OutputStream.cpp" />
     <ClCompile Include="Graphics\RenderContext.cpp" />
+    <ClCompile Include="Graphics\IRenderer.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="Graphics\RenderFactory.cpp" />
+    <ClCompile Include="Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Startup.hpp" />
     <ClCompile Include="IO\Stream\MemoryInputStream.cpp" />
     <ClCompile Include="Minecraft.cpp" />
@@ -200,9 +233,45 @@
     <ClCompile Include="Vendor\EASTL\source\string.cpp" />
     <ClCompile Include="Vendor\EASTL\source\thread_support.cpp" />
     <ClCompile Include="IO\VirtualFileSystem.cpp" />
+    <ClCompile Include="Graphics\Void.cpp" />
+    <ClCompile Include="Graphics\VertexArray.cpp" />
+    <ClCompile Include="Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="TUI\WindowsConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets.json" />
+    <None Include="assets\shaders\main.fs.d3d11_windows.bin" />
+    <None Include="assets\shaders\main.fs.d3d12_windows.bin" />
+    <None Include="assets\shaders\main.fs.gl_android.bin" />
+    <None Include="assets\shaders\main.fs.gl_asm.js.bin" />
+    <None Include="assets\shaders\main.fs.gl_linux.bin" />
+    <None Include="assets\shaders\main.fs.gl_osx.bin" />
+    <None Include="assets\shaders\main.fs.gl_windows.bin" />
+    <None Include="assets\shaders\main.fs.metal_osx.bin" />
+    <None Include="assets\shaders\main.fs.vulkan_android.bin" />
+    <None Include="assets\shaders\main.fs.vulkan_linux.bin" />
+    <None Include="assets\shaders\main.fs.vulkan_windows.bin" />
+    <None Include="assets\shaders\main.vs.d3d11_windows.bin" />
+    <None Include="assets\shaders\main.vs.d3d12_windows.bin" />
+    <None Include="assets\shaders\main.vs.gl_android.bin" />
+    <None Include="assets\shaders\main.vs.gl_asm.js.bin" />
+    <None Include="assets\shaders\main.vs.gl_linux.bin" />
+    <None Include="assets\shaders\main.vs.gl_osx.bin" />
+    <None Include="assets\shaders\main.vs.gl_windows.bin" />
+    <None Include="assets\shaders\main.vs.metal_osx.bin" />
+    <None Include="assets\shaders\main.vs.vulkan_android.bin" />
+    <None Include="assets\shaders\main.vs.vulkan_linux.bin" />
+    <None Include="assets\shaders\main.vs.vulkan_windows.bin" />
+    <None Include="Graphics\Shaders\main.fs" />
+    <None Include="Graphics\Shaders\main.vs" />
+    <None Include="shadercomp-debug.bat" />
+    <None Include="Graphics\Shaders\varying.def.sc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\images\logo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

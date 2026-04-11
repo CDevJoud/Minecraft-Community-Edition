@@ -70,8 +70,27 @@
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="Graphics\RenderContext.hpp" />
     <ClInclude Include="Graphics\BgfxRenderContext.hpp" />
-    <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="Graphics\IRenderer.hpp" />
     <ClInclude Include="Tasks.hpp" />
+    <ClInclude Include="Graphics\Void.hpp" />
+    <ClInclude Include="Graphics\Renderer.hpp" />
+    <ClInclude Include="BgfxCallBack.hpp" />
+    <ClInclude Include="Graphics\Vertex.hpp" />
+    <ClInclude Include="Graphics\VertexArray.hpp" />
+    <ClInclude Include="Graphics\RenderFactory.hpp" />
+    <ClInclude Include="Graphics\VertexBuffer.hpp" />
+    <ClInclude Include="Graphics\Flags.hpp" />
+    <ClInclude Include="Graphics\ShaderProgram.hpp" />
+    <ClInclude Include="TUI\Console.hpp" />
+    <ClInclude Include="TUI\icon.hpp" />
+    <ClInclude Include="TUI\WindowsConsole.hpp" />
+    <ClInclude Include="TUI\IConsole.hpp" />
+    <ClInclude Include="TUI\RenderTarget.hpp" />
+    <ClInclude Include="TUI\Component.hpp" />
+    <ClInclude Include="TUI\EventProcessor.hpp" />
+    <ClInclude Include="TUI\Panel.hpp" />
+    <ClInclude Include="TUI\CLogger.hpp" />
+    <ClInclude Include="IO\FileLogger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\gl.c">
@@ -135,9 +154,105 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Graphics\RenderContext.cpp" />
     <ClCompile Include="Graphics\BgfxRenderContext.cpp" />
+    <ClCompile Include="Graphics\IRenderer.cpp" />
+    <ClCompile Include="Graphics\Void.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="BgfxCallBack.cpp" />
+    <ClCompile Include="Graphics\Vertex.cpp" />
+    <ClCompile Include="Graphics\VertexArray.cpp" />
+    <ClCompile Include="Graphics\RenderFactory.cpp" />
+    <ClCompile Include="Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="Graphics\ShaderProgram.cpp" />
+    <ClCompile Include="TUI\Console.cpp" />
+    <ClCompile Include="TUI\WindowsConsole.cpp" />
+    <ClCompile Include="TUI\IConsole.cpp" />
+    <ClCompile Include="TUI\RenderTarget.cpp" />
+    <ClCompile Include="TUI\Component.cpp" />
+    <ClCompile Include="TUI\EventProcessor.cpp" />
+    <ClCompile Include="TUI\icon.cpp" />
+    <ClCompile Include="TUI\Panel.cpp" />
+    <ClCompile Include="TUI\CLogger.cpp" />
+    <ClCompile Include="IO\FileLogger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\Shaders\main.vs" />
+    <None Include="Graphics\Shaders\main.fs" />
+    <None Include="Graphics\Shaders\varying.def.sc" />
+    <None Include="shadercomp-debug.bat" />
+    <None Include="assets\shaders\main.fs.d3d11_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.d3d12_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.gl_android.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.gl_asm.js.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.gl_linux.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.gl_osx.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.gl_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.metal_osx.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.vulkan_android.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.vulkan_linux.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.fs.vulkan_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.d3d11_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.d3d12_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.gl_android.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.gl_asm.js.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.gl_linux.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.gl_osx.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.gl_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.metal_osx.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.vulkan_android.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.vulkan_linux.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\shaders\main.vs.vulkan_windows.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\images\logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
