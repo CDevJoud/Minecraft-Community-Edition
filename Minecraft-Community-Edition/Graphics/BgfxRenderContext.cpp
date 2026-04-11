@@ -3,7 +3,13 @@
 #include <SFML/Window/WindowBase.hpp>
 #include "IO/Logger.hpp"
 
+using mce::core::QEventBus;
+
+#define LOG_INFO(msg) qBus.post(event::Log(event::Log::INFO, msg, "bgfx"))
+#define LOG_ERROR(msg) qBus.post(event::Log(event::Log::ERROR, msg, "bgfx"))
+
 namespace mce::gfx {
+	
 	void* BgfxRenderContext::getNativeHandle(sf::WindowBase& window) {
 #if defined(MCE_PLATFORM_WINDOWS)
 		return (void*)window.getSystemHandle();
@@ -12,25 +18,33 @@ namespace mce::gfx {
 #endif
 	}
 
-	BgfxRenderContext::BgfxRenderContext(QEventBus& qBus) : RenderContext(qBus) {
-	
+	BgfxRenderContext::BgfxRenderContext(QEventBus& qBus) : RenderContext(qBus), bgfxCallBack(new BgfxCallBack(qBus)) {
+		
 	}
 
 	bool BgfxRenderContext::init(sf::WindowBase& mainWindow, API api) {
-		MCE_INFO("Init bgfx RenderContext with res:{}x{}, API:{}, GraphicDevice:NVIDIA", 
+
+		LOG_INFO(std::format("Init bgfx RenderContext with res:{}x{}, API:{}, GraphicDevice:NVIDIA",
 			mainWindow.getSize().x, mainWindow.getSize().y,
-			bgfx::getRendererName(bgfx::RendererType::Enum(api))
-			);
+			bgfx::getRendererName(bgfx::RendererType::Enum(api))));
+
+		//disable Bgfx Multithreaded
+		bgfx::renderFrame();
+
 		bgfx::Init init{};
 		init.type = bgfx::RendererType::Enum(api);
 		init.platformData.nwh = BgfxRenderContext::getNativeHandle(mainWindow);
 		init.resolution.width = mainWindow.getSize().x;
 		init.resolution.height = mainWindow.getSize().y;
-		init.resolution.reset = BGFX_RESET_VSYNC;
+		init.resolution.reset = BGFX_RESET_NONE;
 		init.vendorId = BGFX_PCI_ID_NVIDIA;
+		init.callback = bgfxCallBack;
 
 		if (!bgfx::init(init)) {
-			MCE_ERROR("Could not init bgfx RenderContext for: {}", bgfx::getRendererName(init.type));
+			LOG_ERROR(std::format(
+				"Could not init bgfx RenderContext for: {}",
+				bgfx::getRendererName(init.type)
+			));
 			return false;
 		}
 
@@ -45,7 +59,9 @@ namespace mce::gfx {
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030FF);
 		bgfx::setViewRect(0, 0, 0, data.width, data.height);
 
-		MCE_INFO("bgfx RenderContext has successfully init! main window assigned to viewId of {}", 0);
+		LOG_INFO("bgfx RenderContext has successfully init! main window assigned to viewId of 0");
+
+		backendAPI = api;
 		return true;
 	}
 	
@@ -55,9 +71,9 @@ namespace mce::gfx {
 				bgfx::destroy(win.fbh);
 			}
 		}
-
 		BgfxRenderContext::windows.clear();
 		bgfx::shutdown();
+		delete bgfxCallBack;
 	}
 
 	void BgfxRenderContext::beginFrame() {
@@ -94,7 +110,7 @@ namespace mce::gfx {
 		);
 
 		if (!bgfx::isValid(data.fbh)) {
-			MCE_ERROR("Could not create a frame buffer handle");
+			LOG_ERROR("Could not create a frame buffer handle");
 			return 0xFFFF;
 		}
 
@@ -136,20 +152,6 @@ namespace mce::gfx {
 
 		bgfx::PlatformData pd{};
 		pd.nwh = win.nativeHandle;
-
-		// Before we reattach a SwapChain to the window
-		// we must actually free up the previous one.
-		// The DestroyFrameBuffer command goes in the
-		// cmdPost CommandBuffer, which happens after
-		// the frame. The CreateFrameBuffer command goes
-		// int the cmdPre CommandBuffer, which happens
-		// at the beginning of the frame. Without this
-		// bgfx::frame() call, the creation would happen
-		// before it's destroyed, which would cause
-		// the platform window to have two SwapChains
-		// associated with it.
-		// Ideally, we have an operation of ResizeFrameBuffer.
-		bgfx::frame();
 
 		win.fbh = bgfx::createFrameBuffer(
 			pd.nwh,

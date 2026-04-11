@@ -10,7 +10,6 @@ namespace bgfx {
 }
 
 namespace mce::gfx {
-	using core::QEventBus;
 	class RenderContext {
 	public:
 		enum class API {
@@ -29,7 +28,7 @@ namespace mce::gfx {
 			Count
 		};
 
-		RenderContext(QEventBus& qBus);
+		RenderContext(core::QEventBus& qBus);
 		virtual ~RenderContext() = default;
 
 		virtual bool init(sf::WindowBase& mainWindow, API api) = 0;
@@ -47,8 +46,11 @@ namespace mce::gfx {
 
 		//static eastl::unique_ptr<RenderContext> create(QEventBus& qBus);
 
-
+		API getRenderAPI() {
+			return backendAPI;
+		}
 	protected:
-		QEventBus& qBus;
+		core::QEventBus& qBus;
+		API backendAPI;
 	};
 }

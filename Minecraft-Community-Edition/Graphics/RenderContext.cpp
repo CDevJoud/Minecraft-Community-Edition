@@ -1,5 +1,7 @@
 #include "RenderContext.hpp"
 
+using mce::core::QEventBus;
+
 namespace mce::gfx {
 	RenderContext::RenderContext(QEventBus& qBus) : qBus(qBus) {
 	

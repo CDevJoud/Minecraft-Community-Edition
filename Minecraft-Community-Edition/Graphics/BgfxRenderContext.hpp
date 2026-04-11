@@ -1,13 +1,14 @@
 #pragma once
 #include "RenderContext.hpp"
+#define BGFX_CONFIG_MULTITHREADED 0
 #include "bgfx/bgfx.h"
 #include <EASTL/unordered_map.h>
+#include "..\BgfxCallBack.hpp"
 
 namespace mce::gfx {
-	using core::QEventBus;
 	class BgfxRenderContext final : public RenderContext {
 	public:
-		BgfxRenderContext(QEventBus& qBus);
+		BgfxRenderContext(core::QEventBus& qBus);
 		~BgfxRenderContext() override = default;
 
 		bool init(sf::WindowBase& mainWindow, API api) override;
@@ -30,6 +31,8 @@ namespace mce::gfx {
 			unsigned int height = 0;
 			bool isMain = false;
 		};
+
+		BgfxCallBack* bgfxCallBack;
 
 		uint16_t nextViewId = 1;
 
