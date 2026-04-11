@@ -7,24 +7,34 @@
 #include <SFML/System/Sleep.hpp>
 #include <SFML/Window/Event.hpp>   // Added: ensure sf::Event is a complete type where used
 #include <optional>               // Added: std::optional is used by translateEventAndDispatch
+#include <Graphics/RenderFactory.hpp>
 
 #ifdef MCE_PLATFORM_WINDOWS
 #pragma warning(disable:4996)
 #endif
 
+#define LOG_INFO(msg) qBus.post(event::Log(event::Log::INFO, msg))
+#define LOG_ERROR(msg) qBus.post(event::Log(event::Log::ERROR, msg))
+
 namespace mce {
-	Minecraft::Minecraft(const eastl::string_view& profileName, QEventBus& qBus, uint16_t viewId, sf::WindowHandle window, sf::Vector2u viewSize, eastl::shared_ptr<RenderContext>& renderCtx) :
+	using core::QEventBus;
+	using gfx::RenderContext;
+	using gfx::RenderFactory;
+	using io::VirtualFileSystem;
+
+	Minecraft::Minecraft(const eastl::string_view& profileName, QEventBus& qBus, uint16_t viewId, sf::WindowHandle window, sf::Vector2u viewSize, eastl::shared_ptr<RenderContext>& renderCtx, RenderFactory& factory, VirtualFileSystem& vfs) :
 		qBus(qBus),
-		profileName(profileName.data()),
+		profileName(profileName.data(), profileName.size()),
 		window(window),
 		bIsRunning(false),
 		renderCtx(renderCtx),
 		viewSize(viewSize),
-		viewId(viewId) {
+		viewId(viewId),
+		renderer(viewId, factory, renderCtx->getRenderAPI()),
+		vfs(vfs) {
 		this->onClose = this->qBus.subscribeRAII<event::window::Close>([this](const event::window::Close& e) {
 			if (e.window == this->window) {
 				Minecraft::bIsRunning = false;
-				this->renderCtx->unregisterWindow(this->viewId);
 			}
 			});
 		this->onResize = this->qBus.subscribeRAII<event::window::Resize>([this](const event::window::Resize& e) {
@@ -34,6 +44,17 @@ namespace mce {
 				this->renderCtx->resize(this->viewId, this->viewSize.x, this->viewSize.y);
 			}
 			});
+		/*gfx::flags::Buffer bFlag;
+
+		bFlag.addFlag(gfx::flags::Buffer::None);
+
+		bool isSuccess = false;
+
+		gfx::VertexBuffer vb({}, bFlag, isSuccess);
+
+		*/
+
+		
 	}
 
 	Minecraft::~Minecraft() {
@@ -42,12 +63,15 @@ namespace mce {
 
 		//MCE_INFO("Shutting down");
 		//this->onClose;
+		
 	}
 
 	int Minecraft::initInstance() {
 
 
-		MCE_INFO("Init MCE: {}", profileName);
+		LOG_INFO(std::format("Init MCE: {}", profileName));
+
+		renderer.init(vfs);
 
 		/*
 		* in the future here would we load the game assets from the vfs
@@ -55,7 +79,7 @@ namespace mce {
 
 		Minecraft::bIsRunning = true;
 
-		MCE_INFO("Done");
+		LOG_INFO("Done");
 		return 0;
 	}
 
@@ -76,6 +100,6 @@ namespace mce {
 	}
 
 	void Minecraft::render() {
-		bgfx::touch(this->viewId);
+		renderer.render();
 	}
 }
