@@ -6,12 +6,13 @@
 #include "Core/ThreadManager.hpp"
 #include "SFML/Window/Window.hpp"
 #include "Graphics/RenderContext.hpp"
+#include "Graphics/RenderFactory.hpp"
 #include "bx/commandline.h"
-//#include "Graphics/RenderContext.hpp"
-//#include "Graphics/Renderer.hpp"
+#include "IO/VirtualFileSystem.hpp"
+#include "tui/Console.hpp"
+#include "IO/FileLogger.hpp"
 
 namespace mce {
-
 	/**
  * @class Application
  * @brief Main application class managing multiple game instances.
@@ -61,5 +62,9 @@ namespace mce {
 		bx::CommandLine cmd;
 		gfx::RenderContext::API api;
 		bool isRenderCtxInit = false, isApplicationInit;
+		io::VirtualFileSystem vfs;
+		gfx::RenderFactory factory;
+		tui::Console console;
+		io::FileLogger fLogger;
 	};
 }
