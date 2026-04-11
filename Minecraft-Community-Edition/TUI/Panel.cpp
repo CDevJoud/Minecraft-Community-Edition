@@ -13,7 +13,8 @@ namespace mce::tui {
 	Panel::~Panel() {
 	}
 
-	eastl::shared_ptr<Panel> Panel::createInstance(core::QEventBus& qBus, const std::string& title, const uint16_t width, const uint16_t height, core::FunctionContainer fc) {
+
+    eastl::shared_ptr<Panel> Panel::createInstance(core::QEventBus& qBus, const std::string& title, const uint16_t width, const uint16_t height, core::FunctionContainer fc) {
 		auto component = eastl::make_shared<Panel>(qBus, title, width, height, fc);
 		if (component->re.buffer.empty()) {
 			return nullptr;
@@ -288,15 +289,18 @@ namespace mce::tui {
 	}
 
 	void Panel::onRender(RenderTarget* out) {
-		if (this->fc.findFunction("OnLastRender"))
-			this->fc.callFunction<void>("OnLastRender");
+		if (this->fc.findFunction("onLastRender"))
+			this->fc.callFunction<void, Panel&>("onLastRender", *this);
 		for (int i = 0; i < this->components.size(); i++) {
 			auto& component = this->components[i];
 
 			component->onRender(this);
 		}
 		//int a = this->GetTitle().length() * (this->GetTitle().length() / this->GetSize().X);
-		Panel::setUpFrame(out, this->getRect(), Panel::props.borderColor);
+		if (Panel::targeted)
+			Panel::setUpFrame(out, this->getRect(), Panel::props.borderColor);
+		else
+			Panel::setUpFrame(out, this->getRect(), 0x08);
 		switch (Panel::props.titleAlignment) {
 		default:
 			break;
@@ -317,8 +321,8 @@ namespace mce::tui {
 		}
 
 		RenderTarget::flushTo(out, this->getRect());
-		if (this->fc.findFunction("OnRender"))
-			this->fc.callFunction<void, Panel&>("OnRender", *this);
+		if (this->fc.findFunction("onRender"))
+			this->fc.callFunction<void, Panel&>("onRender", *this);
 	}
 
 	void Panel::onInit() {
@@ -334,6 +338,9 @@ namespace mce::tui {
 	Panel::Properties& Panel::getProperties() {
 		// TODO: insert return statement here
 		return Panel::props;
+	}
+	bool Panel::isFocused() {
+		return targeted;
 	}
 	void Panel::setUpFrame(RenderTarget* out, sf::Rect<short> rect, uint8_t color) {
 		uint16_t x = rect.left;

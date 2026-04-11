@@ -54,6 +54,8 @@ namespace mce::tui {
 		sf::Rect<short> getRect() const;
 
 		Properties& getProperties();
+
+		bool isFocused();
 	protected:
 		void setUpFrame(RenderTarget* out, sf::Rect<short> rect, uint8_t color);
 	private:
