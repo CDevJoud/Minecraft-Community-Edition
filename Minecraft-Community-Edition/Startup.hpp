@@ -46,8 +46,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,       						 \
 																							 \
 	LocalFree(argvW);																		 \
 																							 \
-	return app.run();																		 \
+	int nExitCode = app.run();																		 \
+	TerminateProcess(GetCurrentProcess(), nExitCode); \
 }
 #else
-#define MCE_STARTUP(Startup) int main(int argc, char* argv[]) {Startup app(argc, argv); return app.run();}
+
+#define MCE_STARTUP(_Startup) \
+int main(int argc, char* argv[]) { \
+	_Startup app(argc, argv); \
+	int nExitCode = app.run(); \
+	TerminateProcess(GetCurrentProcess(), nExitCode); \
+}
 #endif
+
