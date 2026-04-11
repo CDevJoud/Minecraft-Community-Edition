@@ -1,7 +1,7 @@
 #include "FunctionContainer.hpp"
 
 namespace mce::core {
-	FunctionContainer::FunctionContainer(QEventBus& qBus, std::initializer_list<std::pair<eastl::string, eastl::any>> initList) : qBus(qBus){
+	FunctionContainer::FunctionContainer(std::initializer_list<std::pair<eastl::string, eastl::any>> initList) {
 		for (const auto& [name, func] : initList) {
 			FunctionContainer::functions[name] = func;
 		}

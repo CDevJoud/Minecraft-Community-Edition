@@ -44,7 +44,7 @@ namespace mce::core {
 		 *
 		 * @param initlist Initializer list of pairs (name, callable-as-eastl::any).
 		 */
-		FunctionContainer(QEventBus& qBus, std::initializer_list<std::pair<eastl::string, eastl::any>> initlist);
+		FunctionContainer(std::initializer_list<std::pair<eastl::string, eastl::any>> initlist);
 
 		/**
 		 * @brief Add a function to the container.
@@ -118,7 +118,6 @@ namespace mce::core {
 	private:
 		/// Internal map of name to stored callable (wrapped in eastl::any)
 		eastl::unordered_map<eastl::string, eastl::any> functions;
-		QEventBus& qBus;
 	};
 
 	// Template implementations
@@ -145,7 +144,7 @@ namespace mce::core {
 			return castedFunc(eastl::forward<Arguments>(args)...);
 		}
 		else {
-			MCE_ERROR("Function \"{}\" not found! File:", name);
+			//MCE_ERROR("Function \"{}\" not found! File:", name);
 		}
 	}
 
@@ -160,7 +159,7 @@ namespace mce::core {
 			return eastl::any_cast<eastl::function<Return(Arguments...)>>(FunctionContainer::functions[name]);
 		}
 		else {
-			MCE_ERROR("Function \"{}\" not found! File:", name);
+			//MCE_ERROR("Function \"{}\" not found! File:", name);
 			return nullptr;
 		}
 	}
@@ -176,7 +175,7 @@ namespace mce::core {
 			return eastl::any_cast<eastl::function<Return(Arguments...)>>(FunctionContainer::functions[name]);
 		}
 		else { 
-			MCE_ERROR("Function \"{}\" not found! File:", name);
+			//MCE_ERROR("Function \"{}\" not found! File:", name);
 			return nullptr;
 		}
 	}
