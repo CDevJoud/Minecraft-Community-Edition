@@ -12,7 +12,7 @@ The new project will be called **Minecraft Community Edition**, and it will be a
 
 ### Independent Codebase
 
-Minecraft Community Edition will not directly depend on the current LCEMP source code. Instead, it will follow its own coding style, structure, and design philosophy. The new codebase will be modular, readable, and future-proof.
+Minecraft Community Edition will not directly depend on the current LCE source code. Instead, it will follow its own coding style, structure, and design philosophy. The new codebase will be modular, readable, and future-proof.
 
 One of the main improvements will be performance. Since the current version runs on x86 architecture, which limits performance on modern systems, the project will migrate to x64 in order to improve memory handling and overall efficiency.
 
