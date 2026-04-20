@@ -1,4 +1,5 @@
 #include "ShaderProgram.hpp"
+#include "Texture.hpp"
 
 namespace mce::gfx {
 	ShaderProgram::ShaderProgram(const eastl::vector<uint8_t>& vertexShader, const eastl::vector<uint8_t>& fragmentShader, bool& success, bool destroyShaderBin, const std::string& dbgName) :
@@ -34,5 +35,16 @@ namespace mce::gfx {
 	}
 	bgfx::ProgramHandle ShaderProgram::getProgramHandle() const {
 		return ShaderProgram::program;
+	}
+    void ShaderProgram::setUniform(const std::string& name, const eastl::shared_ptr<Texture>& texture) {
+		auto it = uniform.find(name);
+		if (it != uniform.end()) {
+			bgfx::setTexture(0, it->second, texture->getTextureHandle());
+		}
+		else {
+			auto u = bgfx::createUniform(name.c_str(), bgfx::UniformType::Sampler);
+			uniform[name] = u;
+			bgfx::setTexture(0, u, texture->getTextureHandle());
+		}
 	}
 }
