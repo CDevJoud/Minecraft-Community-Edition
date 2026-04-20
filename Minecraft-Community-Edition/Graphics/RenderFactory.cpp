@@ -45,6 +45,16 @@ namespace mce::gfx {
 		return a.vsHash == b.vsHash && a.fsHash == b.fsHash;
 	}
 
+	size_t TextureKeyHash::operator()(const TextureKey& k) const {
+		size_t h = k.datahash;
+
+		return h;
+	}
+
+	bool TextureKeyEqual::operator()(const TextureKey a, const TextureKey b) const {
+		return a.datahash == b.datahash;
+	}
+
 	RenderFactory::RenderFactory(QEventBus& qBus) : qBus(qBus) {}
 
 	eastl::shared_ptr<VertexBuffer> mce::gfx::RenderFactory::createVertexBuffer(const VertexArray& vArray, flags::Buffer bFlag, const std::string& dbgName) {
@@ -73,7 +83,7 @@ namespace mce::gfx {
 		//Create new buffer
 		LOG_INFO(std::format("Creating a new buffer named {}", dbgName));
 		bool isSuccess = false;
-		eastl::shared_ptr<VertexBuffer> vb = eastl::make_shared<VertexBuffer>(vArray, bFlag, isSuccess);
+		eastl::shared_ptr<VertexBuffer> vb = VertexBuffer::createInstance(vArray, bFlag, isSuccess);
 		bgfx::setName(vb.get()->getNativeHandle(), dbgName.c_str());
 		if (!isSuccess) {
 			//Error
@@ -117,7 +127,8 @@ namespace mce::gfx {
 		}
 
 		bool isSuccess = false;
-		eastl::shared_ptr<ShaderProgram> sp = eastl::make_shared<ShaderProgram>(shader.first, shader.second, isSuccess, destroyShaderBin, dbgName);
+		eastl::shared_ptr<ShaderProgram> sp = ShaderProgram::createInstance(shader.first, shader.second, isSuccess, destroyShaderBin, dbgName);
+		
 		if (!isSuccess) {
 
 			return nullptr;
@@ -141,9 +152,44 @@ namespace mce::gfx {
 		return sp;
 	}
 
-	
+	eastl::shared_ptr<Texture> RenderFactory::createTexture(const bgfx::Memory* bytes) {
+		TextureKey key{
+			hashMemory(bytes->data, bytes->size),
+		};
+		{
+			std::shared_lock lock(RenderFactory::mutex);
 
+			auto it = RenderFactory::texCache.find(key);
+			if (it != texCache.end()) {
+				if (auto existing = it->second.lock()) {
+					LOG_INFO("It Exist");
+					return existing;
+				}
+			}
+		}
 
-	
+		bool isSuccess = false;
+		eastl::shared_ptr<Texture> tex = Texture::createInstance(bytes, isSuccess);
+		if (!isSuccess) {
 
+			return nullptr;
+		}
+
+		{
+			std::unique_lock lock(RenderFactory::mutex);
+
+			auto it = RenderFactory::texCache.find(key);
+			if (it != texCache.end()) {
+				if (auto existing = it->second.lock()) {
+					LOG_INFO("Another Thread reached here returning existing!");
+					return existing; // WTF???? another thread reached here????
+				}
+			}
+			RenderFactory::texCache[key] = tex;
+			return tex;
+		}
+
+		RenderFactory::texCache[key] = tex;
+		return tex;
+	}
 }

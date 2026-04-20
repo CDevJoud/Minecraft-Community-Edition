@@ -2,6 +2,7 @@
 #include "IRenderer.hpp"
 #include "RenderFactory.hpp"
 #include "RenderContext.hpp"
+#include <SFML/Graphics/Rect.hpp>
 
 namespace mce::gfx {
 	class Renderer : public IRenderer {
@@ -14,15 +15,22 @@ namespace mce::gfx {
 
 		virtual void setVertexBuffer(VertexBufferHandle handle) override;
 
+		virtual void setTransform(const void* view, const void* proj) override;
+
+		virtual void submit(ProgramHandle program) override;
+
 		virtual void touch();
 
 		RenderFactory& getFactory();
 		RenderContext::API getRendererAPI();
+
+		sf::Rect<uint16_t> getViewSpace() const;
 	private:
 		RenderFactory& factory;
 		uint32_t color;
 		uint16_t viewId;
 		RenderContext::API backendAPI;
+		sf::Rect<uint16_t> viewSpace;
 	};
 }
 

@@ -4,11 +4,13 @@
 
 namespace bgfx {
 	struct VertexBufferHandle;
+	struct ProgramHandle;
 }
 
 namespace mce::gfx {
 
 	using bgfx::VertexBufferHandle;
+	using bgfx::ProgramHandle;
 
 	class IRenderer {
 	public:
@@ -36,6 +38,8 @@ namespace mce::gfx {
 		virtual void setViewSpace(uint16_t x, uint16_t y, uint16_t width, uint16_t height) = 0;
 		
 		virtual void setVertexBuffer(VertexBufferHandle handle) = 0;
+		virtual void submit(ProgramHandle program) = 0;
+		virtual void setTransform(const void* view, const void* proj) = 0;
 		//virtual bgfx::VertexBufferHandle createVertexBuffer() = 0; 
 
 		virtual void addFlag(Clear cFlag);

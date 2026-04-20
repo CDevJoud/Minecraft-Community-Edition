@@ -4,6 +4,7 @@
 #include <EASTL/unordered_map.h>
 #include "VertexBuffer.hpp"
 #include "ShaderProgram.hpp"
+#include "Texture.hpp"
 #include "Core/QEventBus.hpp"
 #include <unordered_map>
 #include <shared_mutex>
@@ -42,12 +43,26 @@ namespace mce::gfx {
 		bool operator()(const ShaderProgramKey a, const ShaderProgramKey b) const;
 	};
 
+	struct TextureKey {
+		uint64_t datahash;
+	};
+
+	struct TextureKeyHash {
+		size_t operator()(const TextureKey& k) const;
+	};
+
+	struct TextureKeyEqual {
+		bool operator()(const TextureKey a, const TextureKey b) const;
+	};
+
 	class RenderFactory {
 	public:
 		RenderFactory(core::QEventBus& qBus);
 		
 		eastl::shared_ptr<VertexBuffer> createVertexBuffer(const VertexArray& vArray, flags::Buffer bFlag, const std::string& dbgName = "");
 		eastl::shared_ptr<ShaderProgram> createShaderProgram(const eastl::pair<eastl::vector<uint8_t>, eastl::vector<uint8_t>>& shader, bool destroyShaderBin = false, const std::string& dbgName = "");
+		eastl::shared_ptr<Texture> createTexture(const bgfx::Memory* bytes);
+	
 	private:
 		std::unordered_map<VertexBufferKey, 
 			eastl::weak_ptr<VertexBuffer>, 
@@ -58,6 +73,11 @@ namespace mce::gfx {
 			eastl::weak_ptr<ShaderProgram>,
 			ShaderProgramKeyHash,
 			ShaderProgramKeyEqual> spCache;
+
+		std::unordered_map<TextureKey,
+			eastl::weak_ptr<Texture>,
+			TextureKeyHash,
+			TextureKeyEqual> texCache;
 		mutable std::shared_mutex mutex;
 		core::QEventBus& qBus;
 	};
