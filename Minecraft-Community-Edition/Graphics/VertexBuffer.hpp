@@ -4,10 +4,24 @@
 #include <EASTL/shared_ptr.h>
 
 namespace mce::gfx {
+	class RenderFactory;
+
 	class VertexBuffer {
-	public:
+		friend class RenderFactory;
+
+		template <typename... Args>
+		static eastl::shared_ptr<VertexBuffer> createInstance(Args&&... args) {
+			struct EnableMakeShared : public VertexBuffer {
+				EnableMakeShared(Args&&... a) : VertexBuffer(eastl::forward<Args>(a)...) {}
+			};
+
+			return eastl::make_shared<EnableMakeShared>(eastl::forward<Args>(args)...);
+		}
+
 		VertexBuffer(const VertexArray& vArray, flags::Buffer bFlags, bool& success);
 		~VertexBuffer();
+
+	public:
 
 		size_t getVertexCount() const;
 		bgfx::VertexBufferHandle getNativeHandle() const;
