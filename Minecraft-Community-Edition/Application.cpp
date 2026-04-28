@@ -1,25 +1,27 @@
 #pragma warning(disable:4996)
 #include "Startup.hpp"
 
-#include "SFML/Window/VideoMode.hpp"
-#include "SFML/Window/Event.hpp"
+#include "Core/VideoMode.hpp"
+#include "Core/Event.hpp"
 
 #include "Application.hpp"
 #include "Graphics/BgfxRenderContext.hpp"
 #include "IO/Logger.hpp"
 #include "IO/LoggerSinks.hpp"
-#include <SFML/System/Sleep.hpp>
-#include <SFML/System/Clock.hpp>
+
+#include "Core/Sleep.hpp"
+#include "Core/Clock.hpp"
+
 #include <filesystem>
 #include <chrono>
-#include <bx/commandline.h>
-#include <bx/os.h>
-#include <SFML/Graphics/Image.hpp>
+
+#include "libs/bx/commandline.h"
+
+#include <Graphics/Image.hpp>
 #include "TUI/icon.hpp"
 #include "TUI/CLogger.hpp"
 
-sf::Image iImg;
-
+mce::gfx::Image iImg;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
@@ -30,17 +32,33 @@ namespace mce {
 		factory(qBus),
 		fLogger(qBus),
 		console(qBus, nullptr, "Minecraft Community Edition Debugger", sf::VideoMode::getDesktopMode().width / 8, sf::VideoMode::getDesktopMode().height / 16, 8, 16) {
+		//just a funny way to pass data to methods/constructor. might be used in the future for modding for function parameters that are to long
+		/*console({
+			{"qBus", (uint64_t)(&qBus)},
+			{"window", {
+					{"nwh", (uint64_t)nullptr},
+					{"title", "Minecraft Community Edition Debugger"},
+					{"width", sf::VideoMode::getDesktopMode().width / 8},
+					{"height", sf::VideoMode::getDesktopMode().height / 16},
+					{"pxlWidth", 8},
+					{"pxlHeight", 16},
+					{"type", 1}
+				}
+			}
+			})*/ 
 		setupLogging();
 		qBus.runAsync();
 		iImg.loadFromMemory(icon, icon_size);
-
-
-		console.insertComponent(tui::CLogger::createInstance(qBus, "bgfx", 117, 30));
+		sf::VideoMode s;
+		vfs.buildJSONMappingFile("assets.json", "assets.bin");
 		console.insertComponent(tui::CLogger::createInstance(qBus, "default", 115, 30));
-
+		console.insertComponent(tui::CLogger::createInstance(qBus, "bgfx", 117, 30));
 		auto component = console.getComponent<tui::CLogger>("default");
 		component->setPosition(119, 1);
 		Application::isApplicationInit = Application::initApplication();
+
+		nlohmann::json data = { {"renderCtx", (uint64_t)(&renderCtx)} };
+
 		qBus.post(event::Log(event::Log::Severity::DEBUG, "Hello World!"));
 		LOG_DEBUG("Hello World!");
 	}
@@ -89,13 +107,16 @@ namespace mce {
 					}
 				}
 
+				Application::renderCtx->beginFrame();
+
 				for (auto& instance : Application::instances) {
 					if (instance.second && instance.second->isRunning()) {
 						instance.second->render();
 					}
 				}
-				bgfx::frame();
 				
+				Application::renderCtx->endFrame();
+
 				sf::sleep(sf::milliseconds(0));
 			}
 		}
@@ -110,7 +131,7 @@ namespace mce {
 			});
 
 		th->launch();
-		
+
 		//Wait for 3 seconds if bgfx refuses to shutdown then we terminates it
 		sf::sleep(sf::seconds(3));
 		if(!hasBgfxShutdown)
@@ -173,10 +194,6 @@ namespace mce {
 		}
 
 		vfs.loadFile("assets");
-		/*if (!vfs.loadFile("assets")) {
-			vfs.buildJSONMappingFile("assets.json", "assets.bin");
-			vfs.loadFile("assets");
-		}*/
 
 		Application::initQEventBusSubscription();
 
@@ -188,12 +205,13 @@ namespace mce {
 	}
 
 	void Application::initQEventBusSubscription() {
-
+		
 	}
 	void Application::createProfile(const eastl::string profileName) {
-		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920, 1080), "Minecraft CE");
+		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920 / 4, 1080 / 2), "Minecraft CE");
 		window->setIcon(iImg.getSize().x, iImg.getSize().y, iImg.getPixelsPtr());
 		uint16_t viewId = 0;
+
 		if (!this->isRenderCtxInit) {
 			if (renderCtx->init(*window, api)) {
 				this->isRenderCtxInit = true;
@@ -212,9 +230,8 @@ namespace mce {
 			Application::factory,
 			Application::vfs
 		);
-
 		Minecraft* rawMinecraftPtr = mc.get();
-
+		sf::WindowBase* rawWindowPtr = window.get();
 		Application::instances.emplace_back(
 			eastl::make_pair<eastl::unique_ptr<sf::WindowBase>, eastl::unique_ptr<Minecraft>>(eastl::move(window), eastl::move(mc))
 		);
@@ -235,6 +252,7 @@ namespace mce {
 			}
 
 			})->launch();
+		rawWindowPtr->setVisible(true);
 	}
 }
 

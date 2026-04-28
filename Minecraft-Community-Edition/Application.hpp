@@ -4,10 +4,10 @@
 #include <EASTL/vector.h>
 #include "Core/QEventBus.hpp"
 #include "Core/ThreadManager.hpp"
-#include "SFML/Window/Window.hpp"
+#include "Core/WindowBase.hpp"
 #include "Graphics/RenderContext.hpp"
 #include "Graphics/RenderFactory.hpp"
-#include "bx/commandline.h"
+#include "libs/bx/commandline.h"
 #include "IO/VirtualFileSystem.hpp"
 #include "tui/Console.hpp"
 #include "IO/FileLogger.hpp"
@@ -68,3 +68,4 @@ namespace mce {
 		io::FileLogger fLogger;
 	};
 }
+
