@@ -5,8 +5,8 @@
 #include <EASTL/shared_ptr.h>
 #include <EASTL/string.h>
 #include "Platform.hpp"
-#include <SFML/Window/WindowHandle.hpp>
-#include <SFML/System/Vector2.hpp>
+#include <Core/WindowBase.hpp>
+#include <Core/Vector2.hpp>
 #ifdef MCE_PLATFORM_WINDOWS
 #undef ERROR
 #endif
