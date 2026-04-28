@@ -7,7 +7,7 @@ namespace mce::tui {
 
 	}
 
-	void RenderTarget::flushTo(RenderTarget* out, sf::Rect<short> rect) {
+	void RenderTarget::flushTo(RenderTarget* out, core::Rect<short> rect) {
 		sf::Vector2<short> p1 = { rect.left, rect.top };
 		sf::Vector2<short> p2 = { short(p1.x + rect.width), short(p1.y + rect.height) };
 		for (int x = p1.x; x < p2.x; x++) {
@@ -246,15 +246,15 @@ namespace mce::tui {
 		if (y < 0) y = 0;
 		if (y > RenderTarget::re.viewSpace.height) y = RenderTarget::re.viewSpace.height;
 	}
-	bool RenderTarget::checkInBoundaries(int16_t x, int16_t y, sf::Rect<short> rect) {
+	bool RenderTarget::checkInBoundaries(int16_t x, int16_t y, core::Rect<short> rect) {
 		return (x >= rect.left && x <= rect.width &&
 				y >= rect.top  && y <= rect.height);
 	}
-	bool RenderTarget::checkInBoundaries(sf::Vector2<short> p, sf::Rect<short> rect) {
+	bool RenderTarget::checkInBoundaries(sf::Vector2<short> p, core::Rect<short> rect) {
 		return (p.x >= rect.left && p.x <= rect.width &&
 				p.y >= rect.top &&  p.y <= rect.height);
 	}
-	sf::Rect<short> RenderTarget::getViewSpace() const {
+	core::Rect<short> RenderTarget::getViewSpace() const {
 		return RenderTarget::re.viewSpace;
 	}
 	CharInfo RenderTarget::getPixelAt(int16_t x, int16_t y) const {

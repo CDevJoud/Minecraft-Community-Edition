@@ -1,8 +1,8 @@
 #pragma once
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/WindowHandle.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Window/Mouse.hpp>
+#include <Core/Vector2.hpp>
+#include <Core/WindowHandle.hpp>
+#include <Core/Keyboard.hpp>
+#include <Core/Mouse.hpp>
 
 namespace mce::tui {
 	class EventProcessor {

@@ -58,7 +58,63 @@ namespace mce::tui {
 #endif
 		}
 	}
-	Console::~Console() {
+    Console::Console(const nlohmann::json& data) {
+		auto qBus = (core::QEventBus*)data["qBus"].get<int>();
+		auto nwh = (sf::WindowHandle)data["window"]["nwh"].get<int>();
+		std::string title = data["window"]["title"];
+		uint16_t width = data["window"]["width"];
+		uint16_t height = data["window"]["height"];
+		uint16_t pxlWidth = data["window"]["pxlWidth"];
+		uint16_t pxlHeight = data["window"]["pxlHeight"];
+		Console::type = data["window"]["type"];
+
+		if (Console::type == Console::Type::NativeWindows) {
+			Console::interface = new WindowsConsole(*qBus, nwh, title, width * pxlWidth, height * pxlHeight, pxlWidth, pxlHeight);
+#ifdef MCE_PLATFORM_WINDOWS
+			if (Console::interface->isOpen()) {
+				Console::hInput = GetStdHandle(STD_INPUT_HANDLE);
+				Console::hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+
+				SMALL_RECT rect = { 0, 0, 1, 1 };
+				SetConsoleWindowInfo(Console::getOutputHandle(), TRUE, &rect);
+
+				if (!SetConsoleScreenBufferSize(Console::getOutputHandle(), { (short)width, (short)height })) {
+					MessageBoxA(nullptr, "Couldn't set the console screen buffer size!", "Error", MB_ICONERROR | MB_OK);
+				}
+
+				SetConsoleActiveScreenBuffer(Console::getOutputHandle());
+
+				CONSOLE_FONT_INFOEX cfi{};
+				cfi.cbSize = sizeof(cfi);
+				cfi.nFont = 0;
+				cfi.dwFontSize.X = pxlWidth;
+				cfi.dwFontSize.Y = pxlHeight;
+				cfi.FontFamily = FF_DONTCARE;
+				cfi.FontWeight = FW_NORMAL;
+
+				wcscpy_s(cfi.FaceName, L"Consolas");
+				SetCurrentConsoleFontEx(Console::getOutputHandle(), FALSE, &cfi);
+
+				Console::viewSpace.left = 0;
+				Console::viewSpace.top = 0;
+				Console::viewSpace.width = width - 1;
+				Console::viewSpace.height = height - 1;
+				if (!SetConsoleWindowInfo(Console::getOutputHandle(), TRUE, reinterpret_cast<PSMALL_RECT>(&viewSpace))) {
+					// we force the size
+					Console::getInterface()->setSize(width * pxlWidth, height * pxlHeight);
+				}
+
+				SetConsoleMode(Console::getInputHandle(), ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
+
+				Console::re.hConsole = Console::getOutputHandle();
+				Console::re.viewSpace = Console::viewSpace;
+				Console::re.buffer.resize(Console::viewSpace.width * Console::viewSpace.height, CharInfo{});
+				Console::initEventProcessor(hInput);
+			}
+#endif
+		}
+	}
+    Console::~Console() {
 		if (Console::interface) {
 			delete Console::interface;
 			Console::interface = nullptr;

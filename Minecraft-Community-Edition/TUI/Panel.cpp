@@ -332,8 +332,8 @@ namespace mce::tui {
 	sf::Vector2<short> Panel::getMousePosition() const {
 		return Panel::mousePosition;
 	}
-	sf::Rect<short> Panel::getRect() const {
-		return sf::Rect<short>(Component::getPosition(), Component::getSize());
+	core::Rect<short> Panel::getRect() const {
+		return core::Rect<short>(Component::getPosition(), Component::getSize());
 	}
 	Panel::Properties& Panel::getProperties() {
 		// TODO: insert return statement here
@@ -342,7 +342,7 @@ namespace mce::tui {
 	bool Panel::isFocused() {
 		return targeted;
 	}
-	void Panel::setUpFrame(RenderTarget* out, sf::Rect<short> rect, uint8_t color) {
+	void Panel::setUpFrame(RenderTarget* out, core::Rect<short> rect, uint8_t color) {
 		uint16_t x = rect.left;
 		uint16_t y = rect.top;
 		uint16_t width = rect.width;

@@ -1,7 +1,7 @@
 #include "EventProcessor.hpp"
 #include "Platform.hpp"
-#include <SFML/Window/WindowBase.hpp>
-#include <SFML/Window/Event.hpp>
+#include <Core/WindowBase.hpp>
+#include <Core/Event.hpp>
 
 #ifdef MCE_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN

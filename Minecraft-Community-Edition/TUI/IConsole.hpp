@@ -1,6 +1,6 @@
 #pragma once
-#include "Core/QEventBus.hpp"
-#include <SFML/Window/WindowHandle.hpp>
+#include <Core/QEventBus.hpp>
+#include <Core/WindowHandle.hpp>
 
 namespace mce::tui {
 	class IConsole {

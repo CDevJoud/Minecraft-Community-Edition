@@ -51,13 +51,13 @@ namespace mce::tui {
 
 		sf::Vector2<short> getMousePosition() const;
 
-		sf::Rect<short> getRect() const;
+		core::Rect<short> getRect() const;
 
 		Properties& getProperties();
 
 		bool isFocused();
 	protected:
-		void setUpFrame(RenderTarget* out, sf::Rect<short> rect, uint8_t color);
+		void setUpFrame(RenderTarget* out, core::Rect<short> rect, uint8_t color);
 	private:
 		eastl::vector<eastl::shared_ptr<Component>> components;
 		bool		   isResizingRight : 1 = false;

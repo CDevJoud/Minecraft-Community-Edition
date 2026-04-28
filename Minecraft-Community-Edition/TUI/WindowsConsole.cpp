@@ -4,16 +4,16 @@
 #ifdef MCE_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include "icon.hpp"
+#include <Graphics/Image.hpp>
 
 namespace mce::tui {
 	BOOL WINAPI ConsoleHandler(DWORD event) {
 		return TRUE;
 	}
 
-	HICON CreateIconFromSFML(const sf::Image& img) {
+	HICON CreateIconFromSFML(const gfx::Image& img) {
 		unsigned int width = img.getSize().x;
 		unsigned int height = img.getSize().y;
 
@@ -78,7 +78,7 @@ namespace mce::tui {
 
 		return hIcon;
 	}
-	sf::Image _icon;
+	gfx::Image _icon;
 	WindowsConsole::WindowsConsole(core::QEventBus& qBus, sf::WindowHandle window, const std::string& title, uint16_t width, uint16_t height, uint16_t pxlWidth, uint16_t pxlHeight) : 
 		qBus(qBus) {
 		if (title.empty() && width == 0 && height == 0) {

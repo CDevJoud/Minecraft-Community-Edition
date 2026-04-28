@@ -1,6 +1,6 @@
 #pragma once
 #include <EASTL/vector.h>
-#include <SFML/Graphics/Rect.hpp>
+#include <Core/Rect.hpp>
 #include <string>
 
 namespace mce::tui {
@@ -15,14 +15,14 @@ namespace mce::tui {
 	struct RenderElement {
 		void* hConsole;
 		eastl::vector<CharInfo> buffer;
-		sf::Rect<short> viewSpace;
+		core::Rect<short> viewSpace;
 	};
-
+	
 	class RenderTarget {
 	public:
 		RenderTarget();
 		RenderTarget(RenderElement* re);
-		void flushTo(RenderTarget* out, sf::Rect<short> rect);
+		void flushTo(RenderTarget* out, core::Rect<short> rect);
 		~RenderTarget();
 
 		void setPixel(int16_t x, int16_t y, uint16_t c = 0x2588, uint16_t attrib = 0x00FF);
@@ -39,9 +39,9 @@ namespace mce::tui {
 		void renderCircle(int16_t x, int16_t y, int16_t radius, uint16_t c = 0x2588, uint16_t attrib = 0x00FF);
 
 		void calculateClipOn(int16_t& x, int16_t& y);
-		bool checkInBoundaries(int16_t x, int16_t y, sf::Rect<short> rect);
-		bool checkInBoundaries(sf::Vector2<short> p, sf::Rect<short> rect);
-		sf::Rect<short> getViewSpace() const;
+		bool checkInBoundaries(int16_t x, int16_t y, core::Rect<short> rect);
+		bool checkInBoundaries(sf::Vector2<short> p, core::Rect<short> rect);
+		core::Rect<short> getViewSpace() const;
 
 	protected:
 		RenderElement re;

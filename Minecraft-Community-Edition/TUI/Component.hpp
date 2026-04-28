@@ -38,7 +38,7 @@ namespace mce::tui {
 		RenderElement* getRenderElement() const;
 		void setComponentType(Type type);
 
-		sf::Rect<short> rect;
+		core::Rect<short> rect;
 
 		core::QEventBus& qBus;
 	private:

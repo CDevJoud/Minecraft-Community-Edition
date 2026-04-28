@@ -3,6 +3,7 @@
 #include "Component.hpp"
 #include <EASTL/vector.h>
 #include <EASTL/unique_ptr.h>
+#include <IO/nlohmann/json.hpp>	
 
 namespace mce::tui {
 	class Console : public RenderTarget, public EventProcessor {
@@ -14,6 +15,7 @@ namespace mce::tui {
 		};
 
 		Console(core::QEventBus& qBus, sf::WindowHandle window, const std::string& title, uint16_t width, uint16_t height, uint16_t pxlWidth, uint16_t pxlHeight, Type type = Type::NativeWindows);
+		Console(const nlohmann::json& data);
 		~Console();
 
 		IConsole* getInterface();
@@ -45,6 +47,6 @@ namespace mce::tui {
 		void* hInput;
 		void* hOutput;
 
-		sf::Rect<short> viewSpace;
+		core::Rect<short> viewSpace;
 	};
 }
