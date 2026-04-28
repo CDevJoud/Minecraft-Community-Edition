@@ -4,9 +4,9 @@
 #include <filesystem>
 
 #include "Graphics/BgfxRenderContext.hpp"
-#include <SFML/System/Sleep.hpp>
-#include <SFML/Window/Event.hpp>   // Added: ensure sf::Event is a complete type where used
-#include <optional>               // Added: std::optional is used by translateEventAndDispatch
+#include <Core/Sleep.hpp>
+#include <Core/Event.hpp>
+#include <optional>
 #include <Graphics/RenderFactory.hpp>
 
 #ifdef MCE_PLATFORM_WINDOWS
@@ -32,29 +32,51 @@ namespace mce {
 		viewId(viewId),
 		renderer(viewId, factory, renderCtx->getRenderAPI()),
 		vfs(vfs) {
+		gfx::IRenderer* interface = (gfx::IRenderer*)&renderer;
+		interface->setViewSpace(0, 0, viewSize.x, viewSize.y);
 		this->onClose = this->qBus.subscribeRAII<event::window::Close>([this](const event::window::Close& e) {
 			if (e.window == this->window) {
 				Minecraft::bIsRunning = false;
 			}
 			});
+
 		this->onResize = this->qBus.subscribeRAII<event::window::Resize>([this](const event::window::Resize& e) {
 			if (e.window == this->window) {
 				this->viewSize.x = e.newSize.x;
 				this->viewSize.y = e.newSize.y;
 				this->renderCtx->resize(this->viewId, this->viewSize.x, this->viewSize.y);
+				gfx::IRenderer* interface = (gfx::IRenderer*)&renderer;
+				interface->setViewSpace(0, 0, this->viewSize.x, this->viewSize.y);
 			}
 			});
-		/*gfx::flags::Buffer bFlag;
 
-		bFlag.addFlag(gfx::flags::Buffer::None);
+		gfx::VertexArray vArray;
+		vArray.append(gfx::Vertex(sf::Vector3f(-0.5f, -0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(0.0f, 1.0f)));
+		vArray.append(gfx::Vertex(sf::Vector3f( 0.5f, -0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(1.0f, 1.0f)));
+		vArray.append(gfx::Vertex(sf::Vector3f( 0.0f,  0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(0.5f, 0.0f)));
+		vLayout = gfx::Vertex::layout();
+		vArray.setVertexLayout(vLayout, sizeof(gfx::Vertex));
 
-		bool isSuccess = false;
+		gfx::flags::Buffer vbFlag;
+		vbFlag.addFlag(gfx::flags::Buffer::None);
 
-		gfx::VertexBuffer vb({}, bFlag, isSuccess);
+		Minecraft::vb = factory.createVertexBuffer(vArray, vbFlag, "Minecraft:VertexBuffer");
+		if (Minecraft::vb == nullptr) {
+			qBus.post(event::Log(event::Log::ERROR, "Couldn't create a vertex buffer!"));
+		}
 
-		*/
+		eastl::vector<uint8_t> mem;
+		vfs.getFile("assets.images.aya", mem);
 
+		renderState.texture = factory.createTexture(mem);
+
+		cube.create(factory, {}, gfx::Color());
 		
+		cube.setTexture(renderState.texture);
+		
+		torus.create(qBus, factory, 10, 5, 128, 128, gfx::Color::Black);
+
+		torus.setTexture(renderState.texture);
 	}
 
 	Minecraft::~Minecraft() {
@@ -65,11 +87,11 @@ namespace mce {
 		//this->onClose;
 		
 	}
-
+	
 	int Minecraft::initInstance() {
-
-
 		LOG_INFO(std::format("Init MCE: {}", profileName));
+
+		
 
 		renderer.init(vfs);
 
@@ -100,6 +122,21 @@ namespace mce {
 	}
 
 	void Minecraft::render() {
-		renderer.render();
+		renderState.transform.position.z = -2.0f;
+		renderState.transform.rotation.x += 0.05f;
+		//renderer.render(Minecraft::vb, renderState);
+		cube.position.z = 20.0f;
+		cube.rotation.x += 0.00005f;
+		cube.rotation.y += 0.00015f;
+		cube.rotation.z += 0.00010f;
+		cube.scale = { 3.0f, 3.0f, 3.0f };
+
+		torus.position.z = 20.0f;
+		//torus.rotation.x = 310 * (3.14 / 180);
+		torus.rotation.y += 0.00045f;
+		torus.rotation.x += 0.00015f;
+		//torus.rotation.z += 0.0035f;
+		//renderer.render(cube);
+		renderer.render(torus);
 	}
 }

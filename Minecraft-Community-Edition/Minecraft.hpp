@@ -2,11 +2,13 @@
 
 #include <EASTL/unique_ptr.h>
 #include <EASTL/string.h>
-#include "SFML/Window/Window.hpp"
+#include "Core/WindowBase.hpp"
 #include "Graphics/Void.hpp"
 #include "Core/QEventBus.hpp"
 #include "Tasks.hpp"
 #include "IO/VirtualFileSystem.hpp"
+#include "Graphics/Cube.hpp"
+#include "Graphics/Torus.hpp"
 
 namespace mce {
 	namespace gfx {
@@ -48,5 +50,14 @@ namespace mce {
 
 		core::SubscriptionToken onResize, onClose;
 		io::VirtualFileSystem& vfs;
+
+		bgfx::VertexLayout vLayout;
+
+		gfx::RenderStates renderState;
+
+		eastl::shared_ptr<gfx::VertexBuffer> vb;
+
+		gfx::Cube cube;
+		gfx::Torus torus;
 	};
 }
