@@ -2,7 +2,6 @@
 #include "Thread.hpp"
 #include <EASTL/unique_ptr.h>
 #include <EASTL/string.h>
-#include <SFML/System.hpp>
 #include "IEvent.hpp"
 
 /**
