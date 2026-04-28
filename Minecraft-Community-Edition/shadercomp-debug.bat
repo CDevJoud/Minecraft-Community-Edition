@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 REM Root paths
 set ROOT=%cd%
-set SC=%ROOT%\Vendor\bgfx\bin\shadercDebug
+set SC=%ROOT%\Vendor\bgfx\bin\shadercRelease
 set INCLUDE=%ROOT%\Vendor\bgfx\bgfx\src
 set SHADERS=%ROOT%\Graphics\Shaders
 set OUT=%ROOT%\assets\shaders
