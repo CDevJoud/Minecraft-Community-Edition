@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
-#include <bgfx/bgfx.h>
-#include <bx/math.h>
+#include <libs/bgfx/bgfx.h>
+#include <libs/bx/math.h>
 
 namespace mce::gfx {
 	Renderer::Renderer(uint16_t viewId, RenderFactory& factory, RenderContext::API api) :
@@ -27,6 +27,10 @@ namespace mce::gfx {
 		bgfx::setViewTransform(this->viewId, view, proj);
 	}
 
+	void Renderer::setTransform(const void* modelViewProj) {
+		bgfx::setTransform(modelViewProj);
+	}
+
 	void Renderer::submit(ProgramHandle program) {
 		bgfx::submit(Renderer::viewId, program);
 	}
@@ -40,7 +44,7 @@ namespace mce::gfx {
 	RenderContext::API Renderer::getRendererAPI() {
 		return Renderer::backendAPI;
 	}
-	sf::Rect<uint16_t> Renderer::getViewSpace() const {
+	core::Rect<uint16_t> Renderer::getViewSpace() const {
 		return Renderer::viewSpace;
 	}
 }

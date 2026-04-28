@@ -7,7 +7,7 @@ namespace mce::gfx {
 	public:
 		VertexArray();
 
-		void setVertexLayout(bgfx::VertexLayout& layout, size_t vertexSizeInMem = sizeof(Vertex));
+		void setVertexLayout(const bgfx::VertexLayout& layout, size_t vertexSizeInMem = sizeof(Vertex));
 
 		size_t getVertexCount() const;
 

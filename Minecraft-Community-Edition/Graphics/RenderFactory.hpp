@@ -62,6 +62,7 @@ namespace mce::gfx {
 		eastl::shared_ptr<VertexBuffer> createVertexBuffer(const VertexArray& vArray, flags::Buffer bFlag, const std::string& dbgName = "");
 		eastl::shared_ptr<ShaderProgram> createShaderProgram(const eastl::pair<eastl::vector<uint8_t>, eastl::vector<uint8_t>>& shader, bool destroyShaderBin = false, const std::string& dbgName = "");
 		eastl::shared_ptr<Texture> createTexture(const bgfx::Memory* bytes);
+		eastl::shared_ptr<Texture> createTexture(const eastl::vector<uint8_t>& bytes);
 	
 	private:
 		std::unordered_map<VertexBufferKey, 

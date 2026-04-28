@@ -40,6 +40,7 @@ namespace mce::gfx {
 		virtual void setVertexBuffer(VertexBufferHandle handle) = 0;
 		virtual void submit(ProgramHandle program) = 0;
 		virtual void setTransform(const void* view, const void* proj) = 0;
+		virtual void setTransform(const void* modelViewProj) = 0;
 		//virtual bgfx::VertexBufferHandle createVertexBuffer() = 0; 
 
 		virtual void addFlag(Clear cFlag);

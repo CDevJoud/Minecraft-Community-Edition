@@ -47,4 +47,17 @@ namespace mce::gfx {
 			bgfx::setTexture(0, u, texture->getTextureHandle());
 		}
 	}
+	void ShaderProgram::setUniform(const std::string& name, float f1, float f2, float f3, float f4) {
+		auto it = uniform.find(name);
+		if (it != uniform.end()) {
+			float data[4] = { f1, f2, f3, f4 };
+			bgfx::setUniform(it->second, data);
+		}
+		else {
+			auto u = bgfx::createUniform(name.c_str(), bgfx::UniformType::Vec4);
+			uniform[name] = u;
+			float data[4] = { f1, f2, f3, f4 };
+			bgfx::setUniform(u, data);
+		}
+	}
 }

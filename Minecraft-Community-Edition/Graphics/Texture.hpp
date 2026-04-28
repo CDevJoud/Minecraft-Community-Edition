@@ -1,7 +1,7 @@
 #pragma once
 #include <EASTL/vector.h>
-#include <bgfx/bgfx.h>
-#include <SFML/System/Vector2.hpp>
+#include "../libs/bgfx/bgfx.h"
+#include <Core/Vector2.hpp>
 #include <eastl/shared_ptr.h>
 
 namespace mce::gfx {
@@ -19,6 +19,7 @@ namespace mce::gfx {
 			return eastl::make_shared<EnableMakeShared>(eastl::forward<Args>(args)...);
 		}
 		Texture(const bgfx::Memory* tag, bool& success);
+		Texture(const eastl::vector<uint8_t>& bytes, bool& success);
 		~Texture();
 	public:
 		

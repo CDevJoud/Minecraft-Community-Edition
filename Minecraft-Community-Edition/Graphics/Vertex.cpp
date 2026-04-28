@@ -4,7 +4,7 @@ namespace mce::gfx {
 	Vertex::Vertex() {
 	
 	}
-	Vertex::Vertex(sf::Vector3f position, sf::Color color, sf::Vector2f texCoords) :
+	Vertex::Vertex(sf::Vector3f position, Color color, sf::Vector2f texCoords) :
 		position(position), color(color), texCoords(texCoords) {
 		
 	}

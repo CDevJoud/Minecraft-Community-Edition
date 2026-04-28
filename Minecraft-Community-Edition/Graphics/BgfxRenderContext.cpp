@@ -1,6 +1,6 @@
 #include "Platform.hpp"
 #include "BgfxRenderContext.hpp"
-#include <SFML/Window/WindowBase.hpp>
+#include <Core/WindowBase.hpp>
 #include "IO/Logger.hpp"
 
 using mce::core::QEventBus;

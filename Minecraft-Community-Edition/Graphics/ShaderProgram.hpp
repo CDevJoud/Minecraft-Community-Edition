@@ -2,7 +2,7 @@
 #include <EASTL/vector.h>
 #include <EASTL/unordered_map.h>
 #include <EASTL/shared_ptr.h>
-#include <bgfx/bgfx.h>
+#include "../libs/bgfx/bgfx.h"
 #include <string>
 #include <unordered_map>
 
@@ -30,6 +30,8 @@ namespace mce::gfx {
 		bgfx::ProgramHandle getProgramHandle() const;
 
 		void setUniform(const std::string& name, const eastl::shared_ptr<Texture>& texture);
+
+		void setUniform(const std::string& name, float f1, float f2, float f3, float f4);
 
 	private:
 		std::unordered_map<std::string, bgfx::UniformHandle> uniform;

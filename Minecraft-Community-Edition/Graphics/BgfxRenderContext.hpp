@@ -1,7 +1,7 @@
 #pragma once
 #include "RenderContext.hpp"
 #define BGFX_CONFIG_MULTITHREADED 0
-#include "bgfx/bgfx.h"
+#include "libs/bgfx/bgfx.h"
 #include <EASTL/unordered_map.h>
 #include "..\BgfxCallBack.hpp"
 

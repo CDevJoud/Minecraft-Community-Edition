@@ -3,7 +3,6 @@
 namespace mce::gfx {
 	VertexBuffer::VertexBuffer(const VertexArray& vArray, flags::Buffer bFlags, bool& success) {
 		const bgfx::Memory* mem = bgfx::copy(vArray.vertices.data(), vArray.vertices.size() * vArray.vertexSizeInMem);
-
 		VertexBuffer::vbh = bgfx::createVertexBuffer(mem, vArray.vLayout, VertexBuffer::bFlag.bFlag);
 		success = bgfx::isValid(VertexBuffer::vbh);
 
