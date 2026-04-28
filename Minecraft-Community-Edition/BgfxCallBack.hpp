@@ -1,5 +1,5 @@
 #pragma once
-#include <bgfx/bgfx.h>
+#include "libs/bgfx/bgfx.h"
 #include "Core/QEventBus.hpp"
 
 namespace mce {
