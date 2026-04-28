@@ -6,6 +6,10 @@
 #include "nlohmann/json.hpp"
 #include "Stream/FileInputStream.hpp"
 
+namespace bgfx {
+	struct Memory;
+}
+
 namespace mce::io {
 	using stream::FileInputStream;
 /**
@@ -73,6 +77,8 @@ namespace mce::io {
 		 * @return True if the file was found and bytes were successfully loaded.
 		 */
 		bool getFile(const eastl::string_view& fileTag, eastl::vector<uint8_t>& bytes);
+
+		bool getFile(const eastl::string_view& fileTag, bgfx::Memory*& mem);
 
 		/**
 		 * @brief Build a binary VFS file from a JSON mapping.

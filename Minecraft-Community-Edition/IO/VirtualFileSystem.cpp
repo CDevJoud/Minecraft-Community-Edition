@@ -31,6 +31,8 @@
 #include "Stream/FileOutputStream.hpp"
 #include "Stream/MemoryInputStream.hpp"
 
+#include "libs/bgfx/bgfx.h"
+
 namespace mce::io {
 	using stream::FileOutputStream;
 	using stream::MemoryInputStream;
@@ -157,8 +159,75 @@ bool VirtualFileSystem::getFile(const eastl::string_view& fileTag, eastl::vector
 				std::memcpy(bytes.data(), VirtualFileSystem::binary + (file.start), file.size);
 			}
 			else {
-				bytes.resize(file.size);
-				std::memcpy(bytes.data(), VirtualFileSystem::binary + (file.start), file.size);
+				bytes.resize(file.size + 1);
+				std::memcpy(bytes.data(), VirtualFileSystem::binary + (file.start), file.size + 1);
+			}
+			return true;
+		}
+	}
+	return false;
+#endif
+}
+bool VirtualFileSystem::getFile(const eastl::string_view& fileTag, bgfx::Memory*& mem) {
+#ifdef _DEBUG
+	for (auto& file : VirtualFileSystem::data.items()) {
+		if (file.key() == fileTag.data()) {
+			if (file.value().is_string()) {
+				FileInputStream fIn;
+				if (fIn.open(file.value())) {
+					size_t size = fIn.getSize();
+					if (size != ~(0)) {
+						if (mem == nullptr) {
+							mem = const_cast<bgfx::Memory*>(bgfx::alloc(size));	
+						}
+						if (mem->size >= size) {
+							fIn.read(mem->data, size);
+						}
+						else {
+							mem = const_cast<bgfx::Memory*>(bgfx::alloc(size));
+							fIn.read(mem->data, mem->size);
+						}
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+#else
+	/* Release build path: streaming or in-memory access. */
+	if (VirtualFileSystem::cfg.useStreamInput) {
+		if (VirtualFileSystem::files.count(fileTag.data())) {
+			const auto& file = VirtualFileSystem::files[fileTag.data()];
+			/* seek to file start inside the .VFS and read the requested bytes */
+			fileInStream.seek(file.start);
+			if (mem == nullptr) {
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+			}
+			if (mem->size >= file.size) {
+				fileInStream.read(mem->data, file.size);
+			}
+			else {
+				/* ensure vector capacity and read */
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+				fileInStream.read(mem->data, mem->size);
+			}
+			return true;
+		}
+	}
+	else {
+		/* copy from in-memory binary payload */
+		if (VirtualFileSystem::files.count(fileTag.data())) {
+			const auto& file = VirtualFileSystem::files[fileTag.data()];
+			if (mem == nullptr) {
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+			}
+			if (mem->size >= file.size) {
+				std::memcpy(mem->data, VirtualFileSystem::binary + (file.start), file.size);
+			}
+			else {
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+				std::memcpy(mem->data, VirtualFileSystem::binary + (file.start), file.size);
 			}
 			return true;
 		}
@@ -261,6 +330,7 @@ bool VirtualFileSystem::buildJSONMappingFile(const std::string& fileInName, cons
 					fOut.write(&file.second.start, 8);
 
 					/* 8-byte end offset (inclusive) */
+					//file.second.end = file.second.start + file.second.size - 1;
 					file.second.end = file.second.start + file.second.size - 1;
 					fOut.write(&file.second.end, 8);
 
