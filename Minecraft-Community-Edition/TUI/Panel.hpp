@@ -56,6 +56,7 @@ namespace mce::tui {
 		Properties& getProperties();
 
 		bool isFocused();
+		void setFocus(bool value);
 	protected:
 		void setUpFrame(RenderTarget* out, core::Rect<short> rect, uint8_t color);
 	private:

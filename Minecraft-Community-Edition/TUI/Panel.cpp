@@ -342,6 +342,9 @@ namespace mce::tui {
 	bool Panel::isFocused() {
 		return targeted;
 	}
+    void Panel::setFocus(bool value) {
+		this->targeted = value;
+	}
 	void Panel::setUpFrame(RenderTarget* out, core::Rect<short> rect, uint8_t color) {
 		uint16_t x = rect.left;
 		uint16_t y = rect.top;
