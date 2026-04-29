@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)libs\nvtt\;$(ProjectDir)libs\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)libs\nvtt\;$(ProjectDir)libs\eastl\;$(ProjectDir)libs\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Vendor\bgfx\bin;$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -597,16 +597,16 @@
     <ClCompile Include="Core\ThreadImpl.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
     <ClCompile Include="Core\ThreadManager.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\allocator_eastl.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\assert.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\atomic.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\fixed_pool.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\hashtable.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\intrusive_list.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\numeric_limits.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\red_black_tree.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\string.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\thread_support.cpp" />
+    <ClCompile Include="libs\eastl\allocator_eastl.cpp" />
+    <ClCompile Include="libs\eastl\assert.cpp" />
+    <ClCompile Include="libs\eastl\atomic.cpp" />
+    <ClCompile Include="libs\eastl\fixed_pool.cpp" />
+    <ClCompile Include="libs\eastl\hashtable.cpp" />
+    <ClCompile Include="libs\eastl\intrusive_list.cpp" />
+    <ClCompile Include="libs\eastl\numeric_limits.cpp" />
+    <ClCompile Include="libs\eastl\red_black_tree.cpp" />
+    <ClCompile Include="libs\eastl\string.cpp" />
+    <ClCompile Include="libs\eastl\thread_support.cpp" />
     <ClCompile Include="IO\VirtualFileSystem.cpp" />
     <ClCompile Include="Graphics\Void.cpp" />
     <ClCompile Include="Graphics\VertexArray.cpp" />
