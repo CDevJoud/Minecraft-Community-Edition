@@ -234,10 +234,9 @@
 /// Enable/disable multithreaded rendering. When enabled, bgfx can use a
 /// separate render thread for GPU submission. Default is 1 on all platforms
 /// that support threading (0 on Emscripten).
-#ifdef BGFX_CONFIG_MULTITHREADED
+#ifndef BGFX_CONFIG_MULTITHREADED
 #	define BGFX_CONFIG_MULTITHREADED ( (0 == BX_PLATFORM_EMSCRIPTEN) ? 1 : 0)
 #endif // BGFX_CONFIG_MULTITHREADED
-
 /// Maximum number of draw/compute calls per frame. Default is 65535 (64K - 1).
 #ifndef BGFX_CONFIG_MAX_DRAW_CALLS
 #	define BGFX_CONFIG_MAX_DRAW_CALLS ( (64<<10)-1)
