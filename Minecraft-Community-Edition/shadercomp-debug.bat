@@ -3,8 +3,9 @@ setlocal enabledelayedexpansion
 
 REM Root paths
 set ROOT=%cd%
-set SC=%ROOT%\Vendor\bgfx\bin\shadercRelease
-set INCLUDE=%ROOT%\Vendor\bgfx\bgfx\src
+REM Right now the only way to get the shader compiler is to build it from src from bgfx repo
+set SC=D:\Void\bgfx\bin\shadercRelease
+set INCLUDE=%ROOT%\libs\bgfx\
 set SHADERS=%ROOT%\Graphics\Shaders
 set OUT=%ROOT%\assets\shaders
 goto :gen
