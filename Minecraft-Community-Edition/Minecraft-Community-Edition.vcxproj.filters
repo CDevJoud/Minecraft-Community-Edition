@@ -537,6 +537,7 @@
     <Text Include="Core\__copilot_shim_test.txt" />
     <Text Include="libs\pvrtc\LICENSE.TXT" />
     <Text Include="libs\iqa\README.txt" />
+    <Text Include="libs\astc-encoder\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Shaders\main.vs" />
