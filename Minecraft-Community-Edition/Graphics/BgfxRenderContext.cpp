@@ -29,7 +29,7 @@ namespace mce::gfx {
 			bgfx::getRendererName(bgfx::RendererType::Enum(api))));
 
 		//disable Bgfx Multithreaded
-		bgfx::renderFrame();
+		//bgfx::renderFrame();
 
 		bgfx::Init init{};
 		init.type = bgfx::RendererType::Enum(api);
