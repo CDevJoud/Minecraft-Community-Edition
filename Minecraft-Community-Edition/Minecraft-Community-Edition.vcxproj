@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)libs\nvtt\;$(ProjectDir)libs\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)libs\nvtt\;$(ProjectDir)libs\eastl\;$(ProjectDir)libs\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Vendor\bgfx\bin;$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,6 +125,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +139,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;_AMD64_;BX_CONFIG_DEBUG=0;-DBGFX_CONFIG_MULTITHREADED=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;SFML_STATIC;_AMD64_;BX_CONFIG_DEBUG=0;BGFX_CONFIG_DEBUG=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp23</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -150,7 +151,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-window-s.lib;sfml-graphics-s.lib;sfml-system-s.lib;opengl32.lib;winmm.lib;bgfxRelease.lib;bimgRelease.lib;bxRelease.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -596,16 +597,16 @@
     <ClCompile Include="Core\ThreadImpl.cpp" />
     <ClCompile Include="Core\Thread.cpp" />
     <ClCompile Include="Core\ThreadManager.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\allocator_eastl.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\assert.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\atomic.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\fixed_pool.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\hashtable.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\intrusive_list.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\numeric_limits.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\red_black_tree.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\string.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\thread_support.cpp" />
+    <ClCompile Include="libs\eastl\allocator_eastl.cpp" />
+    <ClCompile Include="libs\eastl\assert.cpp" />
+    <ClCompile Include="libs\eastl\atomic.cpp" />
+    <ClCompile Include="libs\eastl\fixed_pool.cpp" />
+    <ClCompile Include="libs\eastl\hashtable.cpp" />
+    <ClCompile Include="libs\eastl\intrusive_list.cpp" />
+    <ClCompile Include="libs\eastl\numeric_limits.cpp" />
+    <ClCompile Include="libs\eastl\red_black_tree.cpp" />
+    <ClCompile Include="libs\eastl\string.cpp" />
+    <ClCompile Include="libs\eastl\thread_support.cpp" />
     <ClCompile Include="IO\VirtualFileSystem.cpp" />
     <ClCompile Include="Graphics\Void.cpp" />
     <ClCompile Include="Graphics\VertexArray.cpp" />
@@ -614,6 +615,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />
+    <Text Include="libs\astc-encoder\LICENSE.txt" />
     <Text Include="libs\iqa\README.txt" />
     <Text Include="libs\pvrtc\LICENSE.TXT" />
   </ItemGroup>
