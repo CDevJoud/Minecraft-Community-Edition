@@ -234,7 +234,7 @@ XAPI_EXPORT Xconst XAPIDescriptor XI_query(Xvoid) {
 	desc.language = "C";
 	desc.name = "My Mod!";
 	desc.version = 1;
-	desc.dependencies = "mce.core.*";
+	desc.dependencies = "xapi.sys.q_eventBus";
 	desc.sdkName = "CXAPI";
 	return desc;
 }
