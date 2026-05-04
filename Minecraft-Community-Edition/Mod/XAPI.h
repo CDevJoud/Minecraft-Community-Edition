@@ -33,17 +33,8 @@
 #define XAPI_LOCAL
 #else
 #define XAPI_EXPORT __declspec(dllexport)
-#define XAPI_LOCAL
-#endif
-#else
-#define XAPI_EXPORT __attribute__((visibility("default")))
-#define XAPI_LOCAL __attribute__((visibility("hidden")))
-#endif
-
 #define XAPI_LOCAL 
-#define XAPI_STDCALL __stdcall
 
-#define XAPI_VERSION 0x01000000u
 #define XAPI_NULL (Xvoid*)0
 
 #define XE_ERROR 0xDEADBEEF
@@ -77,8 +68,6 @@ extern "C" {
 
 	typedef XInterface XIDevice XIDevice;
 	typedef XInterface XIContext XIContext;
-	typedef Xconst Xint32(XAPI_STDCALL* XI_createDeviceAndContextFn)(XIDevice**, XIContext**);
-	typedef Xconst Xint32(XAPI_STDCALL* XI_destroyDeviceAndContextFn)(XIDevice**, XIContext**);
 
 	typedef struct {
 		Xcstrcp name;
@@ -121,11 +110,15 @@ extern "C" {
 		Xconst XIDeviceVTable Xconstptr vtbl;
 	};
 
-	
+	typedef struct {
+		Xint32(*onShutdown)(Xvoid);
+		Xint32(*onUpdate)(Xvoid);
+		Xint32(*onInit)(Xvoid);
+	}XIExports;
+
 	typedef struct {
 		Xvoid(*addRef)(XIContext* ctx);
 		Xvoid(*release)(XIContext* ctx);
-		//Xvoid(*setXIExports)(XIExports exp);
 		Xuint32(*postEvent)(XHQEventBus* qBus, Xvoid* event, Xconst Xuint64 type);
 		Xuint32(*subscribeEvent)(XHQEventBus* qBus, Xconst Xuint64 type, Xconst Xvoid Xconstptr fn);
 	}XIContextVTable;
@@ -137,5 +130,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
 #endif
 #endif
