@@ -2,7 +2,7 @@
 
 static XIDevice* g_device;
 static XIContext* g_ctx;
-static XIExports* g_exp;
+static XIExports g_exp;
 eastl::unordered_map<Xuint64, Xvoid*> registeries;
 Xuint64 hash_str(Xcstr str) {
 	Xuint64 h = 0xcbf29ce484222325ULL; // FNV offset basis
@@ -58,6 +58,10 @@ Xint32 mce_device_createQEventBus(XIDevice* device, XHQEventBus* qBus, XQEventBu
 	return 1;
 }
 
+Xvoid mce_device_setXIExports(XIDevice* device, XIExports exp) {
+	g_exp = exp;
+}
+
 Xvoid mce_ctx_addRef(XIContext* ctx) {
 	((ContextImpl*)ctx)->ref++;
 }
@@ -69,9 +73,7 @@ Xvoid mce_ctx_release(XIContext* device) {
 	}
 }
 
-Xvoid mce_ctx_setXIExports(XIExports* exp) {
-	g_exp = exp;
-}
+
 
 Xuint32 mce_ctx_postEvent(XHQEventBus* qBus, Xvoid* event, Xconst Xuint64 type) {
 	auto it = registeries.find(qBus->idx);
@@ -132,10 +134,11 @@ Xint32 mce_createDeviceAndContext(XIDevice** device, XIContext** ctx) {
 	const_cast<XIDeviceVTable*>(device_vtbl)->addRef = mce_device_addref;
 	const_cast<XIDeviceVTable*>(device_vtbl)->addRef = mce_device_release;
 	const_cast<XIDeviceVTable*>(device_vtbl)->createQEventBus = mce_device_createQEventBus;
+	const_cast<XIDeviceVTable*>(device_vtbl)->setXIExports = mce_device_setXIExports;
 
 	const_cast<XIContextVTable*>(ctx_vtbl)->addRef = mce_ctx_addRef;
 	const_cast<XIContextVTable*>(ctx_vtbl)->release = mce_ctx_release;
-	const_cast<XIContextVTable*>(ctx_vtbl)->setXIExports = mce_ctx_setXIExports;
+	//const_cast<XIContextVTable*>(ctx_vtbl)->setXIExports = mce_ctx_setXIExports;
 	const_cast<XIContextVTable*>(ctx_vtbl)->postEvent = mce_ctx_postEvent;
 
 	(*device)->vtbl = device_vtbl;
@@ -160,6 +163,6 @@ Xint32 mce_destroyDeviceAndContext(XIDevice** device, XIContext** ctx) {
 	return 1;
 }
 
-Xconst XIExports* mce_pullSessionsExports() {
+Xconst XIExports mce_pullSessionsExports() {
 	return g_exp;
 }
