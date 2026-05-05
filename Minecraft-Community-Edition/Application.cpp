@@ -20,6 +20,7 @@
 #include <Graphics/Image.hpp>
 #include "TUI/icon.hpp"
 #include "TUI/CLogger.hpp"
+#include "libs/bx/os.h"
 
 #include <RmlUi/Core.h>
 #include <UI/Backend/RmlUI_Platform_dms.hpp>
@@ -27,22 +28,19 @@
 #include <RmlUi/Core/FontEngineInterface.h>
 
 mce::gfx::Image iImg;
+#include "Mod/ModLoader.h"
+
+typedef Xconst XAPIDescriptor(XAPI_STDCALL* XI_queryFn)(Xvoid);
+typedef Xconst Xint32(XAPI_STDCALL* XI_mainFn)(Xvoid Xconstptr);
+typedef Xconst Xint32(XAPI_STDCALL* XI_terminateFn)(Xvoid Xconstptr);
+
+XI_queryFn XI_query;
+XI_mainFn XI_main;
+XI_terminateFn XI_terminate;
+XIExports exports;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
-
-	bool RmlProcessEvents(Rml::Context* ctx, sf::Event& event) {
-		/*if (event.type == sf::Event::Resized) {
-			Rml::Vector2i dimension = { event.size.width, event.size.height };
-			ui::priv::RenderInterface_bgfx* ri = reinterpret_cast<ui::priv::RenderInterface_bgfx*>(Rml::GetRenderInterface());
-			ri->setViewport(dimension.x, dimension.y);
-			return true;
-		}
-		else {
-			return ui::priv::inputEventHandler(ctx, nullptr, event);
-		}*/
-	}
-
 	Application::Application(int argc, char* argv[]) :
 		qBus("APP"),
 		threadManager(qBus),
@@ -72,9 +70,12 @@ namespace mce {
 		console.insertComponent(tui::CLogger::createInstance(qBus, "bgfx", 117, 30));
 		auto component = console.getComponent<tui::CLogger>("default");
 		component->setPosition(119, 1);
-		console.getComponent<tui::CLogger>("bgfx")->setFocus(true);
-		
 		Application::isApplicationInit = Application::initApplication();
+
+		nlohmann::json data = { {"renderCtx", (uint64_t)(&renderCtx)} };
+
+		qBus.post(event::Log(event::Log::Severity::DEBUG, "Hello World!"));
+		LOG_DEBUG("Hello World!");
 	}
 
 	int Application::run() {
@@ -94,7 +95,7 @@ namespace mce {
 				if (instances.empty()) {
 					break;
 				}
-
+				exports.onUpdate();
 				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
@@ -139,17 +140,28 @@ namespace mce {
 
 				Application::renderCtx->endFrame();
 
-				sf::sleep(sf::milliseconds(0));
+				//sf::sleep(sf::milliseconds(0));
 			}
 		}
+		LOG_DEBUG("Unloading Sample Mod");
+		exports.onShutdown();
+		XI_terminate(mce_destroyDeviceAndContext);
+		bx::dlclose(hMod);
 		console.close();
 
-		Rml::Shutdown();
-		delete rmlSystem;
-		delete rmlRenderer;
+		bool hasBgfxShutdown = false;
+		Thread* th = threadManager.createThread("BgfxShutdown", [this, &hasBgfxShutdown]() {
+			bgfx::frame(BGFX_FRAME_FLUSH | BGFX_FRAME_DISCARD);
+			renderCtx->shutdown();
+			hasBgfxShutdown = true;
+			});
 
-		//bgfx::frame(BGFX_FRAME_FLUSH | BGFX_FRAME_DISCARD);
-		renderCtx->shutdown();
+		th->launch();
+
+		//Wait for 3 seconds if bgfx refuses to shutdown then we terminates it
+		sf::sleep(sf::seconds(3));
+		if(!hasBgfxShutdown)
+			th->terminate();
 
 		return 0;
 	}
@@ -314,3 +326,66 @@ namespace mce {
 
 #include <Windows.h>
 MCE_STARTUP(mce::Application);
+
+
+////Trying to find the error LMAO
+//int main() {
+//	sf::WindowBase window(sf::VideoMode(1280, 720), "");
+//	mce::core::QEventBus qBus("APP");
+//	qBus.runAsync();
+//	mce::gfx::BgfxRenderContext ctx(qBus);
+//
+//	mce::io::VirtualFileSystem vfs;
+//	vfs.loadFile("assets");
+//
+//	ctx.init(window, mce::gfx::RenderContext::API::Direct3D11);
+//	bgfx::setDebug(BGFX_DEBUG_STATS);
+//
+//	mce::gfx::RenderFactory factory(qBus);
+//	
+//	mce::gfx::VertexArray vArray;
+//	
+//	vArray.append(mce::gfx::Vertex(sf::Vector3f(1.0f, 1.0f, 1.0f), sf::Color::Red, sf::Vector2f(1.0f, 1.0f)));
+//	auto layout = mce::gfx::Vertex::layout();
+//	
+//	vArray.setVertexLayout(layout);
+//	mce::gfx::flags::Buffer bFlag;
+//	
+//	{
+//		bFlag.addFlag(mce::gfx::flags::Buffer::None);
+//		auto vb = factory.createVertexBuffer(vArray, bFlag, "VertexBuffer");
+//
+//		eastl::vector<uint8_t> vsBytes, fsBytes;
+//		vfs.getFile("assets.shaders.main.vs.d3d11_windows", vsBytes);
+//
+//		vfs.getFile("assets.shaders.main.fs.d3d11_windows", fsBytes);
+//
+//		auto sp = factory.createShaderProgram(eastl::make_pair<eastl::vector<uint8_t>, eastl::vector<uint8_t>>(vsBytes, fsBytes));
+//
+//		bool success = false;
+//		//auto sp = mce::gfx::ShaderProgram(vsBytes, fsBytes, success);
+//
+//		/*const bgfx::Memory* vsMem = bgfx::makeRef(vsBytes.data(), vsBytes.size());
+//		const bgfx::Memory* fsMem = bgfx::makeRef(fsBytes.data(), fsBytes.size());
+//
+//		bgfx::ShaderHandle vs = bgfx::createShader(vsMem);
+//		bgfx::ShaderHandle fs = bgfx::createShader(fsMem);
+//
+//		bgfx::ProgramHandle program = bgfx::createProgram(vs, fs, true);*/
+//
+//		while (window.isOpen()) {
+//			for (sf::Event event; window.pollEvent(event);) {
+//				if (event.type == sf::Event::Closed) {
+//					window.close();
+//				}
+//			}
+//
+//			ctx.beginFrame();
+//
+//			ctx.endFrame();
+//		}
+//		//bgfx::destroy(program);
+//	}
+//
+//	ctx.shutdown();
+//}
