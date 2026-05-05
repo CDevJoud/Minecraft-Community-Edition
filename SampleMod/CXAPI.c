@@ -55,8 +55,8 @@ XAPI_EXPORT Xint32 XI_main(Xvoid* pParam){
 		exports.onShutdown = CXAPI_onShutdown;
 		exports.onUpdate = CXAPI_onUpdate;
 
-		if (ctx->vtbl->setXIExports != XAPI_NULL) {
-			ctx->vtbl->setXIExports(&exports);
+		if (device->vtbl->setXIExports != XAPI_NULL) {
+			device->vtbl->setXIExports(&device, exports);
 		}
 		else {
 			return XE_ERROR; //Fatal Error!

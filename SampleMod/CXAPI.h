@@ -16,3 +16,4 @@ XAPI_LOCAL Xvoid CXAPI_logDebug(Xcstr msg);
 XAPI_LOCAL Xvoid CXAPI_setOnShutdownCB(onShutdownCB cb);
 XAPI_LOCAL Xvoid CXAPI_setOnInitCB(onInitCB cb);
 XAPI_LOCAL Xvoid CXAPI_setOnUpdateCB(onUpdateCB cb);
+
