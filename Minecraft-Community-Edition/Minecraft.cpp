@@ -65,10 +65,10 @@ namespace mce {
 			qBus.post(event::Log(event::Log::ERROR, "Couldn't create a vertex buffer!"));
 		}
 
-		eastl::vector<uint8_t> mem;
-		vfs.getFile("assets.images.aya", mem);
+		/*eastl::vector<uint8_t> mem;
+		vfs.getFile("assets.images.img", mem);
 
-		renderState.texture = factory.createTexture(mem);*/
+		renderState.texture = factory.createTexture(mem);
 
 		cube.create(factory, {}, gfx::Color());
 		
