@@ -75,7 +75,7 @@
     <LibraryPath>$(ProjectDir)Vendor\bgfx\bin;$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)\;$(ProjectDir)libs\nvtt\;$(ProjectDir)libs\;$(ProjectDir)Vendor\EASTL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)\;$(ProjectDir)libs\nvtt\;$(ProjectDir)libs\;$(ProjectDir)libs\eastl\;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Vendor\bgfx\bin;$(ProjectDir)Vendor\SFML\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -378,6 +378,8 @@
     <ClInclude Include="libs\renderdoc\renderdoc_app.h" />
     <ClInclude Include="libs\stb\stb_image.hpp" />
     <ClInclude Include="libs\stb\stb_image_write.hpp" />
+    <ClInclude Include="Mod\ModLoader.h" />
+    <ClInclude Include="Mod\XAPI.h" />
     <ClInclude Include="TUI\CLogger.hpp" />
     <ClInclude Include="TUI\Panel.hpp" />
     <ClInclude Include="TUI\EventProcessor.hpp" />
@@ -565,6 +567,7 @@
     <ClCompile Include="libs\pvrtc\PvrTcDecoder.cpp" />
     <ClCompile Include="libs\pvrtc\PvrTcEncoder.cpp" />
     <ClCompile Include="libs\pvrtc\PvrTcPacket.cpp" />
+    <ClCompile Include="Mod\ModLoader.cpp" />
     <ClCompile Include="TUI\CLogger.cpp" />
     <ClCompile Include="TUI\Panel.cpp" />
     <ClCompile Include="TUI\EventProcessor.cpp" />
@@ -705,6 +708,7 @@
     <None Include="libs\nvtt\nvmath\plane.inl" />
     <None Include="libs\nvtt\nvmath\vector.inl" />
     <None Include="libs\pvrtc\README.md" />
+    <None Include="Mod\readme.md" />
     <None Include="shadercomp-debug.bat" />
     <None Include="Graphics\Shaders\varying.def.sc" />
   </ItemGroup>

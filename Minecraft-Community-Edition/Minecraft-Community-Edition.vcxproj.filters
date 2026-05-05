@@ -310,6 +310,8 @@
     <ClInclude Include="libs\iqa\iqa.h" />
     <ClInclude Include="libs\iqa\iqa_os.h" />
     <ClInclude Include="libs\iqa\math_utils.h" />
+    <ClInclude Include="Mod\XAPI.h" />
+    <ClInclude Include="Mod\ModLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\gl.c">
@@ -318,36 +320,6 @@
     <ClCompile Include="Minecraft.cpp" />
     <ClCompile Include="Startup.hpp" />
     <ClCompile Include="eastl_allocator.cpp" />
-    <ClCompile Include="Vendor\EASTL\source\atomic.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\allocator_eastl.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\assert.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\fixed_pool.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\hashtable.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\intrusive_list.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\thread_support.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\red_black_tree.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\string.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
-    <ClCompile Include="Vendor\EASTL\source\numeric_limits.cpp">
-      <Filter>EASTL_src</Filter>
-    </ClCompile>
     <ClCompile Include="Core\FunctionContainer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -532,6 +504,17 @@
     <ClCompile Include="libs\iqa\mse.c" />
     <ClCompile Include="libs\iqa\psnr.c" />
     <ClCompile Include="libs\iqa\ssim.c" />
+    <ClCompile Include="libs\eastl\allocator_eastl.cpp" />
+    <ClCompile Include="libs\eastl\assert.cpp" />
+    <ClCompile Include="libs\eastl\atomic.cpp" />
+    <ClCompile Include="libs\eastl\fixed_pool.cpp" />
+    <ClCompile Include="libs\eastl\hashtable.cpp" />
+    <ClCompile Include="libs\eastl\intrusive_list.cpp" />
+    <ClCompile Include="libs\eastl\numeric_limits.cpp" />
+    <ClCompile Include="libs\eastl\red_black_tree.cpp" />
+    <ClCompile Include="libs\eastl\string.cpp" />
+    <ClCompile Include="libs\eastl\thread_support.cpp" />
+    <ClCompile Include="Mod\ModLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />
@@ -671,6 +654,7 @@
     <None Include="libs\nvtt\nvmath\vector.inl" />
     <None Include="libs\pvrtc\README.md" />
     <None Include="libs\iqa\LICENSE" />
+    <None Include="Mod\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\logo.png">
