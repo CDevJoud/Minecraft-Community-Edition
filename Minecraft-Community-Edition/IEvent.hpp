@@ -5,6 +5,8 @@
 #include <EASTL/shared_ptr.h>
 #include <EASTL/string.h>
 #include "Platform.hpp"
+#include <Core/WindowBase.hpp>
+#include <Core/Vector2.hpp>
 #ifdef MCE_PLATFORM_WINDOWS
 #undef ERROR
 #endif
@@ -20,23 +22,26 @@ namespace mce {
 	};
 	
 	namespace event {
-		struct LoggerOutput : IEvent {
-			enum class Severity {
-				INFO,
-				WARN,
-				ERROR,
-				DEBUG,
-				FATAL //Maybe
+		struct Log : IEvent {
+			enum Severity {
+				INFO = 0x02,
+				WARN = 0x06,
+				ERROR = 0x04,
+				DEBUG = 0x07,
+				FATAL = 0xFF//Maybe
 			};
 			Severity severity;
 			std::string msg;
+			std::string channel = "default";
 			eastl::optional<std::source_location> location;
 
-			explicit LoggerOutput(Severity s = Severity::INFO, const std::string m = "", eastl::optional<std::source_location> loc = eastl::nullopt)
-				: severity(s), msg(m), location(loc) {}
+			explicit Log(Severity s = Severity::INFO, const std::string m = "", const std::string& channel = "default", eastl::optional<std::source_location> loc = eastl::nullopt)
+				: severity(s), msg(m), channel(channel), location(loc) {}
 
 			[[nodiscard]] virtual const char const* name() const override { return "mce.core.event.logger_output"; }
 		};
+
+		using LoggerOutput = Log;
 
 		struct ThreadFinished : IEvent {
 			ThreadFinished(Thread* ptr) : thread(ptr) {}
@@ -50,5 +55,21 @@ namespace mce {
 			const eastl::string threadName;
 			virtual const char const* name() const override { return "mce.core.event.thread_started"; }
 		};
+
+		namespace window {
+			struct Close : IEvent {
+				Close(sf::WindowHandle window) : window(window) {}
+				sf::WindowHandle window;
+				virtual const char const* name() const override { return "mce.core.event.window.close"; }
+			};
+
+			struct Resize : IEvent {
+				Resize(sf::WindowHandle window, sf::Vector2u newSize) : window(window), newSize(newSize) {}
+				sf::WindowHandle window;
+				sf::Vector2u newSize;
+				virtual const char const* name() const override { return "mce.core.event.window.resize"; }
+			};
+		}
+
 	}
 }

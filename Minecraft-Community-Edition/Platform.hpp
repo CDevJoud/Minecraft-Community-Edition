@@ -3,6 +3,7 @@
 #ifdef _WIN32
 #ifdef _WIN64
 #define MCE_PLATFORM_WINDOWS
+#define PLATFORM_NAME "windows"
 #else
 #error "x86 is not supported"
 #endif

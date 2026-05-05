@@ -3,102 +3,140 @@
 #include "IO/LoggerSinks.hpp"
 #include <filesystem>
 
-#include "SFML/Window/VideoMode.hpp"
+#include "Graphics/BgfxRenderContext.hpp"
+#include <Core/Sleep.hpp>
+#include <Core/Event.hpp>
+#include <optional>
+#include <Graphics/RenderFactory.hpp>
 
 #ifdef MCE_PLATFORM_WINDOWS
 #pragma warning(disable:4996)
 #endif
 
+#define LOG_INFO(msg) qBus.post(event::Log(event::Log::INFO, msg))
+#define LOG_ERROR(msg) qBus.post(event::Log(event::Log::ERROR, msg))
+
 namespace mce {
-	Minecraft::Minecraft(const eastl::string_view& profileName) :  
-		qBus(profileName.data()) {
-		qBus.runAsync();
+	using core::QEventBus;
+	using gfx::RenderContext;
+	using gfx::RenderFactory;
+	using io::VirtualFileSystem;
+
+	Minecraft::Minecraft(const eastl::string_view& profileName, QEventBus& qBus, uint16_t viewId, sf::WindowHandle window, sf::Vector2u viewSize, eastl::shared_ptr<RenderContext>& renderCtx, RenderFactory& factory, VirtualFileSystem& vfs) :
+		qBus(qBus),
+		profileName(profileName.data(), profileName.size()),
+		window(window),
+		bIsRunning(false),
+		renderCtx(renderCtx),
+		viewSize(viewSize),
+		viewId(viewId),
+		renderer(viewId, factory, renderCtx->getRenderAPI()),
+		vfs(vfs) {
+		gfx::IRenderer* interface = (gfx::IRenderer*)&renderer;
+		interface->setViewSpace(0, 0, viewSize.x, viewSize.y);
+		this->onClose = this->qBus.subscribeRAII<event::window::Close>([this](const event::window::Close& e) {
+			if (e.window == this->window) {
+				Minecraft::bIsRunning = false;
+			}
+			});
+
+		this->onResize = this->qBus.subscribeRAII<event::window::Resize>([this](const event::window::Resize& e) {
+			if (e.window == this->window) {
+				this->viewSize.x = e.newSize.x;
+				this->viewSize.y = e.newSize.y;
+				this->renderCtx->resize(this->viewId, this->viewSize.x, this->viewSize.y);
+				gfx::IRenderer* interface = (gfx::IRenderer*)&renderer;
+				interface->setViewSpace(0, 0, this->viewSize.x, this->viewSize.y);
+			}
+			});
+
+		gfx::VertexArray vArray;
+		vArray.append(gfx::Vertex(sf::Vector3f(-0.5f, -0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(0.0f, 1.0f)));
+		vArray.append(gfx::Vertex(sf::Vector3f( 0.5f, -0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(1.0f, 1.0f)));
+		vArray.append(gfx::Vertex(sf::Vector3f( 0.0f,  0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(0.5f, 0.0f)));
+		vLayout = gfx::Vertex::layout();
+		vArray.setVertexLayout(vLayout, sizeof(gfx::Vertex));
+
+		gfx::flags::Buffer vbFlag;
+		vbFlag.addFlag(gfx::flags::Buffer::None);
+
+		Minecraft::vb = factory.createVertexBuffer(vArray, vbFlag, "Minecraft:VertexBuffer");
+		if (Minecraft::vb == nullptr) {
+			qBus.post(event::Log(event::Log::ERROR, "Couldn't create a vertex buffer!"));
+		}
+
+		eastl::vector<uint8_t> mem;
+		vfs.getFile("assets.images.aya", mem);
+
+		renderState.texture = factory.createTexture(mem);
+
+		cube.create(factory, {}, gfx::Color());
+		
+		cube.setTexture(renderState.texture);
+		
+		torus.create(qBus, factory, 10, 5, 128, 128, gfx::Color::Black);
+
+		torus.setTexture(renderState.texture);
 	}
 
 	Minecraft::~Minecraft() {
+
+		//renderCtx->shutdown();
+
 		//MCE_INFO("Shutting down");
-	}
-
-	int Minecraft::initInstance() {
-
-		//Minecraft::setupLogging();
-
-		MCE_INFO("Starting MCE");
-		window.create(sf::VideoMode({ 1280, 720 }), "Minecraft: Community Edition");
-		graphicsContext = GraphicsContext::create(GraphicsContext::API::OpenGL);
-		renderer = graphicsContext->createRenderer(window);
-		MCE_INFO("Done");
-
-		return 0;
-	}
-
-	void Minecraft::handleEvents() {
-		while (const auto event = window.pollEvent()) {
-
-		}
-	}
-
-	inline void Minecraft::translateEventAndDispatch(const std::optional<sf::Event> event) {
-		if (event->is<sf::Event::Closed>()) {
-			window.close();
-		}
-		auto key = event->getIf<sf::Event::KeyPressed>();
-		key->code == sf::Keyboard::Key::A;
+		//this->onClose;
 		
+	}
+	
+	int Minecraft::initInstance() {
+		LOG_INFO(std::format("Init MCE: {}", profileName));
+
+		
+
+		renderer.init(vfs);
+
+		/*
+		* in the future here would we load the game assets from the vfs
+		*/
+
+		Minecraft::bIsRunning = true;
+
+		LOG_INFO("Done");
+		return 0;
 	}
 
 	int Minecraft::run() {
-		
-		Minecraft::initInstance();
 
-		sf::Clock clock;
-		int FramesCounter = 0;
-		clock.restart();
-		while (window.isOpen()) {
-			while (const auto event = window.pollEvent()) {
-				if (event->is<sf::Event::Closed>()) {
-					window.close();
-					return 1;
-				}
-			}
-			sf::Event;
-			sf::Time dt = clock.getElapsedTime();
-			if (dt >= sf::seconds(1.0f)) {
-				window.setTitle("FPS: " + std::to_string(FramesCounter));
-				FramesCounter = 0;
-				clock.restart();
-			}
-			else {
-				++FramesCounter;
-			}
+		int retCode = Minecraft::initInstance();
 
-			renderer->renderFrame();
-			window.display();
+		if (retCode < 0) {
+			return retCode;
+		}
+
+		while (Minecraft::bIsRunning) {
+
+			//there is nothing to do so we sleep so we wont let the thread loop so quickly
+			sf::sleep(sf::milliseconds(10));
 		}
 		return 0;
 	}
-	
-	std::string Minecraft::getLogFileName() {
-		const auto now = std::chrono::system_clock::now();
 
-		const std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-		const std::tm* pTime = std::localtime(&currentTime);
+	void Minecraft::render() {
+		renderState.transform.position.z = -2.0f;
+		renderState.transform.rotation.x += 0.05f;
+		//renderer.render(Minecraft::vb, renderState);
+		cube.position.z = 20.0f;
+		cube.rotation.x += 0.00005f;
+		cube.rotation.y += 0.00015f;
+		cube.rotation.z += 0.00010f;
+		cube.scale = { 3.0f, 3.0f, 3.0f };
 
-		// strftime adds the null terminator, so initializing isn't strictly necessary
-		char filename[32];
-		std::strftime(filename, sizeof(filename), "logs/%Y-%m-%d %H-%M-%S.txt", pTime);
-
-		return filename;
-	}
-	void Minecraft::setupLogging() {
-		namespace fs = std::filesystem;
-
-		if (!fs::is_directory("logs"))
-			fs::create_directory("logs");
-
-		eastl::shared_ptr<mce::io::FileSink> fileSink = eastl::make_shared<mce::io::FileSink>(getLogFileName());
-
-		mce::io::Logger& logger = mce::io::Logger::getGlobalLogger(qBus);
-		logger.addSink(fileSink);
+		torus.position.z = 20.0f;
+		//torus.rotation.x = 310 * (3.14 / 180);
+		torus.rotation.y += 0.00045f;
+		torus.rotation.x += 0.00015f;
+		//torus.rotation.z += 0.0035f;
+		//renderer.render(cube);
+		renderer.render(torus);
 	}
 }

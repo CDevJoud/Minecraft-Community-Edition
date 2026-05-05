@@ -2,7 +2,6 @@
 #include "Thread.hpp"
 #include <EASTL/unique_ptr.h>
 #include <EASTL/string.h>
-#include <SFML/System.hpp>
 #include "IEvent.hpp"
 
 /**
@@ -26,7 +25,7 @@ namespace mce::core {
 		 */
 		struct ThreadInfo {
 			/** @brief Non-owning pointer to the tracked Thread. */
-			Thread* thread;
+			Thread* thread = nullptr;
 			/** @brief Human readable thread name. */
 			eastl::string name;
 			/** @brief Time point when the thread was started. */

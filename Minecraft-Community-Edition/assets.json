@@ -1,0 +1,11 @@
+{
+	"assets.shaders.main.fs.d3d11_windows": ".\\assets\\shaders\\main.fs.d3d11_windows.bin",
+	"assets.shaders.main.vs.d3d11_windows": ".\\assets\\shaders\\main.vs.d3d11_windows.bin",
+	"assets.shaders.main.fs.d3d12_windows": ".\\assets\\shaders\\main.fs.d3d12_windows.bin",
+	"assets.shaders.main.vs.d3d12_windows": ".\\assets\\shaders\\main.vs.d3d12_windows.bin",
+	"assets.shaders.main.fs.vulkan_windows": ".\\assets\\shaders\\main.fs.vulkan_windows.bin",
+	"assets.shaders.main.vs.vulkan_windows": ".\\assets\\shaders\\main.vs.vulkan_windows.bin",
+	"assets.shaders.main.fs.gl_windows": ".\\assets\\shaders\\main.fs.gl_windows.bin",
+	"assets.shaders.main.vs.gl_windows": ".\\assets\\shaders\\main.vs.gl_windows.bin"
+
+}

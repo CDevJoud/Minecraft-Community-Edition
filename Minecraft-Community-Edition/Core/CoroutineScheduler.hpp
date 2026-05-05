@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
-#include <SFML/System/Clock.hpp>
-#include <SFML/System/Time.hpp>
+#include "Clock.hpp"
+#include "Time.hpp"
 #include <EASTL/functional.h>
 #include <EASTL/vector.h>
 
