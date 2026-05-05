@@ -66,16 +66,16 @@ namespace mce {
 		}
 
 		eastl::vector<uint8_t> mem;
-		vfs.getFile("assets.images.who", mem);
+		vfs.getFile("assets.images.aya", mem);
 
-		renderState.texture = factory.createTexture(mem);
+		renderState.texture = factory.createTexture(mem);*/
 
 		cube.create(factory, {}, gfx::Color());
 		
 		cube.setTexture(renderState.texture);
 		
 		torus.create(qBus, factory, 10, 5, 128, 128, gfx::Color::Black);
-		//torus.createPlane(qBus, factory, 100, 100, 20, 20, gfx::Color::Black);
+
 		torus.setTexture(renderState.texture);
 	}
 
