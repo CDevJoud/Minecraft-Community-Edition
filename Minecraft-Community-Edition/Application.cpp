@@ -20,11 +20,70 @@
 #include <Graphics/Image.hpp>
 #include "TUI/icon.hpp"
 #include "TUI/CLogger.hpp"
+#include "libs/bx/os.h"
 
 mce::gfx::Image iImg;
+#include "Mod/ModLoader.h"
+
+typedef Xconst XAPIDescriptor(XAPI_STDCALL* XI_queryFn)(Xvoid);
+typedef Xconst Xint32(XAPI_STDCALL* XI_mainFn)(Xvoid Xconstptr);
+typedef Xconst Xint32(XAPI_STDCALL* XI_terminateFn)(Xvoid Xconstptr);
+
+XI_queryFn XI_query;
+XI_mainFn XI_main;
+XI_terminateFn XI_terminate;
+XIExports exports;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
+	void* hMod = nullptr;
+	bool loadMod(const std::string& fName) {
+		hMod = bx::dlopen(fName.c_str());
+
+		XI_query = bx::dlsym<XI_queryFn>(hMod, "XI_query");
+		XAPIDescriptor desc;
+		if (XI_query == XAPI_NULL) {
+			bx::dlclose(hMod);
+			return false;
+		}
+
+		desc = XI_query();
+
+		XI_main = bx::dlsym<XI_mainFn>(hMod, "XI_main");
+		if (XI_main == XAPI_NULL) {
+			bx::dlclose(hMod);
+			return false;
+		}
+		
+		XI_terminate = bx::dlsym<XI_terminateFn>(hMod, "XI_terminate");
+		if (XI_terminate == XAPI_NULL) {
+			bx::dlclose(hMod);
+			return false;
+		}
+
+		Xint32 res = XI_main(mce_createDeviceAndContext);
+		if (res == XE_ERROR) {
+			res = XI_terminate(mce_destroyDeviceAndContext);
+			if (res == XE_ERROR) {
+				//bad Mod!
+			}
+			bx::dlclose(hMod);
+			return false;
+		}
+		
+		exports = mce_pullSessionsExports();
+		if (exports.onInit == XAPI_NULL) {
+			//what kind of bad mod is that??
+			if (XI_terminate != XAPI_NULL) {
+				XI_terminate(mce_destroyDeviceAndContext);
+
+				bx::dlclose(hMod);
+				return false;
+			}
+		}
+		exports.onInit();
+		return true;
+	}
 	Application::Application(int argc, char* argv[]) :
 		qBus("APP"),
 		threadManager(qBus),
@@ -58,9 +117,13 @@ namespace mce {
 		Application::isApplicationInit = Application::initApplication();
 
 		nlohmann::json data = { {"renderCtx", (uint64_t)(&renderCtx)} };
-
-		qBus.post(event::Log(event::Log::Severity::DEBUG, "Hello World!"));
-		LOG_DEBUG("Hello World!");
+	
+		LOG_DEBUG("Loading Sample Mod...");
+		setGlobalQEventBus(&qBus);
+		//loadMod("net9.0-windows10.0.26100.0\\win-x64\\publish\\SampleModC#.dll");
+		loadMod("SampleMod.dll");
+		
+		LOG_DEBUG("Sample Mod loaded successfuly!");
 	}
 
 	int Application::run() {
@@ -80,7 +143,7 @@ namespace mce {
 				if (instances.empty()) {
 					break;
 				}
-
+				exports.onUpdate();
 				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
@@ -117,25 +180,17 @@ namespace mce {
 				
 				Application::renderCtx->endFrame();
 
-				sf::sleep(sf::milliseconds(0));
+				//sf::sleep(sf::milliseconds(0));
 			}
 		}
+		LOG_DEBUG("Unloading Sample Mod");
+		exports.onShutdown();
+		XI_terminate(mce_destroyDeviceAndContext);
+		bx::dlclose(hMod);
 		console.close();
 		threadManager.waitAll();
 
-		bool hasBgfxShutdown = false;
-		Thread* th = threadManager.createThread("BgfxShutdown", [this, &hasBgfxShutdown]() {
-			bgfx::frame(BGFX_FRAME_FLUSH | BGFX_FRAME_DISCARD);
-			renderCtx->shutdown();
-			hasBgfxShutdown = true;
-			});
-
-		th->launch();
-
-		//Wait for 3 seconds if bgfx refuses to shutdown then we terminates it
-		sf::sleep(sf::seconds(3));
-		if(!hasBgfxShutdown)
-			th->terminate();
+		renderCtx->shutdown();
 
 		return 0;
 	}
@@ -258,66 +313,3 @@ namespace mce {
 
 #include <Windows.h>
 MCE_STARTUP(mce::Application);
-
-
-////Trying to find the error LMAO
-//int main() {
-//	sf::WindowBase window(sf::VideoMode(1280, 720), "");
-//	mce::core::QEventBus qBus("APP");
-//	qBus.runAsync();
-//	mce::gfx::BgfxRenderContext ctx(qBus);
-//
-//	mce::io::VirtualFileSystem vfs;
-//	vfs.loadFile("assets");
-//
-//	ctx.init(window, mce::gfx::RenderContext::API::Direct3D11);
-//	bgfx::setDebug(BGFX_DEBUG_STATS);
-//
-//	mce::gfx::RenderFactory factory(qBus);
-//	
-//	mce::gfx::VertexArray vArray;
-//	
-//	vArray.append(mce::gfx::Vertex(sf::Vector3f(1.0f, 1.0f, 1.0f), sf::Color::Red, sf::Vector2f(1.0f, 1.0f)));
-//	auto layout = mce::gfx::Vertex::layout();
-//	
-//	vArray.setVertexLayout(layout);
-//	mce::gfx::flags::Buffer bFlag;
-//	
-//	{
-//		bFlag.addFlag(mce::gfx::flags::Buffer::None);
-//		auto vb = factory.createVertexBuffer(vArray, bFlag, "VertexBuffer");
-//
-//		eastl::vector<uint8_t> vsBytes, fsBytes;
-//		vfs.getFile("assets.shaders.main.vs.d3d11_windows", vsBytes);
-//
-//		vfs.getFile("assets.shaders.main.fs.d3d11_windows", fsBytes);
-//
-//		auto sp = factory.createShaderProgram(eastl::make_pair<eastl::vector<uint8_t>, eastl::vector<uint8_t>>(vsBytes, fsBytes));
-//
-//		bool success = false;
-//		//auto sp = mce::gfx::ShaderProgram(vsBytes, fsBytes, success);
-//
-//		/*const bgfx::Memory* vsMem = bgfx::makeRef(vsBytes.data(), vsBytes.size());
-//		const bgfx::Memory* fsMem = bgfx::makeRef(fsBytes.data(), fsBytes.size());
-//
-//		bgfx::ShaderHandle vs = bgfx::createShader(vsMem);
-//		bgfx::ShaderHandle fs = bgfx::createShader(fsMem);
-//
-//		bgfx::ProgramHandle program = bgfx::createProgram(vs, fs, true);*/
-//
-//		while (window.isOpen()) {
-//			for (sf::Event event; window.pollEvent(event);) {
-//				if (event.type == sf::Event::Closed) {
-//					window.close();
-//				}
-//			}
-//
-//			ctx.beginFrame();
-//
-//			ctx.endFrame();
-//		}
-//		//bgfx::destroy(program);
-//	}
-//
-//	ctx.shutdown();
-//}
