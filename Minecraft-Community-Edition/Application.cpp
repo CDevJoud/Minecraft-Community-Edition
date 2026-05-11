@@ -122,7 +122,7 @@ namespace mce {
 		setGlobalQEventBus(&qBus);
 		//loadMod("net9.0-windows10.0.26100.0\\win-x64\\publish\\SampleModC#.dll");
 		loadMod("SampleMod.dll");
-		
+
 		LOG_DEBUG("Sample Mod loaded successfuly!");
 	}
 
@@ -143,7 +143,8 @@ namespace mce {
 				if (instances.empty()) {
 					break;
 				}
-				exports.onUpdate();
+				if(exports.onUpdate)
+					exports.onUpdate();
 				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
@@ -263,7 +264,7 @@ namespace mce {
 		
 	}
 	void Application::createProfile(const eastl::string profileName) {
-		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920 / 4, 1080 / 2), "Minecraft CE");
+		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920, 1080), "Minecraft CE");
 		window->setIcon(iImg.getSize().x, iImg.getSize().y, iImg.getPixelsPtr());
 		uint16_t viewId = 0;
 
@@ -308,8 +309,11 @@ namespace mce {
 
 			})->launch();
 		rawWindowPtr->setVisible(true);
+
+		
 	}
 }
 
 #include <Windows.h>
 MCE_STARTUP(mce::Application);
+//Open source event-driven service-oriented voxel based game engine
