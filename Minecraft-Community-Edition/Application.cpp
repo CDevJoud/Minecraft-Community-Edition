@@ -73,9 +73,13 @@ namespace mce {
 		Application::isApplicationInit = Application::initApplication();
 
 		nlohmann::json data = { {"renderCtx", (uint64_t)(&renderCtx)} };
+	
+		LOG_DEBUG("Loading Sample Mod...");
+		setGlobalQEventBus(&qBus);
+		//loadMod("net9.0-windows10.0.26100.0\\win-x64\\publish\\SampleModC#.dll");
+		loadMod("SampleMod.dll");
 
-		qBus.post(event::Log(event::Log::Severity::DEBUG, "Hello World!"));
-		LOG_DEBUG("Hello World!");
+		LOG_DEBUG("Sample Mod loaded successfuly!");
 	}
 
 	int Application::run() {
@@ -95,7 +99,8 @@ namespace mce {
 				if (instances.empty()) {
 					break;
 				}
-				exports.onUpdate();
+				if(exports.onUpdate)
+					exports.onUpdate();
 				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
@@ -267,7 +272,9 @@ namespace mce {
 	void Application::initQEventBusSubscription() {
 		
 	}
-	void Application::createProfile(const eastl::string profileName, eastl::unique_ptr<sf::WindowBase> window) {
+	void Application::createProfile(const eastl::string profileName) {
+		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920 / 4, 1080 / 2), "Minecraft CE");
+		window->setIcon(iImg.getSize().x, iImg.getSize().y, iImg.getPixelsPtr());
 		uint16_t viewId = 0;
 		if (window == nullptr) {
 			window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920, 1080), "Minecraft CE");
@@ -321,71 +328,10 @@ namespace mce {
 
 			})->launch();
 		rawWindowPtr->setVisible(true);
+
+		
 	}
 }
 
 #include <Windows.h>
 MCE_STARTUP(mce::Application);
-
-
-////Trying to find the error LMAO
-//int main() {
-//	sf::WindowBase window(sf::VideoMode(1280, 720), "");
-//	mce::core::QEventBus qBus("APP");
-//	qBus.runAsync();
-//	mce::gfx::BgfxRenderContext ctx(qBus);
-//
-//	mce::io::VirtualFileSystem vfs;
-//	vfs.loadFile("assets");
-//
-//	ctx.init(window, mce::gfx::RenderContext::API::Direct3D11);
-//	bgfx::setDebug(BGFX_DEBUG_STATS);
-//
-//	mce::gfx::RenderFactory factory(qBus);
-//	
-//	mce::gfx::VertexArray vArray;
-//	
-//	vArray.append(mce::gfx::Vertex(sf::Vector3f(1.0f, 1.0f, 1.0f), sf::Color::Red, sf::Vector2f(1.0f, 1.0f)));
-//	auto layout = mce::gfx::Vertex::layout();
-//	
-//	vArray.setVertexLayout(layout);
-//	mce::gfx::flags::Buffer bFlag;
-//	
-//	{
-//		bFlag.addFlag(mce::gfx::flags::Buffer::None);
-//		auto vb = factory.createVertexBuffer(vArray, bFlag, "VertexBuffer");
-//
-//		eastl::vector<uint8_t> vsBytes, fsBytes;
-//		vfs.getFile("assets.shaders.main.vs.d3d11_windows", vsBytes);
-//
-//		vfs.getFile("assets.shaders.main.fs.d3d11_windows", fsBytes);
-//
-//		auto sp = factory.createShaderProgram(eastl::make_pair<eastl::vector<uint8_t>, eastl::vector<uint8_t>>(vsBytes, fsBytes));
-//
-//		bool success = false;
-//		//auto sp = mce::gfx::ShaderProgram(vsBytes, fsBytes, success);
-//
-//		/*const bgfx::Memory* vsMem = bgfx::makeRef(vsBytes.data(), vsBytes.size());
-//		const bgfx::Memory* fsMem = bgfx::makeRef(fsBytes.data(), fsBytes.size());
-//
-//		bgfx::ShaderHandle vs = bgfx::createShader(vsMem);
-//		bgfx::ShaderHandle fs = bgfx::createShader(fsMem);
-//
-//		bgfx::ProgramHandle program = bgfx::createProgram(vs, fs, true);*/
-//
-//		while (window.isOpen()) {
-//			for (sf::Event event; window.pollEvent(event);) {
-//				if (event.type == sf::Event::Closed) {
-//					window.close();
-//				}
-//			}
-//
-//			ctx.beginFrame();
-//
-//			ctx.endFrame();
-//		}
-//		//bgfx::destroy(program);
-//	}
-//
-//	ctx.shutdown();
-//}
