@@ -28,8 +28,13 @@
 #define XAPI_HEADER
 
 #ifdef _WIN32
+#ifdef __cplusplus
+#define XAPI_EXPORT __declspec(dllexport) extern "C"
+#define XAPI_LOCAL
+#else
 #define XAPI_EXPORT __declspec(dllexport)
 #define XAPI_LOCAL
+#endif
 #else
 #define XAPI_EXPORT __attribute__((visibility("default")))
 #define XAPI_LOCAL __attribute__((visibility("hidden")))
