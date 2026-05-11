@@ -27,9 +27,13 @@
 #ifndef XAPI_HEADER
 #define XAPI_HEADER
 
+#ifdef _WIN32
 #define XAPI_EXPORT __declspec(dllexport)
-#define XAPI_LOCAL 
-#define XAPI_STDCALL __stdcall*
+#define XAPI_LOCAL
+#else
+#define XAPI_EXPORT __attribute__((visibility("default")))
+#define XAPI_LOCAL __attribute__((visibility("hidden")))
+#endif
 
 #define XAPI_VERSION 1
 #define XAPI_NULL (Xvoid*)0
