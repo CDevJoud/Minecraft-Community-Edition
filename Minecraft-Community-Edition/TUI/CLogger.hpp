@@ -12,6 +12,8 @@ namespace mce::tui {
 			const uint16_t width, const uint16_t height,
 			core::FunctionContainer fc = {});
 
+		~CLogger();
+
 		static eastl::shared_ptr<CLogger> createInstance(core::QEventBus& qBus,
 			const std::string& title, const uint16_t width, const uint16_t height,
 			core::FunctionContainer fc = {});
