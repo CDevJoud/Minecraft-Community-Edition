@@ -88,6 +88,9 @@ namespace mce::ui::priv {
 		void setViewport(int viewport_width, int viewport_height,
 			int viewport_offset_x = 0, int viewport_offset_y = 0);
 
+		void beginFrame(uint16_t viewId);
+		void endFrame();
+
 		Rml::CompiledGeometryHandle CompileGeometry(Rml::Span<const Rml::Vertex> vertices,
 			Rml::Span<const int> indices) override;
 		void RenderGeometry(Rml::CompiledGeometryHandle handle,

@@ -81,6 +81,24 @@ namespace mce::ui::priv {
 		viewportOffsetY = oy;
 		projection = makeProjection();
 	}
+	void RenderInterface_bgfx::beginFrame(uint16_t viewId) {
+		this->drawOrder = this->stencilRef = 0;
+		this->stencilValue = 1;
+		this->clipMaskEnabled = false;
+		this->scissorEnabled = false;
+		this->activeProgram = RmlProgramId::None;
+		this->lastBoundTexture = nullptr;
+		this->transform = this->makeProjection();
+
+		//this->layers.beginFrame(*this, viewportWidth, viewportHeight);
+
+		baseView = viewId;
+
+	}
+
+	void RenderInterface_bgfx::endFrame() {
+
+	}
 	Rml::Matrix4f RenderInterface_bgfx::makeProjection() const {
 		const float L = static_cast<float>(viewportOffsetX);
 		const float R = L + static_cast<float>(viewportWidth);
@@ -455,14 +473,17 @@ namespace mce::ui::priv {
 			}
 		}
 
-		auto state = buildBaseState();
+		//auto state = buildBaseState();
+		auto state = 0
+			| BGFX_STATE_WRITE_RGB
+			| BGFX_STATE_WRITE_A
+			| BGFX_STATE_MSAA;
+
 		if (prog == RmlProgramId::Color || texture == 0) {
-			auto nState = BGFX_STATE_BLEND_FUNC(gfx::flags::State::BlendOne, gfx::flags::State::BlendInvSrcAlpha);
-			state.addFlag(gfx::flags::State::Enum(nState));
+			state |= BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_ONE, BGFX_STATE_BLEND_INV_SRC_ALPHA);
 		}
 		else {
-			auto nState = BGFX_STATE_BLEND_FUNC(gfx::flags::State::BlendOne, gfx::flags::State::BlendInvSrcAlpha);
-			state.addFlag(gfx::flags::State::Enum(nState));
+			state |= BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_ONE, BGFX_STATE_BLEND_INV_SRC_ALPHA);
 		}
 
 		// Scissor
@@ -482,7 +503,7 @@ namespace mce::ui::priv {
 		}
 
 
-		Renderer::setState(state);
+		bgfx::setState(state);
 
 		Renderer::setVertexBuffer(geo.vb);
 		Renderer::setIndexBuffer(geo.ib);

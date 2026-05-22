@@ -82,7 +82,7 @@ namespace mce::ui::priv {
 			log.severity = event::Log::Severity::INFO;
 		}
 
-		log.msg += "RmlUI: ";
+		log.msg += "[RMLUI] ";
 		log.msg += msg;
 		qBus.post(log);
 
