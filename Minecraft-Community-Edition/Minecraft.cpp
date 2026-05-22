@@ -75,7 +75,7 @@ namespace mce {
 		cube.setTexture(renderState.texture);
 		
 		torus.create(qBus, factory, 10, 5, 128, 128, gfx::Color::Black);
-
+		//torus.createPlane(qBus, factory, 100, 100, 20, 20, gfx::Color::Black);
 		torus.setTexture(renderState.texture);
 	}
 
