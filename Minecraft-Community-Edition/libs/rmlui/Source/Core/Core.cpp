@@ -24,6 +24,7 @@
 #include "StyleSheetFactory.h"
 #include "StyleSheetParser.h"
 #include "TemplateCache.h"
+#define RMLUI_FONT_ENGINE_FREETYPE
 
 #ifdef RMLUI_FONT_ENGINE_FREETYPE
 	#include "FontEngineDefault/FontEngineInterfaceDefault.h"

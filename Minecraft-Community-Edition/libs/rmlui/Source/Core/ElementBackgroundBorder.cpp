@@ -104,7 +104,7 @@ void ElementBackgroundBorder::GenerateGeometry(Element* element)
 	RenderManager* render_manager = element->GetRenderManager();
 	if (!render_manager)
 		return;
-
+	
 	const ComputedValues& computed = element->GetComputedValues();
 	const bool has_box_shadow = computed.has_box_shadow();
 
