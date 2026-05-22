@@ -41,6 +41,67 @@ XIExports exports;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
+
+	bool RmlProcessEvents(Rml::Context* ctx, sf::Event& event) {
+		/*if (event.type == sf::Event::Resized) {
+			Rml::Vector2i dimension = { event.size.width, event.size.height };
+			ui::priv::RenderInterface_bgfx* ri = reinterpret_cast<ui::priv::RenderInterface_bgfx*>(Rml::GetRenderInterface());
+			ri->setViewport(dimension.x, dimension.y);
+			return true;
+		}
+		else {
+			return ui::priv::inputEventHandler(ctx, nullptr, event);
+		}*/
+	}
+
+	void* hMod = nullptr;
+	bool loadMod(const std::string& fName) {
+		hMod = bx::dlopen(fName.c_str());
+
+		XI_query = bx::dlsym<XI_queryFn>(hMod, "XI_query");
+		XAPIDescriptor desc;
+		if (XI_query == XAPI_NULL) {
+			bx::dlclose(hMod);
+			return false;
+		}
+
+		desc = XI_query();
+
+		XI_main = bx::dlsym<XI_mainFn>(hMod, "XI_main");
+		if (XI_main == XAPI_NULL) {
+			bx::dlclose(hMod);
+			return false;
+		}
+		
+		XI_terminate = bx::dlsym<XI_terminateFn>(hMod, "XI_terminate");
+		if (XI_terminate == XAPI_NULL) {
+			bx::dlclose(hMod);
+			return false;
+		}
+
+		Xint32 res = XI_main(mce_createDeviceAndContext);
+		if (res == XE_ERROR) {
+			res = XI_terminate(mce_destroyDeviceAndContext);
+			if (res == XE_ERROR) {
+				//bad Mod!
+			}
+			bx::dlclose(hMod);
+			return false;
+		}
+		
+		exports = mce_pullSessionsExports();
+		if (exports.onInit == XAPI_NULL) {
+			//what kind of bad mod is that??
+			if (XI_terminate != XAPI_NULL) {
+				XI_terminate(mce_destroyDeviceAndContext);
+
+				bx::dlclose(hMod);
+				return false;
+			}
+		}
+		exports.onInit();
+		return true;
+	}
 	Application::Application(int argc, char* argv[]) :
 		qBus("APP"),
 		threadManager(qBus),
@@ -228,44 +289,10 @@ namespace mce {
 
 		Application::initQEventBusSubscription();
 
-		Application::renderCtx = eastl::make_shared<gfx::BgfxRenderContext>(qBus);
+		renderCtx = eastl::make_shared<gfx::BgfxRenderContext>(qBus);
 
-		Application::rsrcMgr = eastl::make_unique<core::ResourceManager>(qBus, vfs, factory, *renderCtx);
-		
-		Application::appWindow = eastl::make_unique<sf::WindowBase>(sf::VideoMode::getDesktopMode(), "Damascene RunTime Engine: v0.2.0");
+		Application::createProfile("MCE:Player1");
 
-		if (!Application::isRenderCtxInit) {
-			if (renderCtx->init(*appWindow, api)) {
-				isRenderCtxInit = true;
-			}
-		}
-
-		if (rmlSystem == nullptr)
-			Application::rmlSystem = new ui::priv::SystemInterface_dms(qBus);
-		if (rmlRenderer == nullptr)
-			Application::rmlRenderer = new ui::priv::RenderInterface_bgfx(*rsrcMgr);
-
-		Rml::SetSystemInterface(rmlSystem);
-		Rml::SetRenderInterface(rmlRenderer);
-
-		if (!Rml::Initialise()) {
-			return false;
-		}
-
-		vfs.getFile("assets.fonts.arial_black", fontMem);
-		Rml::Span<const Rml::byte> rmlFontMem(
-			reinterpret_cast<const Rml::byte*>(fontMem.data()),
-			fontMem.size()
-		);
-		
-		Rml::LoadFontFace(rmlFontMem, "arial_black", Rml::Style::FontStyle::Normal);
-		Application::ctx = Rml::CreateContext("main", Rml::Vector2i(1920, 1080));
-
-		doc = Application::ctx->LoadDocument(".\\assets\\ui\\main.html");
-		doc->Show();
-		
-		Application::createProfile("MCE:Player1", eastl::move(appWindow));
-		
 		return true;
 	}
 
