@@ -26,7 +26,7 @@ void main() {
     float speed = u_params.z;
 
     // Create sine wave along x-axis affecting y
-    // pos.y += sin(pos.x * frequency + u_time.x * speed) * amplitude;
+    pos.y += sin(pos.x * frequency + u_time.x * speed) * amplitude;
     pos.x += sin(pos.x * 0.5 + u_time.x * 0.9f) * 1.0f;
 
     gl_Position = mul(u_modelViewProj, vec4(pos, 1.0));
