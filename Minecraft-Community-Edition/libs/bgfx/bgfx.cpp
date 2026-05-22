@@ -3937,7 +3937,7 @@ namespace bgfx
 		BGFX_ENCODER(setUniform(uniform.m_type, _handle, _value, UINT16_MAX != _num ? _num : uniform.m_num) );
 	}
 
-	void Encoder::setIndexBuffer(IndexBufferHandle _handle)
+    void Encoder::setIndexBuffer(IndexBufferHandle _handle)
 	{
 		setIndexBuffer(_handle, 0, UINT32_MAX);
 	}
