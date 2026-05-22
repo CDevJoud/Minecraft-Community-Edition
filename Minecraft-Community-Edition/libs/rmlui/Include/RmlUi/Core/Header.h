@@ -18,7 +18,7 @@
 			// in the DLL if it can not be inlined.
 			#define RMLUICORE_API_INLINE __declspec(dllexport) inline
 		#else
-			#define RMLUICORE_API __declspec(dllimport)
+			#define RMLUICORE_API 
 			// Note: Changing a RMLUICORE_API_INLINE method
 			// breaks ABI compatibility!!
 
@@ -32,7 +32,7 @@
 				// /Ob1 or /Ob2 options are given for inline
 				// expansion, or pulled from the DLL if it can
 				// not be inlined.
-				#define RMLUICORE_API_INLINE __declspec(dllimport) inline
+				#define RMLUICORE_API_INLINE inline
 			#else
 				// MinGW 32/64 dllimport inline is not supported
 				// and dllimport is ignored, so we avoid using
