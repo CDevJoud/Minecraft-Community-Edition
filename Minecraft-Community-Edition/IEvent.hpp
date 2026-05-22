@@ -70,6 +70,13 @@ namespace mce {
 				virtual const char const* name() const override { return "mce.core.event.window.resize"; }
 			};
 		}
-
+		namespace input {
+			struct MouseMoved : IEvent {
+				MouseMoved(sf::WindowHandle window, sf::Vector2i moved) : window(window), moved(moved) {}
+				sf::WindowHandle window;
+				sf::Vector2i moved;
+				virtual const char const* name() const override { return "mce.core.event.input.mouse_moved"; }
+			};
+		}
 	}
 }
