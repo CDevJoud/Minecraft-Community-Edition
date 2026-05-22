@@ -232,6 +232,7 @@ namespace sf {
 			////////////////////////////////////////////////////////////
 			//bool createVulkanSurface(const VkInstance& instance, VkSurfaceKHR& surface, const VkAllocationCallbacks* allocator);
 
+			virtual void close(bool destroyWindow = false) = 0;
 		protected:
 
 			////////////////////////////////////////////////////////////

@@ -66,6 +66,8 @@ namespace sf {
 	////////////////////////////////////////////////////////////
 	WindowBase::~WindowBase() {
 		close();
+		delete m_impl;
+		m_impl = NULL;
 	}
 
 
@@ -127,9 +129,10 @@ namespace sf {
 
 	////////////////////////////////////////////////////////////
 	void WindowBase::close() {
-		// Delete the window implementation
-		delete m_impl;
-		m_impl = NULL;
+		// Close the window without destroying it
+		if (m_impl) {
+			m_impl->close();
+		}
 
 		// Update the fullscreen window
 		if (this == getFullscreenWindow())
