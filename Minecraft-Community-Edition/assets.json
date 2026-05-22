@@ -1,6 +1,7 @@
 {
 	"assets.fonts.arial_black": ".\\assets\\fonts\\arial_black.ttf",
 	"assets.ui.main": ".\\assets\\ui\\main.html",
+	"assets.images.who": ".\\assets\\images\\who.jpg",
 	"assets.shaders.main.fs.d3d11_windows": ".\\assets\\shaders\\main.fs.d3d11_windows.bin",
 	"assets.shaders.main.vs.d3d11_windows": ".\\assets\\shaders\\main.vs.d3d11_windows.bin",
 	"assets.shaders.main.fs.d3d12_windows": ".\\assets\\shaders\\main.fs.d3d12_windows.bin",
