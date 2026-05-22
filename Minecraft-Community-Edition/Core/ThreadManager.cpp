@@ -27,7 +27,7 @@ namespace mce::core {
 		std::lock_guard<std::mutex> lock(mutex);
 		auto it = eastl::find_if(threads.begin(), threads.end(),
 			[&](const auto& pair) {
-				return pair.first && pair.second.name == name;
+				return pair.first && pair.second.name == name.c_str();
 			});
 
 		if (it != threads.end() && it->first) {
