@@ -7,6 +7,7 @@ REM Right now the only way to get the shader compiler is to build it from src fr
 set SC=D:\Void\bgfx\bin\shadercRelease
 set INCLUDE=%ROOT%\libs\bgfx\
 set SHADERS=%ROOT%\Graphics\Shaders
+set RMLSHADERS=%ROOT%\UI\Backend\shaders
 set OUT=%ROOT%\assets\shaders
 goto :gen
 
@@ -17,8 +18,22 @@ REM %3 = profile
 :compile
 echo Compiling %2 for %1...
 
+REM Graphics default shader
 %SC% -f %SHADERS%\main.vs -o %OUT%\main.vs.%2_%1.bin --type v --platform %1 -p %3 -i %INCLUDE%
 %SC% -f %SHADERS%\main.fs -o %OUT%\main.fs.%2_%1.bin --type f --platform %1 -p %3 -i %INCLUDE%
+
+REM RmlUI shaders
+%SC% -f %RMLSHADERS%\rmlui.vs -o %OUT%\rmlui.vs.%2_%1.bin --type v --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_passthrough.vs -o %OUT%\rmlui_passthrough.vs.%2_%1.bin --type v --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_blendmask.fs -o %OUT%\rmlui_blendmask.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_blur.fs -o %OUT%\rmlui_blur.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_color.fs -o %OUT%\rmlui_color.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_colormatrix.fs -o %OUT%\rmlui_colormatrix.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_creation.fs -o %OUT%\rmlui_creation.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_dropshadow.fs -o %OUT%\rmlui_dropshadow.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_gradient.fs -o %OUT%\rmlui_gradient.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_passthrough.fs -o %OUT%\rmlui_passthrough.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
+%SC% -f %RMLSHADERS%\rmlui_texture.fs -o %OUT%\rmlui_texture.fs.%2_%1.bin --type f --platform %1 -p %3 %INCLUDE%
 
 goto :eof
 
