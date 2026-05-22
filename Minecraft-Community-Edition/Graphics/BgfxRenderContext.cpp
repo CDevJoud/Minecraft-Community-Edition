@@ -54,6 +54,8 @@ namespace mce::gfx {
 		data.height = mainWindow.getSize().y;
 		data.isMain = true;
 
+		mainWindow.bIsMaster = true;
+
 		BgfxRenderContext::windows[0] = data;
 
 		bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x303030FF);
@@ -90,6 +92,7 @@ namespace mce::gfx {
 	void BgfxRenderContext::endFrame() {
 		bgfx::frame();
 	}
+
 
 	uint16_t BgfxRenderContext::registerWindow(sf::WindowBase& window) {
 		uint16_t viewId = BgfxRenderContext::nextViewId++;
@@ -169,6 +172,15 @@ namespace mce::gfx {
 		}
 		else {
 			return it->second.fbh;
+		}
+	}
+	BgfxRenderContext::WindowData BgfxRenderContext::getWindowData(uint16_t viewId) {
+		auto it = BgfxRenderContext::windows.find(viewId);
+		if (it == BgfxRenderContext::windows.end()) {
+			return BgfxRenderContext::WindowData{};
+		}
+		else {
+			return it->second;
 		}
 	}
 }

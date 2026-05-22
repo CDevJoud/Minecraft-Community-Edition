@@ -19,9 +19,13 @@ namespace mce::gfx {
 			return eastl::make_shared<EnableMakeShared>(eastl::forward<Args>(args)...);
 		}
 		Texture(const bgfx::Memory* tag, bool& success);
+		Texture(sf::Vector2i size, bool hasMipMap, uint16_t numLayers, bgfx::TextureFormat::Enum textureFormat, bool& success, uint64_t flags = BGFX_TEXTURE_NONE, const bgfx::Memory* mem = nullptr, uint64_t external = 0);
 		Texture(const eastl::vector<uint8_t>& bytes, bool& success);
-		~Texture();
 	public:
+		~Texture();
+		Texture(const uint16_t idx);
+
+		Texture& operator=(const uint16_t idx);
 		
 		bgfx::TextureHandle getTextureHandle() const;
 

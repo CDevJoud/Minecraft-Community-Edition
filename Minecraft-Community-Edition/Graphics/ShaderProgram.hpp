@@ -33,6 +33,8 @@ namespace mce::gfx {
 
 		void setUniform(const std::string& name, float f1, float f2, float f3, float f4);
 
+		void setUniform(const std::string& name, const float* mat4x4);
+
 	private:
 		std::unordered_map<std::string, bgfx::UniformHandle> uniform;
 		bgfx::ProgramHandle program;

@@ -102,6 +102,72 @@ namespace mce::gfx {
 		return (vb != nullptr);
 	}
 
+	bool Torus::createPlane(
+		core::QEventBus& qBus,
+		RenderFactory& factory,
+		float width,
+		float height,
+		int xSegments,
+		int ySegments,
+		Color color) {
+		VertexArray vArray;
+		vArray.setVertexLayout(Vertex::layout(), sizeof(Vertex));
+
+		// Prevent division by zero
+		if (xSegments <= 0 || ySegments <= 0)
+			return false;
+
+		float halfWidth = width * 0.5f;
+		float halfHeight = height * 0.5f;
+
+		for (int y = 0; y < ySegments; ++y) {
+			for (int x = 0; x < xSegments; ++x) {
+				// Normalized coordinates
+				float x0 = (float)x / xSegments;
+				float x1 = (float)(x + 1) / xSegments;
+
+				float y0 = (float)y / ySegments;
+				float y1 = (float)(y + 1) / ySegments;
+
+				// Convert to plane space
+				float px0 = (x0 * width) - halfWidth;
+				float px1 = (x1 * width) - halfWidth;
+
+				float py0 = (y0 * height) - halfHeight;
+				float py1 = (y1 * height) - halfHeight;
+
+				// Plane vertices
+				sf::Vector3f p0(px0, py0, 0.0f);
+				sf::Vector3f p1(px1, py0, 0.0f);
+				sf::Vector3f p2(px1, py1, 0.0f);
+				sf::Vector3f p3(px0, py1, 0.0f);
+
+				// UVs
+				sf::Vector2f uv0(x0, y0);
+				sf::Vector2f uv1(x1, y0);
+				sf::Vector2f uv2(x1, y1);
+				sf::Vector2f uv3(x0, y1);
+
+				// Triangle 1
+				vArray.append(Vertex(p0, color, uv0));
+				vArray.append(Vertex(p1, color, uv1));
+				vArray.append(Vertex(p2, color, uv2));
+
+				// Triangle 2
+				vArray.append(Vertex(p0, color, uv0));
+				vArray.append(Vertex(p2, color, uv2));
+				vArray.append(Vertex(p3, color, uv3));
+			}
+		}
+
+		flags::Buffer fl;
+		fl.addFlag(flags::Buffer::None);
+
+		vb = factory.createVertexBuffer(vArray, fl);
+
+		return (vb != nullptr);
+	}
+
 	eastl::shared_ptr<Texture>& Torus::getTexture() {
 		return texture;
 	}

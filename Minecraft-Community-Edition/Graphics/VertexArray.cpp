@@ -2,15 +2,12 @@
 #include "VertexBuffer.hpp"
 
 namespace mce::gfx{
-	VertexArray::VertexArray() : 
+	/*VertexArray::VertexArray() : 
 		vertexSizeInMem(sizeof(Vertex)) {
 	
 	}
 
-    void VertexArray::setVertexLayout(const bgfx::VertexLayout& layout, size_t vertexSizeInMem) {
-		VertexArray::vLayout = layout;
-		VertexArray::vertexSizeInMem = vertexSizeInMem;
-	}
+    void VertexArray::setVertexLayout(const bgfx::VertexLayout& layout, size_t vertexSizeInMem) 
    
     size_t VertexArray::getVertexCount() const {
 		return VertexArray::vertices.size();
@@ -31,6 +28,6 @@ namespace mce::gfx{
 	void VertexArray::append(const Vertex& vertex) {
 		this->vertices.push_back(vertex);
 	}
-
+*/
 
 }

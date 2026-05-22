@@ -14,7 +14,14 @@ namespace mce::gfx {
 		void setTexture(eastl::shared_ptr<Texture>& texture);
 
 		virtual void render(Void& v3d, RenderStates& states) const override;
-
+		bool createPlane(
+			core::QEventBus& qBus,
+			RenderFactory& factory,
+			float width,
+			float height,
+			int xSegments,
+			int ySegments,
+			Color color);
 	private:
 		eastl::shared_ptr<Texture> texture;
 		eastl::shared_ptr<VertexBuffer> vb;
