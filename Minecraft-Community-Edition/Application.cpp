@@ -28,16 +28,6 @@
 #include <RmlUi/Core/FontEngineInterface.h>
 
 mce::gfx::Image iImg;
-#include "Mod/ModLoader.h"
-
-typedef Xconst XAPIDescriptor(XAPI_STDCALL* XI_queryFn)(Xvoid);
-typedef Xconst Xint32(XAPI_STDCALL* XI_mainFn)(Xvoid Xconstptr);
-typedef Xconst Xint32(XAPI_STDCALL* XI_terminateFn)(Xvoid Xconstptr);
-
-XI_queryFn XI_query;
-XI_mainFn XI_main;
-XI_terminateFn XI_terminate;
-XIExports exports;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
@@ -71,15 +61,6 @@ namespace mce {
 		auto component = console.getComponent<tui::CLogger>("default");
 		component->setPosition(119, 1);
 		Application::isApplicationInit = Application::initApplication();
-
-		nlohmann::json data = { {"renderCtx", (uint64_t)(&renderCtx)} };
-	
-		LOG_DEBUG("Loading Sample Mod...");
-		setGlobalQEventBus(&qBus);
-		//loadMod("net9.0-windows10.0.26100.0\\win-x64\\publish\\SampleModC#.dll");
-		loadMod("SampleMod.dll");
-
-		LOG_DEBUG("Sample Mod loaded successfuly!");
 	}
 
 	int Application::run() {
@@ -99,8 +80,7 @@ namespace mce {
 				if (instances.empty()) {
 					break;
 				}
-				if(exports.onUpdate)
-					exports.onUpdate();
+
 				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
@@ -148,25 +128,9 @@ namespace mce {
 				//sf::sleep(sf::milliseconds(0));
 			}
 		}
-		LOG_DEBUG("Unloading Sample Mod");
-		exports.onShutdown();
-		XI_terminate(mce_destroyDeviceAndContext);
-		bx::dlclose(hMod);
 		console.close();
 
-		bool hasBgfxShutdown = false;
-		Thread* th = threadManager.createThread("BgfxShutdown", [this, &hasBgfxShutdown]() {
-			bgfx::frame(BGFX_FRAME_FLUSH | BGFX_FRAME_DISCARD);
-			renderCtx->shutdown();
-			hasBgfxShutdown = true;
-			});
-
-		th->launch();
-
-		//Wait for 3 seconds if bgfx refuses to shutdown then we terminates it
-		sf::sleep(sf::seconds(3));
-		if(!hasBgfxShutdown)
-			th->terminate();
+		renderCtx->shutdown();
 
 		return 0;
 	}
@@ -272,10 +236,9 @@ namespace mce {
 	void Application::initQEventBusSubscription() {
 		
 	}
-	void Application::createProfile(const eastl::string profileName) {
-		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920 / 4, 1080 / 2), "Minecraft CE");
-		window->setIcon(iImg.getSize().x, iImg.getSize().y, iImg.getPixelsPtr());
+	void Application::createProfile(const eastl::string profileName, eastl::unique_ptr<sf::WindowBase> window) {
 		uint16_t viewId = 0;
+
 		if (window == nullptr) {
 			window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920, 1080), "Minecraft CE");
 			viewId = renderCtx->registerWindow(*window);

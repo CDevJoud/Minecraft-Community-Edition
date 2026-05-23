@@ -65,8 +65,8 @@ namespace mce {
 			qBus.post(event::Log(event::Log::ERROR, "Couldn't create a vertex buffer!"));
 		}
 
-		/*eastl::vector<uint8_t> mem;
-		vfs.getFile("assets.images.img", mem);
+		eastl::vector<uint8_t> mem;
+		vfs.getFile("assets.images.who", mem);
 
 		renderState.texture = factory.createTexture(mem);
 
@@ -133,8 +133,8 @@ namespace mce {
 
 		torus.position.z = 20.0f;
 		//torus.rotation.x = 310 * (3.14 / 180);
-		torus.rotation.y += 10 * (3.14 / 180);
-		torus.rotation.x += 10 * (3.14 / 180);
+		torus.rotation.y += 0.25 * (3.14 / 180);
+		torus.rotation.x += 0.25 * (3.14 / 180);
 		//torus.rotation.z += 0.0035f;
 		//renderer.render(cube);
 		renderer.render(torus);
