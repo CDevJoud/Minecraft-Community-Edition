@@ -51,7 +51,7 @@ namespace mce {
 					{"type", 1}
 				}
 			}
-			})*/ 
+			})*/
 		setupLogging();
 		qBus.runAsync();
 		iImg.loadFromMemory(icon, icon_size);
@@ -81,7 +81,7 @@ namespace mce {
 					break;
 				}
 
-				sf::Time dt = deltaClock.restart(); 
+				sf::Time dt = deltaClock.restart();
 
 				frameCount++;
 
@@ -134,7 +134,7 @@ namespace mce {
 
 		return 0;
 	}
-	
+
 	std::string Application::getLogFileName() {
 		const auto now = std::chrono::system_clock::now();
 
@@ -144,7 +144,7 @@ namespace mce {
 		// strftime adds the null terminator, so initializing isn't strictly necessary
 		char filename[32];
 		std::strftime(filename, sizeof(filename), "logs/%Y-%m-%d %H-%M-%S.txt", pTime);
-		
+
 		return filename;
 	}
 	void Application::setupLogging() {
@@ -161,7 +161,7 @@ namespace mce {
 	}
 
 	bool Application::initApplication() {
-		
+
 		threadManager.createThread("ConsoleOutput", [&]() {
 			while (console.isOpen()) {
 				console.clear();
@@ -195,7 +195,7 @@ namespace mce {
 		Application::renderCtx = eastl::make_shared<gfx::BgfxRenderContext>(qBus);
 
 		Application::rsrcMgr = eastl::make_unique<core::ResourceManager>(qBus, vfs, factory, *renderCtx);
-		
+
 		Application::appWindow = eastl::make_unique<sf::WindowBase>(sf::VideoMode::getDesktopMode(), "Damascene RunTime Engine: v0.2.0");
 
 		if (!Application::isRenderCtxInit) {
@@ -221,20 +221,20 @@ namespace mce {
 			reinterpret_cast<const Rml::byte*>(fontMem.data()),
 			fontMem.size()
 		);
-		
+
 		Rml::LoadFontFace(rmlFontMem, "arial_black", Rml::Style::FontStyle::Normal);
 		Application::ctx = Rml::CreateContext("main", Rml::Vector2i(1920, 1080));
 
 		doc = Application::ctx->LoadDocument(".\\assets\\ui\\main.html");
 		doc->Show();
-		
+
 		Application::createProfile("MCE:Player1", eastl::move(appWindow));
-		
+
 		return true;
 	}
 
 	void Application::initQEventBusSubscription() {
-		
+
 	}
 	void Application::createProfile(const eastl::string profileName, eastl::unique_ptr<sf::WindowBase> window) {
 		uint16_t viewId = 0;
@@ -270,11 +270,11 @@ namespace mce {
 			rawMinecraftPtr->run();
 
 			std::lock_guard<std::mutex> lock(instanceMutex);
-			
+
 			auto it = eastl::find_if(instances.begin(), instances.end(), [rawMinecraftPtr](const eastl::pair<eastl::unique_ptr<sf::WindowBase>, eastl::unique_ptr<Minecraft>>& m) {
 				return m.second.get() == rawMinecraftPtr;
 				});
-			
+
 			// we need the main window that init the bgfx to stay alive until we destroy bgfx
 			// if this window is the master/main window then we pass it to appWindow.
 			// this is a temp fix for now!
@@ -292,7 +292,7 @@ namespace mce {
 			})->launch();
 		rawWindowPtr->setVisible(true);
 
-		
+
 	}
 }
 
