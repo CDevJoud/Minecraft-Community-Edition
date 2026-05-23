@@ -19,6 +19,18 @@ namespace mce::gfx {
 		bgfx::setViewClear(this->viewId, static_cast<uint16_t>(this->clearFlags), this->color);
 	}
 
+	void Renderer::setVertexBuffer(const eastl::shared_ptr<VertexBuffer>& vb) {
+		Renderer::setVertexBuffer(vb->getNativeHandle());
+	}
+
+	void Renderer::setIndexBuffer(IndexBufferHandle handle) {
+		bgfx::setIndexBuffer(handle);
+	}
+
+	void Renderer::setIndexBuffer(const eastl::shared_ptr<IndexBuffer>& ib) {
+		Renderer::setIndexBuffer(ib->getNativeHandle());
+	}
+
 	void Renderer::setVertexBuffer(VertexBufferHandle handle) {
 		bgfx::setVertexBuffer(0, handle);
 	}
@@ -31,8 +43,24 @@ namespace mce::gfx {
 		bgfx::setTransform(modelViewProj);
 	}
 
+    void Renderer::setTexture(uint8_t stage, bgfx::UniformHandle _sampler, bgfx::TextureHandle _handle, uint32_t flags) {
+		bgfx::setTexture(stage, _sampler, _handle, flags);
+	}
+
+	void Renderer::setState(uint64_t state) {
+		bgfx::setState(state);
+	}
+
+	void Renderer::setState(flags::State state) {
+		Renderer::setState(static_cast<uint64_t>(state.sFlag));
+	}
+
 	void Renderer::submit(ProgramHandle program) {
 		bgfx::submit(Renderer::viewId, program);
+	}
+
+	void Renderer::submit(const eastl::shared_ptr<ShaderProgram>& sp, uint32_t depth) {
+		bgfx::submit(Renderer::viewId, sp->getProgramHandle(), depth);
 	}
 
 	void Renderer::touch() {

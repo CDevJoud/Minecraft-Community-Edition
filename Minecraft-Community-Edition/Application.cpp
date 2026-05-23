@@ -22,68 +22,16 @@
 #include "TUI/CLogger.hpp"
 #include "libs/bx/os.h"
 
+#include <RmlUi/Core.h>
+#include <UI/Backend/RmlUI_Platform_dms.hpp>
+#include <UI/Backend/RmlUI_Renderer_bgfx.hpp>
+#include <RmlUi/Core/FontEngineInterface.h>
+
 mce::gfx::Image iImg;
-#include "Mod/ModLoader.h"
-
-typedef Xconst XAPIDescriptor(XAPI_STDCALL* XI_queryFn)(Xvoid);
-typedef Xconst Xint32(XAPI_STDCALL* XI_mainFn)(Xvoid Xconstptr);
-typedef Xconst Xint32(XAPI_STDCALL* XI_terminateFn)(Xvoid Xconstptr);
-
-XI_queryFn XI_query;
-XI_mainFn XI_main;
-XI_terminateFn XI_terminate;
-XIExports exports;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
-	void* hMod = nullptr;
-	bool loadMod(const std::string& fName) {
-		hMod = bx::dlopen(fName.c_str());
 
-		XI_query = bx::dlsym<XI_queryFn>(hMod, "XI_query");
-		XAPIDescriptor desc;
-		if (XI_query == XAPI_NULL) {
-			bx::dlclose(hMod);
-			return false;
-		}
-
-		desc = XI_query();
-
-		XI_main = bx::dlsym<XI_mainFn>(hMod, "XI_main");
-		if (XI_main == XAPI_NULL) {
-			bx::dlclose(hMod);
-			return false;
-		}
-		
-		XI_terminate = bx::dlsym<XI_terminateFn>(hMod, "XI_terminate");
-		if (XI_terminate == XAPI_NULL) {
-			bx::dlclose(hMod);
-			return false;
-		}
-
-		Xint32 res = XI_main(mce_createDeviceAndContext);
-		if (res == XE_ERROR) {
-			res = XI_terminate(mce_destroyDeviceAndContext);
-			if (res == XE_ERROR) {
-				//bad Mod!
-			}
-			bx::dlclose(hMod);
-			return false;
-		}
-		
-		exports = mce_pullSessionsExports();
-		if (exports.onInit == XAPI_NULL) {
-			//what kind of bad mod is that??
-			if (XI_terminate != XAPI_NULL) {
-				XI_terminate(mce_destroyDeviceAndContext);
-
-				bx::dlclose(hMod);
-				return false;
-			}
-		}
-		exports.onInit();
-		return true;
-	}
 	Application::Application(int argc, char* argv[]) :
 		qBus("APP"),
 		threadManager(qBus),
@@ -104,26 +52,16 @@ namespace mce {
 					{"type", 1}
 				}
 			}
-			})*/ 
+			})*/
 		setupLogging();
 		qBus.runAsync();
 		iImg.loadFromMemory(icon, icon_size);
-		sf::VideoMode s;
 		vfs.buildJSONMappingFile("assets.json", "assets.bin");
 		console.insertComponent(tui::CLogger::createInstance(qBus, "default", 115, 30));
 		console.insertComponent(tui::CLogger::createInstance(qBus, "bgfx", 117, 30));
 		auto component = console.getComponent<tui::CLogger>("default");
 		component->setPosition(119, 1);
 		Application::isApplicationInit = Application::initApplication();
-
-		nlohmann::json data = { {"renderCtx", (uint64_t)(&renderCtx)} };
-	
-		LOG_DEBUG("Loading Sample Mod...");
-		setGlobalQEventBus(&qBus);
-		//loadMod("net9.0-windows10.0.26100.0\\win-x64\\publish\\SampleModC#.dll");
-		loadMod("SampleMod.dll");
-
-		LOG_DEBUG("Sample Mod loaded successfuly!");
 	}
 
 	int Application::run() {
@@ -134,7 +72,7 @@ namespace mce {
 
 		int frameCount = 0;
 		int currentFPS = 0;
-
+		int isWindowsNotVisible = 40;
 		bgfx::setDebug(BGFX_DEBUG_STATS);
 		while (true) {
 			{
@@ -143,9 +81,8 @@ namespace mce {
 				if (instances.empty()) {
 					break;
 				}
-				if(exports.onUpdate)
-					exports.onUpdate();
-				sf::Time dt = deltaClock.restart(); 
+
+				sf::Time dt = deltaClock.restart();
 
 				frameCount++;
 
@@ -159,6 +96,7 @@ namespace mce {
 					}
 				}
 				for (auto& instance : Application::instances) {
+					//std::unique_lock<std::mutex> lock(instanceMutex);
 					for (sf::Event event{}; instance.first->pollEvent(event);) {
 						if (event.type == sf::Event::Closed) {
 							qBus.post(event::window::Close{ instance.first->getSystemHandle() });
@@ -168,9 +106,14 @@ namespace mce {
 						if (event.type == sf::Event::Resized) {
 							qBus.post(event::window::Resize{ instance.first->getSystemHandle(), { event.size.width, event.size.height } });
 						}
+						if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+							ctx->UnloadDocument(doc);
+							doc = ctx->LoadDocument(".\\assets\\ui\\main.html");
+							doc->Show();
+						}
+						ui::priv::inputEventHandler(ctx, instance.first->getSystemHandle(), event);
 					}
 				}
-
 				Application::renderCtx->beginFrame();
 
 				for (auto& instance : Application::instances) {
@@ -178,24 +121,22 @@ namespace mce {
 						instance.second->render();
 					}
 				}
-				
+				ctx->Update();
+				ctx->Render();
+
 				Application::renderCtx->endFrame();
 
 				//sf::sleep(sf::milliseconds(0));
 			}
 		}
-		LOG_DEBUG("Unloading Sample Mod");
-		exports.onShutdown();
-		XI_terminate(mce_destroyDeviceAndContext);
-		bx::dlclose(hMod);
+
 		console.close();
-		threadManager.waitAll();
 
 		renderCtx->shutdown();
 
 		return 0;
 	}
-	
+
 	std::string Application::getLogFileName() {
 		const auto now = std::chrono::system_clock::now();
 
@@ -205,7 +146,7 @@ namespace mce {
 		// strftime adds the null terminator, so initializing isn't strictly necessary
 		char filename[32];
 		std::strftime(filename, sizeof(filename), "logs/%Y-%m-%d %H-%M-%S.txt", pTime);
-		
+
 		return filename;
 	}
 	void Application::setupLogging() {
@@ -222,7 +163,7 @@ namespace mce {
 	}
 
 	bool Application::initApplication() {
-		
+
 		threadManager.createThread("ConsoleOutput", [&]() {
 			while (console.isOpen()) {
 				console.clear();
@@ -253,29 +194,60 @@ namespace mce {
 
 		Application::initQEventBusSubscription();
 
-		renderCtx = eastl::make_shared<gfx::BgfxRenderContext>(qBus);
+		Application::renderCtx = eastl::make_shared<gfx::BgfxRenderContext>(qBus);
 
-		Application::createProfile("MCE:Player1");
+		Application::rsrcMgr = eastl::make_unique<core::ResourceManager>(qBus, vfs, factory, *renderCtx);
+
+		Application::appWindow = eastl::make_unique<sf::WindowBase>(sf::VideoMode::getDesktopMode(), "Damascene RunTime Engine: v0.2.0");
+
+		if (!Application::isRenderCtxInit) {
+			if (renderCtx->init(*appWindow, api)) {
+				isRenderCtxInit = true;
+			}
+		}
+
+		if (rmlSystem == nullptr)
+			Application::rmlSystem = new ui::priv::SystemInterface_dms(qBus);
+		if (rmlRenderer == nullptr)
+			Application::rmlRenderer = new ui::priv::RenderInterface_bgfx(*rsrcMgr);
+
+		Rml::SetSystemInterface(rmlSystem);
+		Rml::SetRenderInterface(rmlRenderer);
+
+		if (!Rml::Initialise()) {
+			return false;
+		}
+
+		vfs.getFile("assets.fonts.arial_black", fontMem);
+		Rml::Span<const Rml::byte> rmlFontMem(
+			reinterpret_cast<const Rml::byte*>(fontMem.data()),
+			fontMem.size()
+		);
+
+		Rml::LoadFontFace(rmlFontMem, "arial_black", Rml::Style::FontStyle::Normal);
+		Application::ctx = Rml::CreateContext("main", Rml::Vector2i(1920, 1080));
+
+		doc = Application::ctx->LoadDocument(".\\assets\\ui\\main.html");
+		doc->Show();
+
+		Application::createProfile("MCE:Player1", eastl::move(appWindow));
 
 		return true;
 	}
 
 	void Application::initQEventBusSubscription() {
-		
+
 	}
-	void Application::createProfile(const eastl::string profileName) {
-		eastl::unique_ptr<sf::WindowBase> window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920, 1080), "Minecraft CE");
-		window->setIcon(iImg.getSize().x, iImg.getSize().y, iImg.getPixelsPtr());
+	void Application::createProfile(const eastl::string profileName, eastl::unique_ptr<sf::WindowBase> window) {
 		uint16_t viewId = 0;
 
-		if (!this->isRenderCtxInit) {
-			if (renderCtx->init(*window, api)) {
-				this->isRenderCtxInit = true;
-			}
-		}
-		else {
+		if (window == nullptr) {
+			window = eastl::make_unique<sf::WindowBase>(sf::VideoMode(1920, 1080), "Minecraft CE");
 			viewId = renderCtx->registerWindow(*window);
 		}
+
+		window->setIcon(iImg.getSize().x, iImg.getSize().y, iImg.getPixelsPtr());
+
 		eastl::unique_ptr<Minecraft> mc = eastl::make_unique<Minecraft>(
 			profileName,
 			Application::qBus,
@@ -286,14 +258,16 @@ namespace mce {
 			Application::factory,
 			Application::vfs
 		);
+
 		Minecraft* rawMinecraftPtr = mc.get();
 		sf::WindowBase* rawWindowPtr = window.get();
 		Application::instances.emplace_back(
 			eastl::make_pair<eastl::unique_ptr<sf::WindowBase>, eastl::unique_ptr<Minecraft>>(eastl::move(window), eastl::move(mc))
 		);
 
+		rmlRenderer->setViewport(rawWindowPtr->getSize().x, rawWindowPtr->getSize().y, 0, 0);
 
-		//create a new thread so we dont block the main thread
+		//create a new thread so we don't block the main thread
 		threadManager.createThread(profileName, [this, rawMinecraftPtr]() {
 			rawMinecraftPtr->run();
 
@@ -303,6 +277,16 @@ namespace mce {
 				return m.second.get() == rawMinecraftPtr;
 				});
 
+			// we need the main window that init the bgfx to stay alive until we destroy bgfx
+			// if this window is the master/main window then we pass it to appWindow.
+			// this is a temp fix for now!
+			if (it->first->bIsMaster) {
+				Application::appWindow = eastl::move(it->first);
+			}
+			else {
+				renderCtx->unregisterWindow(it->second->getViewId());
+			}
+
 			if (it != instances.end()) {
 				instances.erase(it);
 			}
@@ -310,10 +294,9 @@ namespace mce {
 			})->launch();
 		rawWindowPtr->setVisible(true);
 
-		
+
 	}
 }
 
 #include <Windows.h>
 MCE_STARTUP(mce::Application);
-//Open source event-driven service-oriented voxel based game engine

@@ -1,8 +1,16 @@
 #include "CXAPI.h"
 
-XAPI_LOCAL Xint32 onInit(Xvoid);
-XAPI_LOCAL Xint32 onUpdate(Xvoid);
-XAPI_LOCAL Xint32 onShutdown(Xvoid);
+XAPI_LOCAL Xint32 onInit(Xvoid) {
+	CXAPI_logDebug("Hello From MyMod!Joud!");
+}
+
+XAPI_LOCAL Xint32 onUpdate(Xvoid) {
+
+}
+
+XAPI_LOCAL Xint32 onShutdown(Xvoid) {
+
+}
 
 XAPI_LOCAL XAPIDescriptor queryCXAPIDescriptor() {
 	XAPIDescriptor desc;

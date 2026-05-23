@@ -426,6 +426,13 @@ namespace sf {
 			return m_handle == GetForegroundWindow();
 		}
 
+		void WindowImplWin32::close(bool destroyWindow) {
+			ShowWindow(m_handle, SW_HIDE);
+			if (destroyWindow) {
+				DestroyWindow(m_handle);
+			}
+		}
+
 
 		////////////////////////////////////////////////////////////
 		void WindowImplWin32::registerWindowClass() {

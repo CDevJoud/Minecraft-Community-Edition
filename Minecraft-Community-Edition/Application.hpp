@@ -11,7 +11,10 @@
 #include "IO/VirtualFileSystem.hpp"
 #include "tui/Console.hpp"
 #include "IO/FileLogger.hpp"
+#include "Core/ResourceManager.hpp"
+#include "UI/Backend/RmlUI_Renderer_bgfx.hpp"
 
+#include <RmlUi/Core.h>
 namespace mce {
 	/**
  * @class Application
@@ -42,6 +45,8 @@ namespace mce {
 		 */
 		virtual int run() override;
 
+		core::QEventBus qBus;
+
 	private:
 		std::string getLogFileName();
 
@@ -51,12 +56,13 @@ namespace mce {
 		
 	private:
 		void initQEventBusSubscription();
-		void createProfile(const eastl::string profileName);
+		void createProfile(const eastl::string profileName, eastl::unique_ptr<sf::WindowBase> window);
+
+		eastl::unique_ptr<sf::WindowBase> appWindow = nullptr;
 
 		eastl::vector<eastl::pair<eastl::unique_ptr<sf::WindowBase>, eastl::unique_ptr<Minecraft>>> instances;
 
 		std::mutex instanceMutex;
-		core::QEventBus qBus;
 		core::ThreadManager threadManager;
 		eastl::shared_ptr<gfx::RenderContext> renderCtx;
 		bx::CommandLine cmd;
@@ -66,6 +72,14 @@ namespace mce {
 		gfx::RenderFactory factory;
 		tui::Console console;
 		io::FileLogger fLogger;
+
+		Rml::SystemInterface* rmlSystem = nullptr;
+		ui::priv::RenderInterface_bgfx* rmlRenderer = nullptr;
+		Rml::Context* ctx;
+
+		eastl::unique_ptr<core::ResourceManager> rsrcMgr = nullptr;
+		Rml::ElementDocument* doc;
+		eastl::vector<uint8_t> fontMem;
 	};
 }
 

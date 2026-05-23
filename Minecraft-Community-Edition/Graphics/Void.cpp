@@ -74,7 +74,7 @@ namespace mce::gfx {
 			proj,
 			90.0f,
 			getViewSpace().width / getViewSpace().height,
-			0.1f, 100.0f,
+			0.1f, 1000.0f,
 			bgfx::getCaps()->homogeneousDepth
 		);
 
@@ -186,7 +186,7 @@ namespace mce::gfx {
 
 		shader->setUniform("u_time", time, 0.0f, 0.0f, 0.0f);
 
-		shader->setUniform("u_param", 0.1f, 5.0f, 2.0f, 0.0f);
+		shader->setUniform("u_param", 100.0f, 5.0f, 2.0f, 0.0f);
 
 		Renderer::submit(shader->getProgramHandle());
 	}

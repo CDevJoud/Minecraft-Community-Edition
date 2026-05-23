@@ -405,6 +405,8 @@ public:
     ////////////////////////////////////////////////////////////
     //bool createVulkanSurface(const VkInstance& instance, VkSurfaceKHR& surface, const VkAllocationCallbacks* allocator = 0);
 
+
+	bool bIsMaster = false;
 protected:
 
     ////////////////////////////////////////////////////////////

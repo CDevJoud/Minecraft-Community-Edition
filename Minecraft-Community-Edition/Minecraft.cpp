@@ -66,7 +66,7 @@ namespace mce {
 		}
 
 		eastl::vector<uint8_t> mem;
-		vfs.getFile("assets.images.img", mem);
+		vfs.getFile("assets.images.who", mem);
 
 		renderState.texture = factory.createTexture(mem);
 
@@ -75,7 +75,7 @@ namespace mce {
 		cube.setTexture(renderState.texture);
 		
 		torus.create(qBus, factory, 10, 5, 128, 128, gfx::Color::Black);
-
+		//torus.createPlane(qBus, factory, 100, 100, 20, 20, gfx::Color::Black);
 		torus.setTexture(renderState.texture);
 	}
 
@@ -133,10 +133,11 @@ namespace mce {
 
 		torus.position.z = 20.0f;
 		//torus.rotation.x = 310 * (3.14 / 180);
-		torus.rotation.y += 0.00045f;
-		torus.rotation.x += 0.00015f;
+		torus.rotation.y += 0.25 * (3.14 / 180);
+		torus.rotation.x += 0.25 * (3.14 / 180);
 		//torus.rotation.z += 0.0035f;
 		//renderer.render(cube);
 		renderer.render(torus);
 	}
 }
+//-config ../data/launcher/launcher.xml --renderer d3d11

@@ -27,7 +27,7 @@ namespace mce::core {
 			/** @brief Non-owning pointer to the tracked Thread. */
 			Thread* thread = nullptr;
 			/** @brief Human readable thread name. */
-			eastl::string name;
+			std::string name;
 			/** @brief Time point when the thread was started. */
 			std::chrono::steady_clock::time_point startTime, endTime;
 			/** @brief True when the thread has finished execution. */
@@ -158,7 +158,7 @@ namespace mce::core {
 		std::lock_guard<std::mutex> lock(mutex);
 		ThreadInfo ti;
 		ti.startTime = std::chrono::steady_clock::now();
-		ti.name = name;
+		ti.name = name.c_str();
 		ti.thread = rawThread;
 		ti.endTime = {};
 		ti.finished = false;

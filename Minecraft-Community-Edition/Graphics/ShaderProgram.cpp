@@ -60,4 +60,15 @@ namespace mce::gfx {
 			bgfx::setUniform(u, data);
 		}
 	}
+	void ShaderProgram::setUniform(const std::string& name, const float* mat4x4) {
+		auto it = uniform.find(name);
+		if (it != uniform.end()) {
+			bgfx::setUniform(it->second, mat4x4);
+		}
+		else {
+			auto u = bgfx::createUniform(name.c_str(), bgfx::UniformType::Mat4);
+			uniform[name] = u;
+			bgfx::setUniform(u, mat4x4);
+		}
+	}
 }

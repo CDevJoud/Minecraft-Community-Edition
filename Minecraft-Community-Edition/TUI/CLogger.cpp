@@ -3,12 +3,19 @@
 
 namespace mce::tui {
 
-	CLogger::CLogger(core::QEventBus& qBus) : Panel(qBus) {}
+	static std::atomic_bool bIsEngineRunning = false;
+
+	CLogger::CLogger(core::QEventBus& qBus) : Panel(qBus) {
+		bIsEngineRunning = true;
+	}
 
 	CLogger::CLogger(core::QEventBus& qBus, const std::string& title,
 		const uint16_t width, const uint16_t height,
 		core::FunctionContainer fc)
 		: Panel(qBus, title, width, height, fc) {
+		
+		bIsEngineRunning = true;
+		
 		//outputBuffer.reserve(MAX_BUFFER_SIZE);
 
 		qBus.subscribe<event::LoggerOutput>([this](const event::LoggerOutput& e) {
@@ -17,6 +24,10 @@ namespace mce::tui {
 				log(char(e.severity) + e.msg);
 			}
 			});
+	}
+
+	CLogger::~CLogger() {
+		bIsEngineRunning.store(false, std::memory_order_release);
 	}
 
 	eastl::shared_ptr<CLogger> CLogger::createInstance(core::QEventBus& qBus,
@@ -28,16 +39,18 @@ namespace mce::tui {
 	}
 
 	void CLogger::log(const std::string& message) {
-		std::lock_guard<std::mutex> lock(bufferMutex);
+		if(bIsEngineRunning.load(std::memory_order_relaxed)) {
+			std::lock_guard<std::mutex> lock(bufferMutex);
 
-		if (outputBuffer.size() >= MAX_BUFFER_SIZE) {
-			outputBuffer.pop_front();           // Remove oldest message
+			if (outputBuffer.size() >= MAX_BUFFER_SIZE) {
+				outputBuffer.pop_front();           // Remove oldest message
+			}
+
+			outputBuffer.push_back(message);        // Add new message at the end
+			// Auto scroll to bottom when new message arrives (only if not dragging)
+			if (!isDraggingScrollbar)
+				scrollToBottom();
 		}
-
-		outputBuffer.push_back(message);        // Add new message at the end
-		// Auto scroll to bottom when new message arrives (only if not dragging)
-		if (!isDraggingScrollbar)
-			scrollToBottom();
 	}
 
 	void CLogger::onRender(RenderTarget* out) {
