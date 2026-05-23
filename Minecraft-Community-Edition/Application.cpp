@@ -31,6 +31,7 @@ mce::gfx::Image iImg;
 
 #define LOG_DEBUG(msg) qBus.post(event::Log(event::Log::Severity::DEBUG, msg));
 namespace mce {
+
 	Application::Application(int argc, char* argv[]) :
 		qBus("APP"),
 		threadManager(qBus),
@@ -128,6 +129,7 @@ namespace mce {
 				//sf::sleep(sf::milliseconds(0));
 			}
 		}
+
 		console.close();
 
 		renderCtx->shutdown();
