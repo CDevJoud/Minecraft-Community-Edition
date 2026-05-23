@@ -52,7 +52,7 @@ namespace mce {
 					{"type", 1}
 				}
 			}
-			})*/
+			})*/ 
 		setupLogging();
 		qBus.runAsync();
 		iImg.loadFromMemory(icon, icon_size);
@@ -82,7 +82,7 @@ namespace mce {
 					break;
 				}
 
-				sf::Time dt = deltaClock.restart();
+				sf::Time dt = deltaClock.restart(); 
 
 				frameCount++;
 
@@ -96,7 +96,6 @@ namespace mce {
 					}
 				}
 				for (auto& instance : Application::instances) {
-					//std::unique_lock<std::mutex> lock(instanceMutex);
 					for (sf::Event event{}; instance.first->pollEvent(event);) {
 						if (event.type == sf::Event::Closed) {
 							qBus.post(event::window::Close{ instance.first->getSystemHandle() });
@@ -114,6 +113,7 @@ namespace mce {
 						ui::priv::inputEventHandler(ctx, instance.first->getSystemHandle(), event);
 					}
 				}
+
 				Application::renderCtx->beginFrame();
 
 				for (auto& instance : Application::instances) {
@@ -123,7 +123,7 @@ namespace mce {
 				}
 				ctx->Update();
 				ctx->Render();
-
+				
 				Application::renderCtx->endFrame();
 
 				//sf::sleep(sf::milliseconds(0));
@@ -136,7 +136,7 @@ namespace mce {
 
 		return 0;
 	}
-
+	
 	std::string Application::getLogFileName() {
 		const auto now = std::chrono::system_clock::now();
 
@@ -146,7 +146,7 @@ namespace mce {
 		// strftime adds the null terminator, so initializing isn't strictly necessary
 		char filename[32];
 		std::strftime(filename, sizeof(filename), "logs/%Y-%m-%d %H-%M-%S.txt", pTime);
-
+		
 		return filename;
 	}
 	void Application::setupLogging() {
@@ -163,7 +163,7 @@ namespace mce {
 	}
 
 	bool Application::initApplication() {
-
+		
 		threadManager.createThread("ConsoleOutput", [&]() {
 			while (console.isOpen()) {
 				console.clear();
@@ -227,16 +227,11 @@ namespace mce {
 		Rml::LoadFontFace(rmlFontMem, "arial_black", Rml::Style::FontStyle::Normal);
 		Application::ctx = Rml::CreateContext("main", Rml::Vector2i(1920, 1080));
 
-		doc = Application::ctx->LoadDocument(".\\assets\\ui\\main.html");
-		doc->Show();
-
-		Application::createProfile("MCE:Player1", eastl::move(appWindow));
-
 		return true;
 	}
 
 	void Application::initQEventBusSubscription() {
-
+		
 	}
 	void Application::createProfile(const eastl::string profileName, eastl::unique_ptr<sf::WindowBase> window) {
 		uint16_t viewId = 0;
@@ -294,9 +289,10 @@ namespace mce {
 			})->launch();
 		rawWindowPtr->setVisible(true);
 
-
+		
 	}
 }
 
 #include <Windows.h>
 MCE_STARTUP(mce::Application);
+//Open source event-driven service-oriented voxel based game engine
