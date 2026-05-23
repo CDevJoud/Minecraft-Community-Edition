@@ -526,8 +526,6 @@
     <ClInclude Include="libs\rmlui\Source\Core\XMLParseTools.h" />
     <ClInclude Include="libs\stb\stb_image.hpp" />
     <ClInclude Include="libs\stb\stb_image_write.hpp" />
-    <ClInclude Include="Mod\ModLoader.h" />
-    <ClInclude Include="Mod\XAPI.h" />
     <ClInclude Include="TUI\CLogger.hpp" />
     <ClInclude Include="TUI\Panel.hpp" />
     <ClInclude Include="TUI\EventProcessor.hpp" />
@@ -917,7 +915,6 @@
     <ClCompile Include="libs\rmlui\Source\Core\XMLParser.cpp" />
     <ClCompile Include="libs\rmlui\Source\Core\XMLParseTools.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
-    <ClCompile Include="Mod\ModLoader.cpp" />
     <ClCompile Include="TUI\CLogger.cpp" />
     <ClCompile Include="TUI\Panel.cpp" />
     <ClCompile Include="TUI\EventProcessor.cpp" />
@@ -1040,7 +1037,6 @@
     <None Include="libs\nvtt\nvmath\vector.inl" />
     <None Include="libs\pvrtc\README.md" />
     <None Include="libs\rmlui\Source\Core\Pool.inl" />
-    <None Include="Mod\readme.md" />
     <None Include="shadercomp-debug.bat" />
     <None Include="Graphics\Shaders\varying.def.sc" />
     <None Include="UI\Backend\shaders\bgfx_shader.sh" />
