@@ -2,14 +2,15 @@
 
 XAPI_LOCAL Xint32 onInit(Xvoid) {
 	CXAPI_logDebug("Hello From MyMod!Joud!");
+	return 1;
 }
 
 XAPI_LOCAL Xint32 onUpdate(Xvoid) {
-
+	return 1;
 }
 
 XAPI_LOCAL Xint32 onShutdown(Xvoid) {
-
+	return 1;
 }
 
 XAPI_LOCAL XAPIDescriptor queryCXAPIDescriptor() {
@@ -28,15 +29,3 @@ XAPI_LOCAL Xvoid initCXAPI() {
 	CXAPI_setOnShutdownCB(onShutdown);
 }
 
-XAPI_LOCAL Xint32 onInit(Xvoid) {
-	CXAPI_logDebug("Hello From MyMod!Joud!");
-	return 1;
-}
-
-XAPI_LOCAL Xint32 onUpdate(Xvoid) {
-	return 1;
-}
-
-XAPI_LOCAL Xint32 onShutdown(Xvoid) {
-	return 1;
-}
