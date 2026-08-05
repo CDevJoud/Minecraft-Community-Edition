@@ -13,6 +13,7 @@
 #include "IO/FileLogger.hpp"
 #include "Core/ResourceManager.hpp"
 #include "UI/Backend/RmlUI_Renderer_bgfx.hpp"
+#include "UI/UIManager.hpp"
 
 #include <RmlUi/Core.h>
 namespace mce {
@@ -79,7 +80,7 @@ namespace mce {
 
 		eastl::unique_ptr<core::ResourceManager> rsrcMgr = nullptr;
 		Rml::ElementDocument* doc;
-		eastl::vector<uint8_t> fontMem;
+		ui::UIManager uiManager;
 	};
 }
 

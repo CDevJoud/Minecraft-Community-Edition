@@ -86,6 +86,8 @@ namespace mce {
 
 				frameCount++;
 
+				uiManager.update();
+
 				if (fpsClock.getElapsedTime() >= sf::seconds(1.0f)) {
 					currentFPS = frameCount;
 					frameCount = 0;
@@ -110,7 +112,7 @@ namespace mce {
 							doc = ctx->LoadDocument(".\\assets\\ui\\main.html");
 							doc->Show();
 						}
-						ui::priv::inputEventHandler(ctx, instance.first->getSystemHandle(), event);
+						uiManager.processEvents(instance.first->getSystemHandle(), event);
 					}
 				}
 
@@ -121,9 +123,9 @@ namespace mce {
 						instance.second->render();
 					}
 				}
-				ctx->Update();
-				ctx->Render();
-				
+
+				uiManager.render();
+
 				Application::renderCtx->endFrame();
 
 				//sf::sleep(sf::milliseconds(0));
@@ -131,6 +133,8 @@ namespace mce {
 		}
 
 		console.close();
+
+		uiManager.shutdown();
 
 		renderCtx->shutdown();
 
@@ -206,26 +210,9 @@ namespace mce {
 			}
 		}
 
-		if (rmlSystem == nullptr)
-			Application::rmlSystem = new ui::priv::SystemInterface_dms(qBus);
-		if (rmlRenderer == nullptr)
-			Application::rmlRenderer = new ui::priv::RenderInterface_bgfx(*rsrcMgr);
+		Application::uiManager.init(*Application::rsrcMgr);
 
-		Rml::SetSystemInterface(rmlSystem);
-		Rml::SetRenderInterface(rmlRenderer);
-
-		if (!Rml::Initialise()) {
-			return false;
-		}
-
-		vfs.getFile("assets.fonts.arial_black", fontMem);
-		Rml::Span<const Rml::byte> rmlFontMem(
-			reinterpret_cast<const Rml::byte*>(fontMem.data()),
-			fontMem.size()
-		);
-
-		Rml::LoadFontFace(rmlFontMem, "arial_black", Rml::Style::FontStyle::Normal);
-		Application::ctx = Rml::CreateContext("main", Rml::Vector2i(1920, 1080));
+		Application::createProfile("MCE:Player1", eastl::move(Application::appWindow));
 
 		return true;
 	}
@@ -251,17 +238,18 @@ namespace mce {
 			window->getSize(),
 			Application::renderCtx,
 			Application::factory,
-			Application::vfs
+			Application::vfs,
+			Application::uiManager
 		);
-
+		
 		Minecraft* rawMinecraftPtr = mc.get();
 		sf::WindowBase* rawWindowPtr = window.get();
 		Application::instances.emplace_back(
 			eastl::make_pair<eastl::unique_ptr<sf::WindowBase>, eastl::unique_ptr<Minecraft>>(eastl::move(window), eastl::move(mc))
 		);
-
-		rmlRenderer->setViewport(rawWindowPtr->getSize().x, rawWindowPtr->getSize().y, 0, 0);
-
+		auto castedPtr = (ui::priv::RenderInterface_bgfx*)(uiManager.rmlRender.get());
+		castedPtr->setViewport(rawWindowPtr->getSize().x, rawWindowPtr->getSize().y, 0, 0);
+		uiManager.rmlRender;
 		//create a new thread so we don't block the main thread
 		threadManager.createThread(profileName, [this, rawMinecraftPtr]() {
 			rawMinecraftPtr->run();
@@ -288,8 +276,6 @@ namespace mce {
 
 			})->launch();
 		rawWindowPtr->setVisible(true);
-
-		
 	}
 }
 
