@@ -22,7 +22,16 @@ namespace mce {
 	using gfx::RenderFactory;
 	using io::VirtualFileSystem;
 
-	Minecraft::Minecraft(const eastl::string_view& profileName, QEventBus& qBus, uint16_t viewId, sf::WindowHandle window, sf::Vector2u viewSize, eastl::shared_ptr<RenderContext>& renderCtx, RenderFactory& factory, VirtualFileSystem& vfs) :
+	Minecraft::Minecraft(
+		const eastl::string_view& profileName, 
+		QEventBus& qBus, 
+		uint16_t viewId, 
+		sf::WindowHandle window, 
+		sf::Vector2u viewSize, 
+		eastl::shared_ptr<RenderContext>& renderCtx, 
+		RenderFactory& factory, 
+		VirtualFileSystem& vfs,
+		ui::UIManager& uiManager) :
 		qBus(qBus),
 		profileName(profileName.data(), profileName.size()),
 		window(window),
@@ -31,7 +40,9 @@ namespace mce {
 		viewSize(viewSize),
 		viewId(viewId),
 		renderer(viewId, factory, renderCtx->getRenderAPI()),
-		vfs(vfs) {
+		vfs(vfs),
+		uiManager(uiManager),
+		rmlContextName("") {
 		gfx::IRenderer* interface = (gfx::IRenderer*)&renderer;
 		interface->setViewSpace(0, 0, viewSize.x, viewSize.y);
 		this->onClose = this->qBus.subscribeRAII<event::window::Close>([this](const event::window::Close& e) {
@@ -49,6 +60,8 @@ namespace mce {
 				interface->setViewSpace(0, 0, this->viewSize.x, this->viewSize.y);
 			}
 			});
+
+		rmlContextName = Minecraft::profileName + "_RmlUI:main";
 
 		gfx::VertexArray vArray;
 		vArray.append(gfx::Vertex(sf::Vector3f(-0.5f, -0.5f, 0.0f), gfx::Color::Black, sf::Vector2f(0.0f, 1.0f)));
@@ -77,6 +90,8 @@ namespace mce {
 		torus.create(qBus, factory, 10, 5, 128, 128, gfx::Color::Black);
 		//torus.createPlane(qBus, factory, 100, 100, 20, 20, gfx::Color::Black);
 		torus.setTexture(renderState.texture);
+
+		renderer.init(vfs);
 	}
 
 	Minecraft::~Minecraft() {
@@ -85,15 +100,17 @@ namespace mce {
 
 		//MCE_INFO("Shutting down");
 		//this->onClose;
-		
+		uiManager.destroyContext(rmlContextName);
 	}
 	
 	int Minecraft::initInstance() {
 		LOG_INFO(std::format("Init MCE: {}", profileName));
 
-		
+		uiManager.createContext(rmlContextName, { (int)viewSize.x, (int)viewSize.y });
 
-		renderer.init(vfs);
+		Rml::Context* ctx = uiManager.getContext(rmlContextName);
+
+		uiManager.loadDocument(rmlContextName, "assets.ui.main");
 
 		/*
 		* in the future here would we load the game assets from the vfs

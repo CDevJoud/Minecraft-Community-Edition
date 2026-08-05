@@ -9,6 +9,7 @@
 #include "IO/VirtualFileSystem.hpp"
 #include "Graphics/Cube.hpp"
 #include "Graphics/Torus.hpp"
+#include "UI/UIManager.hpp"
 
 namespace mce {
 	namespace gfx {
@@ -17,7 +18,16 @@ namespace mce {
 	
 	class Minecraft {
 	public:
-		Minecraft(const eastl::string_view& profileName, core::QEventBus& qBus, uint16_t viewId, sf::WindowHandle window, sf::Vector2u viewSize, eastl::shared_ptr<gfx::RenderContext>& renderCtx, gfx::RenderFactory& factory, io::VirtualFileSystem& vfs);
+		Minecraft(
+			const eastl::string_view& profileName, 
+			core::QEventBus& qBus, 
+			uint16_t viewId, 
+			sf::WindowHandle window, 
+			sf::Vector2u viewSize, 
+			eastl::shared_ptr<gfx::RenderContext>& renderCtx, 
+			gfx::RenderFactory& factory, 
+			io::VirtualFileSystem& vfs,
+			ui::UIManager& uiManager);
 		~Minecraft();
 
 		int run();
@@ -45,7 +55,10 @@ namespace mce {
 		sf::Vector2u viewSize;
 		sf::WindowHandle window;
 
+		ui::UIManager& uiManager;
+
 		const std::string profileName;
+		std::string rmlContextName;
 		eastl::shared_ptr<gfx::RenderContext> renderCtx;
 
 		core::SubscriptionToken onResize, onClose;
