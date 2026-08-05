@@ -62,6 +62,10 @@ namespace mce::core {
 		return ResourceManager::ctx;
 	}
 
+    io::VirtualFileSystem& ResourceManager::getVirtualFileSystem() {
+		return ResourceManager::vfs;
+    }
+
 	shared_ptr<ShaderProgram> ResourceManager::getShader(const string& vs, const string& fs) {
 		vector<uint8_t> vsMem;
 		auto vsFileTag = vs + getRenderName(ctx.getRenderAPI()) + PLATFORM_NAME;

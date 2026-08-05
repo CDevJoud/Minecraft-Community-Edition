@@ -14,6 +14,7 @@ namespace mce::core {
 		QEventBus& getQEventBus();
 		gfx::RenderFactory& getRenderFactory();
 		gfx::RenderContext& getRenderContext();
+		io::VirtualFileSystem& getVirtualFileSystem();
 
 		eastl::shared_ptr<gfx::ShaderProgram> getShader(const eastl::string& vs, const eastl::string& fs);
 	private:
