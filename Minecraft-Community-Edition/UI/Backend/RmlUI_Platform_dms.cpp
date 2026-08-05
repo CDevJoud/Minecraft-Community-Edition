@@ -5,6 +5,8 @@
 #include <Core/WindowBase.hpp>
 #include <Core/Clipboard.hpp>
 
+#include <IO/Stream/MemoryInputStream.hpp>
+
 namespace mce::ui::priv {
 	SystemInterface_dms::SystemInterface_dms(core::QEventBus& qBus) : qBus(qBus) {
 		SystemInterface_dms::clock.restart();
@@ -217,5 +219,93 @@ namespace mce::ui::priv {
 			modifiers |= Rml::Input::KM_ALT;
 
 		return modifiers;
+	}
+
+	// Rml::FileInterface requiers us to return an OS file handle but 
+	// in our case VirtualFileSystem is one big container that contains all 
+	// our files so returning real file handles are meaningless so
+	// we introduce a virtualFileHandles counter that get incremented at 
+	// everytime RmlUi request for a file
+	//
+	static uint64_t virtualFileHandles = 1;
+
+	struct RmlFile {
+		io::stream::MemoryInputStream* memIn;
+		Rml::String fTag;
+	};
+	FileInterface_dms::FileInterface_dms(io::VirtualFileSystem& vfs) : vfs(vfs) {
+
+	}
+
+    FileInterface_dms::~FileInterface_dms() {
+	
+	}
+	Rml::FileHandle FileInterface_dms::Open(const Rml::String& fTag) {
+		if (FileInterface_dms::vfs.findFileTag(fTag)) {
+
+			void* buffer = nullptr; // <- Input 
+			size_t size = 0;
+			vfs.getFile(fTag.c_str(), buffer, size);
+
+			RmlFile* file = new RmlFile();
+			file->fTag = fTag;
+			file->memIn = new io::stream::MemoryInputStream(buffer, size);
+			return Rml::FileHandle(file);
+		}
+		else {
+			return 0;// nullptr/file tag not found
+		}
+	}
+	void FileInterface_dms::Close(Rml::FileHandle hFile) {
+		RmlFile* file = (RmlFile*)hFile;
+		if (file != nullptr) {
+			file->memIn->freeMemoryBlock();
+			delete file->memIn;
+			file->memIn = nullptr;
+			delete file;
+			file = nullptr;
+		}
+	}
+	size_t FileInterface_dms::Read(void* buffer, size_t size, Rml::FileHandle hFile) {
+		RmlFile* file = (RmlFile*)hFile;
+		if (file != nullptr) {
+			return file->memIn->read(buffer, size);
+		}
+		else {
+			return 0;
+		}
+	}
+	bool FileInterface_dms::Seek(Rml::FileHandle hFile, long offset, int origin) {
+		RmlFile* file = (RmlFile*)hFile;
+		if (file != nullptr) {
+			return (bool)file->memIn->seek(offset);
+		}
+		return false;
+	}
+	size_t FileInterface_dms::Tell(Rml::FileHandle hFile) {
+		RmlFile* file = (RmlFile*)hFile;
+		if (file != nullptr) {
+			return (bool)file->memIn->tell();
+		}
+		return false;
+	}
+	size_t FileInterface_dms::Length(Rml::FileHandle hFile) {
+		RmlFile* file = (RmlFile*)hFile;
+		if (file != nullptr) {
+			return file->memIn->getSize();
+		}
+		return false;
+	}
+
+	bool FileInterface_dms::LoadFile(const Rml::String& fTag, Rml::String& out_data) {
+		if (vfs.findFileTag(fTag)) {
+			void* buffer = nullptr;
+			size_t size = 0;
+			vfs.getFile("", buffer, size);
+			out_data.append((char*)buffer);
+			free(buffer);
+			return true;
+		}
+		return false;
 	}
 }
