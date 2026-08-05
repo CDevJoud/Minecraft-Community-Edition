@@ -391,6 +391,7 @@
     <ClCompile Include="TUI\WindowsConsole.cpp" />
     <ClCompile Include="UI\Backend\RmlUI_Platform_dms.cpp" />
     <ClCompile Include="UI\Backend\RmlUI_Renderer_bgfx.cpp" />
+    <ClCompile Include="UI\UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
@@ -815,8 +816,7 @@
     <ClInclude Include="libs\iqa\iqa.h" />
     <ClInclude Include="libs\iqa\iqa_os.h" />
     <ClInclude Include="libs\iqa\math_utils.h" />
-    <ClInclude Include="Mod\XAPI.h" />
-    <ClInclude Include="Mod\ModLoader.h" />
+    <ClInclude Include="UI\UIManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\gl.c">
@@ -1019,14 +1019,12 @@
     <ClCompile Include="libs\eastl\red_black_tree.cpp" />
     <ClCompile Include="libs\eastl\string.cpp" />
     <ClCompile Include="libs\eastl\thread_support.cpp" />
-    <ClCompile Include="Mod\ModLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\images\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets.json" />
-    <None Include="assets\ui\main.html" />
     <None Include="Core\Rect.inl" />
     <None Include="Core\String.inl" />
     <None Include="Core\Utf.inl" />
@@ -1107,7 +1105,7 @@
     <None Include="shader2vfs.py" />
     <None Include="UI\Backend\shaders\varying.def.sc" />
     <None Include="libs\iqa\LICENSE" />
-    <None Include="Mod\readme.md" />
+    <None Include="assets\ui\main.html" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Core\__copilot_shim_test.txt" />

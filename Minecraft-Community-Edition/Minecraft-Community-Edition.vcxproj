@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -149,6 +149,7 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -568,6 +569,7 @@
     <ClInclude Include="Graphics\VertexBuffer.hpp" />
     <ClInclude Include="TUI\icon.hpp" />
     <ClInclude Include="TUI\WindowsConsole.hpp" />
+    <ClInclude Include="UI\UIManager.hpp" />
     <ClInclude Include="UI\Backend\RmlUI_Backend.hpp" />
     <ClInclude Include="UI\Backend\RmlUI_Backend_dms_bgfx.hpp" />
     <ClInclude Include="UI\Backend\RmlUI_Platform_dms.hpp" />
@@ -962,6 +964,7 @@
     <ClCompile Include="Graphics\VertexArray.cpp" />
     <ClCompile Include="Graphics\VertexBuffer.cpp" />
     <ClCompile Include="TUI\WindowsConsole.cpp" />
+    <ClCompile Include="UI\UIManager.cpp" />
     <ClCompile Include="UI\Backend\RmlUI_Platform_dms.cpp" />
     <ClCompile Include="UI\Backend\RmlUI_Renderer_bgfx.cpp" />
   </ItemGroup>
