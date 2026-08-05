@@ -236,6 +236,76 @@ bool VirtualFileSystem::getFile(const eastl::string_view& fileTag, bgfx::Memory*
 #endif
 }
 
+bool VirtualFileSystem::getFile(const eastl::string_view& fileTag, void*& mem, size_t& bufSize) {
+#ifdef _DEBUG
+	for (auto& file : VirtualFileSystem::data.items()) {
+		if (file.key() == fileTag.data()) {
+			if (file.value().is_string()) {
+				FileInputStream fIn;
+				if (fIn.open(file.value())) {
+					size_t size = fIn.getSize();
+					if (size != ~(0)) {
+						if (mem == nullptr) {
+							mem = malloc(size);
+							bufSize = size;
+						}
+						if (bufSize >= size) {
+							fIn.read(mem, size);
+						}
+						else {
+							mem = malloc(size);
+							bufSize = size;
+							fIn.read(mem, bufSize);
+						}
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+#else
+	/* Release build path: streaming or in-memory access. */
+	if (VirtualFileSystem::cfg.useStreamInput) {
+		if (VirtualFileSystem::files.count(fileTag.data())) {
+			const auto& file = VirtualFileSystem::files[fileTag.data()];
+			/* seek to file start inside the .VFS and read the requested bytes */
+			fileInStream.seek(file.start);
+			if (mem == nullptr) {
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+			}
+			if (mem->size >= file.size) {
+				fileInStream.read(mem->data, file.size);
+			}
+			else {
+				/* ensure vector capacity and read */
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+				fileInStream.read(mem->data, mem->size);
+			}
+			return true;
+		}
+	}
+	else {
+		/* copy from in-memory binary payload */
+		if (VirtualFileSystem::files.count(fileTag.data())) {
+			const auto& file = VirtualFileSystem::files[fileTag.data()];
+			if (mem == nullptr) {
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+			}
+			if (mem->size >= file.size) {
+				std::memcpy(mem->data, VirtualFileSystem::binary + (file.start), file.size);
+			}
+			else {
+				mem = const_cast<bgfx::Memory*>(bgfx::alloc(file.size));
+				std::memcpy(mem->data, VirtualFileSystem::binary + (file.start), file.size);
+			}
+			return true;
+		}
+	}
+	return false;
+#endif
+}
+
 /*
  * buildJSONMappingFile
  *
@@ -375,6 +445,11 @@ bool VirtualFileSystem::loadFile(const std::string& fileName) {
 #else
 	return VirtualFileSystem::loadVirtualFileSystem(fileName + ".bin");
 #endif
+}
+
+bool VirtualFileSystem::findFileTag(const std::string& fTag) {
+	auto it = VirtualFileSystem::files.find(fTag.c_str());
+	return (it != VirtualFileSystem::files.end());
 }
 
 #ifndef _DEBUG

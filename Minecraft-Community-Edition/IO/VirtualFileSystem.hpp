@@ -2,6 +2,7 @@
 #include <EASTL/string.h>
 #include <EASTL/unordered_map.h>
 #include <EASTL/vector.h>
+#include <EASTL/unique_ptr.h>
 #define JSON_NOEXCEPTION
 #include "nlohmann/json.hpp"
 #include "Stream/FileInputStream.hpp"
@@ -80,6 +81,10 @@ namespace mce::io {
 
 		bool getFile(const eastl::string_view& fileTag, bgfx::Memory*& mem);
 
+		// it must be nullptr
+		// Example: void* buffer = nullptr;
+		bool getFile(const eastl::string_view& fileTag, void*& buffer, size_t& size);
+
 		/**
 		 * @brief Build a binary VFS file from a JSON mapping.
 		 * @param fileInName Path to the input JSON mapping file.
@@ -94,6 +99,8 @@ namespace mce::io {
 		 * @return True if the VFS data was successfully loaded.
 		 */
 		bool loadFile(const std::string& fileName);
+
+		bool findFileTag(const std::string& fTag);
 	private:
 #ifdef _DEBUG
 		/**
