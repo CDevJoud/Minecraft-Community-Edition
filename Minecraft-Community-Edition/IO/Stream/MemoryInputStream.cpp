@@ -50,4 +50,9 @@ namespace mce::io::stream {
 
 		return MemoryInputStream::size;
 	}
+    void MemoryInputStream::freeMemoryBlock() {
+		delete MemoryInputStream::data;
+		MemoryInputStream::offset = 0;
+		MemoryInputStream::size = 0;
+	}
 }

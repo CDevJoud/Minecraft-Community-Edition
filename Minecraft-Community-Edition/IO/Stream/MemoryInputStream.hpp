@@ -60,6 +60,8 @@ namespace mce::io::stream {
 		 */
 		virtual size_t getSize() override;
 
+
+		void freeMemoryBlock();
 	private:
 		/**
 		 * @brief Pointer to the start of the input memory buffer (not owned).
