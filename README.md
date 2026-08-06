@@ -2,7 +2,7 @@
 
 [![Discord](https://img.shields.io/badge/Discord-Join%20Server-7289DA?logo=discord&logoColor=white)](https://discord.gg/nfEHFA5n4m)
 
-![Project Logo](logo.webp)
+![Project Logo](_logo.png)
 
 ## Cross Platform Support (Linux, macOS, etc) and Rewriting, Restructuring, and Redocumenting the LCEMP
 
