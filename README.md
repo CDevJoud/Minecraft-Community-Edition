@@ -1,52 +1,82 @@
-# Minecraft-Community-Edition
+# Damascene
 
 [![Discord](https://img.shields.io/badge/Discord-Join%20Server-7289DA?logo=discord&logoColor=white)](https://discord.gg/nfEHFA5n4m)
 
 ![Project Logo](_logo.png)
 
-## Cross Platform Support (Linux, macOS, etc) and Rewriting, Restructuring, and Redocumenting the LCEMP
+**Damascene** is a modern, cross-platform voxel game engine written in C++. It is designed with modularity, performance, and maintainability in mind, providing a solid foundation for creating voxel-based games and interactive worlds.
 
-After spending time analyzing the game’s source code, I noticed that much of it is poorly structured, inconsistently maintained, and lacks proper documentation. Because of this, I have decided to rebuild the project from the ground up.
-
-The new project will be called **Minecraft Community Edition**, and it will be a complete rewrite using modern C++ with a cleaner architecture, better structure, and proper documentation throughout the codebase. The goal is to create a stronger technical foundation that is easier to maintain, extend, and optimize over time.
-
-### Independent Codebase
-
-Minecraft Community Edition will not directly depend on the current LCEMP source code. Instead, it will follow its own coding style, structure, and design philosophy. The new codebase will be modular, readable, and future-proof.
-
-One of the main improvements will be performance. Since the current version runs on x86 architecture, which limits performance on modern systems, the project will migrate to x64 in order to improve memory handling and overall efficiency.
-
-### Cross-Platform Support
-
-Cross-platform support is an important objective. The new project is planned to support:
-
-- Linux  
-- macOS  
-- Windows  
-
-This will make the project more accessible and flexible for different users and developers.
-
-### Modding Support
-
-Another major focus is modding support. The plan is to implement a C++ mod loader that allows developers to create modifications without directly interacting with the internal engine code.
-
-If this approach proves stable and practical, Lua scripting support will also be introduced to make modding more accessible for developers who are not comfortable working with C++.
-
-### Multiplayer and Server Infrastructure
-
-Multiplayer will remain a priority. The plan includes:
-
-- Developing an improved server protocol  
-- Creating dedicated server software for private and public hosting  
-- Supporting plugin development similar to large Minecraft server ecosystems  
-
-This will give server owners flexibility and greater control over their servers.
-
-### Rendering Technology
-
-The engine will initially use OpenGL for rendering. Once the project reaches a stable state, a transition to Vulkan may be considered to further enhance rendering performance and efficiency.
+The project emphasizes clean architecture, modern C++ practices, and comprehensive documentation to make development easier for both contributors and users.
 
 ---
+
+## Features
+
+### Modern C++ Architecture
+
+Damascene is built around a modular engine architecture that prioritizes readability, maintainability, and long-term scalability. Components are designed to be independent wherever possible, making the engine easier to extend and evolve.
+
+### Cross-Platform
+
+The engine is designed to support multiple desktop platforms from the beginning:
+
+* Windows
+* Linux
+* macOS
+
+Platform-specific code is isolated to keep the core engine portable.
+
+### Performance-Oriented
+
+Damascene targets 64-bit platforms and leverages modern C++ features to improve performance, memory management, and reliability. The engine is being developed with scalability in mind, from small sandbox projects to larger multiplayer experiences.
+
+### Rendering
+
+Damascene uses **bgfx** as its rendering abstraction layer, enabling support for multiple graphics APIs through a unified interface. This allows the engine to run across different platforms while taking advantage of the most appropriate graphics backend available.
+
+Depending on the platform and configuration, bgfx can utilize rendering backends such as **Direct3D**, **OpenGL**, **OpenGL ES**, **Metal**, **Vulkan**, and **WebGPU** (where supported). This approach provides flexibility, simplifies cross-platform development, and allows the renderer to evolve without requiring significant changes to higher-level engine systems.
+
+### Scripting
+
+Damascene is designed to support **AngelScript** as its primary scripting language, allowing developers to implement gameplay logic, create custom behaviors, and rapidly prototype features without recompiling the engine.
+
+The scripting system will expose a stable and well-documented API, enabling game code to interact with engine systems such as entities, components, input, physics, audio, and rendering. By separating gameplay logic from the engine core, AngelScript provides a flexible workflow while keeping the underlying engine performant and maintainable.
+
+### Networking
+
+Networking is being designed as a first-class engine feature.
+
+Planned functionality includes:
+
+* Dedicated server support
+* Extensible networking architecture
+* Custom multiplayer protocols
+* Server-side plugin support
+
+These systems are intended to support everything from small private worlds to large community-hosted servers.
+
+---
+
+## Goals
+
+Damascene aims to provide:
+
+* Clean, well-documented source code
+* Modern C++ development practices
+* Cross-platform compatibility
+* High performance and scalability
+* Extensible engine systems
+* Long-term maintainability
+* A strong foundation for voxel-based games
+
+---
+
+## Project Status
+
+Damascene is currently under active development. APIs, engine systems, and project structure may change as development progresses.
+
+Contributions, bug reports, feature suggestions, and design discussions are welcome as the engine continues to evolve.
+
 
 ## Code Style
 
