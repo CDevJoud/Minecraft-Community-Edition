@@ -173,8 +173,8 @@ MyClass* ptr = nullptr;
 ## 5.4 Smart Pointers
 
 ```cpp
-std::unique_ptr<Texture> texture;
-std::shared_ptr<Model> model;
+eastl::unique_ptr<Texture> texture;
+eastl::shared_ptr<Model> model;
 ```
 
 * Avoid raw `new` and `delete` if it is possible.
